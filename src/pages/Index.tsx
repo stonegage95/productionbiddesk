@@ -1,123 +1,63 @@
-import { useEffect } from "react";
-import {
-  ArrowRight,
-  BadgeDollarSign,
-  CalendarRange,
-  CheckCircle2,
-  ClipboardList,
-  Film,
-  FolderOutput,
-  ShieldAlert,
-  Sparkles,
-  TimerReset,
-} from "lucide-react";
+import { useState, useEffect } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import StatsBar from "@/components/StatsBar";
+import PainPointSection from "@/components/PainPointSection";
+import SectionDivider from "@/components/SectionDivider";
+import GradientText from "@/components/GradientText";
+import { useScrollFadeIn } from "@/hooks/use-scroll-fade-in";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ArrowRight, Upload, FileText, BarChart3 } from "lucide-react";
+import neoGenesisIcon from "@/assets/neo-genesis-hero.jpeg";
 
-const navItems = [
-  { label: "How it works", href: "#how-it-works" },
-  { label: "What you get", href: "#deliverables" },
-  { label: "Who it's for", href: "#audience" },
-  { label: "Launch", href: "#launch" },
-];
-
-const quickStats = [
-  { value: "60 sec", label: "to first analysis" },
-  { value: "4 outputs", label: "from one brief" },
-  { value: "Pre-bid", label: "clarity before commitment" },
-];
-
-const painPoints = [
-  "You get pulled into budget conversations before the production realities are clear.",
-  "Early bid numbers rely too heavily on gut feel, outdated references, or scattered notes.",
-  "Hidden schedule and execution risks surface after the number is already in motion.",
-  "Deck-building and scope framing steal time from actual strategic bid thinking.",
-];
-
-const deliverables = [
-  {
-    title: "Risk readout",
-    description: "A sharp summary of production watch-outs before they become expensive surprises.",
-    icon: ShieldAlert,
-  },
-  {
-    title: "Budget ballpark",
-    description: "A reasoned estimate range with the biggest cost drivers called out clearly.",
-    icon: BadgeDollarSign,
-  },
-  {
-    title: "Timeline view",
-    description: "A fast schedule perspective covering production, post, and execution complexity.",
-    icon: CalendarRange,
-  },
-  {
-    title: "Deck outline",
-    description: "A usable structure for the bid deck so your team can move faster with confidence.",
-    icon: FolderOutput,
-  },
-];
-
-const steps = [
-  {
-    title: "Drop in your materials",
-    description: "Use a brief, script, storyboard, or treatment to start the analysis.",
-    icon: ClipboardList,
-  },
-  {
-    title: "Add practical context",
-    description: "Layer in timing, market, constraints, references, and production realities.",
-    icon: Film,
-  },
-  {
-    title: "Review the output",
-    description: "Get risks, budget logic, timeline direction, and a cleaner starting point for the bid.",
-    icon: Sparkles,
-  },
-];
-
-const audience = ["Producers", "Executive Producers", "Production Managers", "Cost Consultants", "Creative Operations Teams"];
-
-const faqs = [
-  {
-    question: "What is Production Bid Desk?",
-    answer:
-      "Production Bid Desk is a pre-bid intelligence tool that helps production teams evaluate scope, risk, timing, and budget direction before committing to a number.",
-  },
-  {
-    question: "What does it help with?",
-    answer:
-      "It helps teams walk into bid conversations with clearer assumptions, faster analysis, and more defensible starting points for pricing and planning.",
-  },
-  {
-    question: "Who should use it?",
-    answer:
-      "It is designed for teams handling commercial, branded, and production-led bid workflows where speed and clarity matter early.",
-  },
-];
+const pageBackground = `
+  radial-gradient(900px 600px at 18% 10%, rgba(212,175,55,.12), transparent 60%),
+  linear-gradient(180deg, hsl(222 60% 8%), hsl(222 60% 5%) 70%)
+`;
 
 const Index = () => {
+  const [form, setForm] = useState({ name: "", email: "", company: "", interest: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const howFade = useScrollFadeIn(0.1);
+  const tryFade = useScrollFadeIn(0.1);
+  const ctaFade = useScrollFadeIn(0.1);
+
   useEffect(() => {
-    document.title = "Production Bid Desk | Pre-Bid Analysis";
-
-    const description = "Production Bid Desk gives producers and bid teams faster pre-bid clarity with risk flags, budget ballparks, timeline guidance, and deck-ready outputs.";
-
-    let meta = document.querySelector('meta[name="description"]');
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.setAttribute("name", "description");
-      document.head.appendChild(meta);
-    }
-    meta.setAttribute("content", description);
-
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.setAttribute("rel", "canonical");
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute("href", window.location.href);
+    document.title = "Production Bid Desk — AI-Powered Pre-Bid Analysis";
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute("content", "Pre-bid decision tool for producers, EPs, and cost consultants. Get risk flags, budget ranges, and timelines before you commit to a number.");
   }, []);
 
+  const update = (field: string, value: string) =>
+    setForm((prev) => ({ ...prev, [field]: value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setSubmitting(true);
+    try {
+      // Placeholder for form submission
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setForm({ name: "", email: "", company: "", interest: "" });
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen" style={{ background: pageBackground }}>
+      <Header />
+
+      {/* JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -126,324 +66,257 @@ const Index = () => {
             "@type": "SoftwareApplication",
             name: "Production Bid Desk",
             applicationCategory: "BusinessApplication",
-            description:
-              "Pre-bid analysis for production teams with risk flags, budget ballparks, timeline guidance, and deck-ready outputs.",
+            description: "AI-powered pre-bid decision tool for producers, EPs, PMs, and cost consultants.",
           }),
         }}
       />
 
-      <header className="sticky top-0 z-50 border-b border-border/60 bg-background/90 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 md:px-8">
-          <a href="#top" className="flex items-center gap-3 no-underline">
-            <div className="brand-mark flex h-11 w-11 items-center justify-center rounded-2xl">
-              <TimerReset className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold tracking-[0.24em] text-muted-foreground uppercase">Production</p>
-              <p className="text-lg font-black tracking-tight text-foreground">Bid Desk</p>
-            </div>
-          </a>
-
-          <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="text-sm font-semibold text-muted-foreground no-underline transition-colors hover:text-foreground"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-
-          <a href="#launch" className="cta-secondary inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold no-underline">
-            Request access
-            <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
-      </header>
-
-      <main id="top">
-        <section className="hero-shell overflow-hidden px-5 pb-16 pt-8 md:px-8 md:pb-24 md:pt-12">
-          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <div className="space-y-7">
-              <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/70 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">
-                Standalone launch site
-              </div>
-
-              <div className="space-y-5">
-                <h1 className="max-w-3xl text-5xl font-black leading-none tracking-[-0.05em] text-foreground md:text-7xl">
-                  Stop guessing before the bid.
-                </h1>
-                <p className="max-w-2xl text-lg leading-8 text-muted-foreground md:text-xl">
-                  Production Bid Desk helps production teams pressure-test scope early with risk flags, budget ballparks,
-                  timeline guidance, and deck-ready thinking before the number goes out.
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <a href="#launch" className="cta-primary inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-black no-underline">
-                  Launch Production Bid Desk
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-                <a href="#deliverables" className="cta-secondary inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold no-underline">
-                  See what you get
-                </a>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-3">
-                {quickStats.map((stat) => (
-                  <div key={stat.label} className="stat-chip rounded-3xl p-4">
-                    <p className="text-2xl font-black tracking-tight text-foreground">{stat.value}</p>
-                    <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="hero-visual relative min-h-[520px] rounded-[2rem] p-4 md:p-6">
-              <div className="glow-orb glow-orb-one" aria-hidden="true" />
-              <div className="glow-orb glow-orb-two" aria-hidden="true" />
-
-              <div className="relative flex h-full flex-col justify-between rounded-[1.75rem] border border-border/60 bg-card/80 p-5 shadow-[var(--shadow-elevated)] backdrop-blur-xl">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">Bid snapshot</p>
-                    <p className="mt-2 text-2xl font-black tracking-tight text-foreground">Production Bid Desk</p>
-                  </div>
-                  <div className="rounded-full border border-border/70 bg-secondary px-3 py-1 text-xs font-bold text-secondary-foreground">
-                    Pre-bid ready
-                  </div>
-                </div>
-
-                <div className="grid gap-4">
-                  <article className="panel-surface rounded-[1.5rem] p-5">
-                    <div className="flex items-center justify-between gap-3">
-                      <div>
-                        <p className="text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">Risk signal</p>
-                        <p className="mt-2 text-xl font-black tracking-tight text-foreground">Moderate complexity</p>
-                      </div>
-                      <ShieldAlert className="h-8 w-8 text-primary" />
-                    </div>
-                    <p className="mt-4 text-sm leading-6 text-muted-foreground">
-                      Key watch-outs include compressed prep, multi-location coordination, and post-production lift.
-                    </p>
-                  </article>
-
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <article className="panel-surface rounded-[1.5rem] p-5">
-                      <p className="text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">Budget direction</p>
-                      <p className="mt-2 text-2xl font-black tracking-tight text-foreground">Ballpark range</p>
-                      <p className="mt-3 text-sm leading-6 text-muted-foreground">A fast estimate frame with major cost drivers surfaced early.</p>
-                    </article>
-                    <article className="panel-surface rounded-[1.5rem] p-5">
-                      <p className="text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">Timeline view</p>
-                      <p className="mt-2 text-2xl font-black tracking-tight text-foreground">Schedule pressure</p>
-                      <p className="mt-3 text-sm leading-6 text-muted-foreground">A clearer read on production, post, and delivery timing before alignment meetings.</p>
-                    </article>
-                  </div>
-                </div>
-
-                <div className="rounded-[1.5rem] border border-border/60 bg-background/70 p-5">
-                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground">Output includes</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {['Risk flags', 'Budget logic', 'Timeline guidance', 'Deck outline'].map((item) => (
-                      <span key={item} className="rounded-full border border-border/70 bg-secondary px-3 py-1.5 text-xs font-semibold text-secondary-foreground">
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="border-y border-border/60 bg-card/40 px-5 py-14 md:px-8">
-          <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.24em] text-primary">Why it exists</p>
-              <h2 className="mt-4 text-3xl font-black tracking-tight text-foreground md:text-5xl">
-                Production Bid Desk is built for the messy part before pricing feels safe.
-              </h2>
-            </div>
-            <div className="grid gap-4">
-              {painPoints.map((item) => (
-                <article key={item} className="panel-surface rounded-[1.5rem] p-5">
-                  <p className="text-base leading-7 text-panel-foreground">{item}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="how-it-works" className="px-5 py-16 md:px-8 md:py-24">
-          <div className="mx-auto max-w-7xl">
-            <div className="max-w-3xl">
-              <p className="text-sm font-bold uppercase tracking-[0.24em] text-primary">How it works</p>
-              <h2 className="mt-4 text-3xl font-black tracking-tight text-foreground md:text-5xl">A faster path to a smarter starting point.</h2>
-            </div>
-
-            <div className="mt-10 grid gap-5 lg:grid-cols-3">
-              {steps.map((step, index) => {
-                const Icon = step.icon;
-                return (
-                  <article key={step.title} className="panel-surface rounded-[1.75rem] p-6">
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="text-sm font-black tracking-[0.24em] text-primary">0{index + 1}</span>
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground">
-                        <Icon className="h-5 w-5" />
-                      </div>
-                    </div>
-                    <h3 className="mt-8 text-2xl font-black tracking-tight text-foreground">{step.title}</h3>
-                    <p className="mt-3 text-base leading-7 text-muted-foreground">{step.description}</p>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section id="deliverables" className="bg-card/50 px-5 py-16 md:px-8 md:py-24">
-          <div className="mx-auto max-w-7xl">
-            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-              <div className="max-w-3xl">
-                <p className="text-sm font-bold uppercase tracking-[0.24em] text-primary">What you get</p>
-                <h2 className="mt-4 text-3xl font-black tracking-tight text-foreground md:text-5xl">Everything on this page speaks to one product only: Production Bid Desk.</h2>
-              </div>
-              <p className="max-w-xl text-base leading-7 text-muted-foreground">
-                This standalone site is focused on one message: faster pre-bid clarity for production teams.
-              </p>
-            </div>
-
-            <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-              {deliverables.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <article key={item.title} className="panel-surface rounded-[1.75rem] p-6">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="mt-8 text-2xl font-black tracking-tight text-foreground">{item.title}</h3>
-                    <p className="mt-3 text-base leading-7 text-muted-foreground">{item.description}</p>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section id="audience" className="px-5 py-16 md:px-8 md:py-24">
-          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.24em] text-primary">Who it is for</p>
-              <h2 className="mt-4 text-3xl font-black tracking-tight text-foreground md:text-5xl">Made for teams that need speed without bluffing the numbers.</h2>
-            </div>
-
-            <div className="space-y-5">
-              <div className="flex flex-wrap gap-3">
-                {audience.map((item) => (
-                  <span key={item} className="rounded-full border border-border/70 bg-card px-4 py-2 text-sm font-semibold text-card-foreground">
-                    {item}
-                  </span>
-                ))}
-              </div>
-
-              <div className="panel-surface rounded-[1.75rem] p-6">
-                <p className="text-sm font-bold uppercase tracking-[0.22em] text-primary">Launch note</p>
-                <p className="mt-4 text-lg leading-8 text-panel-foreground">
-                  Production Bid Desk is now positioned as its own standalone product so visitors no longer have to sort through mixed messaging or multiple offers.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-card/50 px-5 py-16 md:px-8 md:py-24">
-          <div className="mx-auto max-w-5xl">
-            <div className="max-w-3xl">
-              <p className="text-sm font-bold uppercase tracking-[0.24em] text-primary">FAQ</p>
-              <h2 className="mt-4 text-3xl font-black tracking-tight text-foreground md:text-5xl">Clear messaging for launch.</h2>
-            </div>
-
-            <div className="mt-10 space-y-4">
-              {faqs.map((item) => (
-                <article key={item.question} className="panel-surface rounded-[1.5rem] p-6">
-                  <h3 className="text-xl font-black tracking-tight text-foreground">{item.question}</h3>
-                  <p className="mt-3 text-base leading-7 text-muted-foreground">{item.answer}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="launch" className="px-5 py-16 md:px-8 md:py-24">
-          <div className="mx-auto max-w-7xl">
-            <div className="launch-band rounded-[2rem] p-8 md:p-12">
-              <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-                <div>
-                  <p className="text-sm font-bold uppercase tracking-[0.24em] text-primary-foreground/80">Production Bid Desk</p>
-                  <h2 className="mt-4 text-3xl font-black tracking-tight text-primary-foreground md:text-5xl">
-                    Launch the standalone story with one product, one message, and one call to action.
-                  </h2>
-                  <p className="mt-4 max-w-2xl text-base leading-7 text-primary-foreground/78">
-                    Every header label, footer note, section headline, button, and supporting message on this page is now focused on Production Bid Desk only.
-                  </p>
-                </div>
-
-                <div className="rounded-[1.75rem] border border-primary-foreground/15 bg-background/10 p-6 backdrop-blur-sm">
-                  <ul className="space-y-3">
-                    {[
-                      'Standalone product header',
-                      'Production Bid Desk-only navigation',
-                      'Dedicated launch messaging',
-                      'Focused footer and CTA language',
-                    ].map((item) => (
-                      <li key={item} className="flex items-start gap-3 text-sm font-medium text-primary-foreground">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                    <a href="#top" className="inline-flex items-center justify-center gap-2 rounded-full bg-background px-5 py-3 text-sm font-black text-foreground no-underline">
-                      Review the page
-                    </a>
-                    <a href="mailto:hello@productionbiddesk.com?subject=Production%20Bid%20Desk%20Launch" className="inline-flex items-center justify-center gap-2 rounded-full border border-primary-foreground/25 px-5 py-3 text-sm font-bold text-primary-foreground no-underline">
-                      Contact launch team
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer className="border-t border-border/60 bg-background px-5 py-10 md:px-8">
-        <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-[1fr_auto] md:items-end">
+      {/* Hero */}
+      <section id="top" className="max-w-[1140px] mx-auto px-5 pt-20 pb-12">
+        <div className="flex items-start gap-5 mb-8">
+          <img
+            src={neoGenesisIcon}
+            alt="Production Bid Desk"
+            className="w-20 h-20 rounded-xl object-cover border border-white/10 shadow-lg shadow-black/30 shrink-0 hidden sm:block"
+          />
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-primary">Production Bid Desk</p>
-            <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
-              Standalone pre-bid analysis for production teams that need clearer risks, stronger budget logic, and faster launch-ready planning.
+            <div
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide mb-4"
+              style={{
+                background: "hsl(var(--gold) / .1)",
+                border: "1px solid hsl(var(--gold) / .2)",
+                color: "hsl(var(--gold-bright))",
+              }}
+            >
+              Pre-bid intelligence • Risk • Budget • Timeline
+            </div>
+            <h1 className="mb-3 text-[clamp(26px,4vw,42px)] leading-[1.08] tracking-tight font-extrabold">
+              Stop guessing. <GradientText>Start knowing.</GradientText>
+            </h1>
+            <p className="text-muted-foreground text-lg leading-relaxed max-w-[60ch]">
+              Get honest ballparks, risk flags, and production timelines before you commit to a number. Built for producers, EPs, PMs, and cost consultants.
             </p>
           </div>
-
-          <nav className="flex flex-wrap gap-x-6 gap-y-3" aria-label="Footer">
-            {navItems.map((item) => (
-              <a key={item.href} href={item.href} className="text-sm font-semibold text-muted-foreground no-underline transition-colors hover:text-foreground">
-                {item.label}
-              </a>
-            ))}
-          </nav>
         </div>
 
-        <div className="mx-auto mt-8 flex max-w-7xl flex-col gap-3 border-t border-border/60 pt-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <p>© {new Date().getFullYear()} Production Bid Desk. All messaging on this site is dedicated to Production Bid Desk only.</p>
-          <p>Pre-bid intelligence for production teams.</p>
+        <a
+          href="#get-access"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-extrabold transition-all hover:-translate-y-px no-underline"
+          style={{ background: "hsl(var(--gold))", color: "hsl(222 50% 10%)" }}
+        >
+          Get Early Access <ArrowRight size={15} />
+        </a>
+      </section>
+
+      {/* Stats */}
+      <section className="max-w-[860px] mx-auto px-5 pb-12">
+        <StatsBar
+          stats={[
+            { value: 60, suffix: "s", label: "Script to analysis" },
+            { value: 3, suffix: "x", label: "Faster bid prep" },
+            { value: 100, suffix: "%", label: "Of risks surfaced" },
+          ]}
+        />
+      </section>
+
+      <SectionDivider />
+
+      {/* Pain Points */}
+      <section className="max-w-[860px] mx-auto px-5 py-14">
+        <PainPointSection
+          title="The bidding problem"
+          painPoints={[
+            {
+              pain: "You commit to a number before you fully understand the scope — then spend weeks defending it.",
+              solution: "Bid Desk surfaces risks and assumptions upfront so you walk in prepared.",
+            },
+            {
+              pain: "Budget estimates are based on gut feel and past projects that don't quite match.",
+              solution: "Get data-driven budget ranges with key cost drivers broken down clearly.",
+            },
+            {
+              pain: "Timelines get compressed because nobody flagged the post-production complexity early.",
+              solution: "Timeline analysis includes post-production, VFX, and sound from the start.",
+            },
+            {
+              pain: "Building bid decks takes days of formatting instead of strategic thinking.",
+              solution: "Export a production deck outline you can lift directly into your bid.",
+            },
+          ]}
+        />
+      </section>
+
+      <SectionDivider />
+
+      {/* How it works */}
+      <section
+        id="how-it-works"
+        ref={howFade.ref}
+        className={`max-w-[1140px] mx-auto px-5 py-14 transition-all duration-700 ease-out ${howFade.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+      >
+        <h2 className="text-[clamp(20px,2.8vw,28px)] font-extrabold tracking-tight text-foreground mb-10 text-center">
+          Three steps to a smarter bid
+        </h2>
+        <div className="grid gap-6 sm:grid-cols-3">
+          {[
+            { icon: Upload, step: "01", title: "Drop in your materials", desc: "Upload a brief, script, or storyboard. Even rough concepts work." },
+            { icon: FileText, step: "02", title: "Answer a few questions", desc: "Markets, timing, constraints — the context that shapes your bid." },
+            { icon: BarChart3, step: "03", title: "Get your analysis", desc: "Risks, budget ranges, timeline, and a deck outline you can use." },
+          ].map(({ icon: Icon, step, title, desc }, i) => (
+            <div
+              key={i}
+              className="rounded-xl p-6 relative"
+              style={{
+                background: "linear-gradient(180deg, rgba(11,31,59,.7), rgba(11,31,59,.35))",
+                border: "1px solid rgba(236,242,255,.08)",
+              }}
+            >
+              <span className="text-[10px] font-bold tracking-widest mb-3 block" style={{ color: "hsl(var(--gold) / .5)" }}>
+                STEP {step}
+              </span>
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center mb-4"
+                style={{ background: "hsl(var(--gold) / .1)", border: "1px solid hsl(var(--gold) / .15)" }}
+              >
+                <Icon size={18} style={{ color: "hsl(var(--gold-bright))" }} />
+              </div>
+              <h3 className="font-extrabold text-foreground text-base mb-2">{title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{desc}</p>
+            </div>
+          ))}
         </div>
-      </footer>
+      </section>
+
+      <SectionDivider />
+
+      {/* Try it */}
+      <section
+        id="try-it"
+        ref={tryFade.ref}
+        className={`max-w-[1140px] mx-auto px-5 py-14 transition-all duration-700 ease-out ${tryFade.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+      >
+        <h2 className="text-[clamp(20px,2.8vw,28px)] font-extrabold tracking-tight text-foreground mb-8 text-center">
+          Try it on your work
+        </h2>
+        <div className="grid sm:grid-cols-2 gap-5">
+          <div
+            className="rounded-xl p-6"
+            style={{
+              background: "linear-gradient(180deg, rgba(11,31,59,.7), rgba(11,31,59,.35))",
+              border: "1px solid hsl(var(--gold) / .12)",
+            }}
+          >
+            <h3 className="text-base font-bold mb-2 text-foreground">Drop in your storyboard</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+              Upload a de-branded storyboard. Get risks, budget ranges, and timelines in seconds.
+            </p>
+            <a
+              href="#get-access"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold no-underline"
+              style={{ color: "hsl(var(--gold-bright))" }}
+            >
+              Try now <ArrowRight size={13} />
+            </a>
+          </div>
+          <div
+            className="rounded-xl p-6"
+            style={{
+              background: "linear-gradient(180deg, rgba(11,31,59,.7), rgba(11,31,59,.35))",
+              border: "1px solid hsl(var(--gold) / .12)",
+            }}
+          >
+            <h3 className="text-base font-bold mb-2 text-foreground">Drop in your script</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+              Paste your script. We'll generate a storyboard and the same risks, budget, and timing readout.
+            </p>
+            <a
+              href="#get-access"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold no-underline"
+              style={{ color: "hsl(var(--gold-bright))" }}
+            >
+              Try now <ArrowRight size={13} />
+            </a>
+          </div>
+        </div>
+
+        <p className="text-muted-foreground text-xs leading-relaxed max-w-[70ch] mt-6">
+          <strong className="text-foreground">Privacy:</strong> We use anonymized or generic boards for testing. For live projects, we're happy to sign a mutual NDA before any sensitive details are shared.
+        </p>
+      </section>
+
+      <SectionDivider />
+
+      {/* CTA */}
+      <section
+        id="get-access"
+        ref={ctaFade.ref}
+        className={`max-w-[1140px] mx-auto px-5 py-14 text-center transition-all duration-700 ease-out ${ctaFade.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+      >
+        <h2 className="text-[clamp(20px,2.8vw,28px)] font-extrabold tracking-tight text-foreground mb-4">
+          Ready to bid smarter?
+        </h2>
+        <p className="text-muted-foreground text-sm mb-6 max-w-[50ch] mx-auto">
+          Want a deeper walkthrough for your team or info on rates?
+        </p>
+        <div>
+          <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) { setSubmitted(false); setError(""); } }}>
+            <DialogTrigger asChild>
+              <button
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-extrabold transition-all hover:-translate-y-px cursor-pointer"
+                style={{ background: "hsl(var(--gold))", color: "hsl(222 50% 10%)" }}
+              >
+                Get early access <ArrowRight size={15} />
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[480px] border-white/10 bg-[hsl(222_60%_8%)] text-foreground shadow-2xl shadow-black/40">
+              {submitted ? (
+                <div className="py-6 text-center">
+                  <p className="text-lg font-bold" style={{ color: "hsl(var(--gold))" }}>
+                    Request received. We'll be in touch shortly.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <DialogHeader>
+                    <DialogTitle className="text-center text-xl font-extrabold tracking-tight">
+                      Get early access
+                    </DialogTitle>
+                    <p className="text-muted-foreground text-center text-sm pt-1">
+                      Stop guessing. Start walking into meetings prepared.
+                    </p>
+                  </DialogHeader>
+                  <form onSubmit={handleSubmit} className="space-y-4 pt-2">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="pb-name">Name *</Label>
+                        <Input id="pb-name" required maxLength={100} value={form.name} onChange={(e) => update("name", e.target.value)} placeholder="Your name" />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="pb-email">Email *</Label>
+                        <Input id="pb-email" type="email" required maxLength={255} value={form.email} onChange={(e) => update("email", e.target.value)} placeholder="you@company.com" />
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="pb-company">Company</Label>
+                      <Input id="pb-company" maxLength={100} value={form.company} onChange={(e) => update("company", e.target.value)} placeholder="Company name" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="pb-interest">What types of projects?</Label>
+                      <Input id="pb-interest" maxLength={200} value={form.interest} onChange={(e) => update("interest", e.target.value)} placeholder="e.g. campaign bids, series production" />
+                    </div>
+                    {error && <p className="text-sm font-medium text-destructive">{error}</p>}
+                    <Button type="submit" disabled={submitting} className="w-full font-extrabold" style={{ background: "hsl(var(--gold))", color: "hsl(222 50% 10%)" }}>
+                      {submitting ? "Submitting…" : "Submit"}
+                    </Button>
+                  </form>
+                </>
+              )}
+            </DialogContent>
+          </Dialog>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 };
