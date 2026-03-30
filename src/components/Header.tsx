@@ -3,36 +3,43 @@ import { Menu, X } from "lucide-react";
 import Logo from "@/components/Logo";
 
 const navLinks = [
-  { label: "Home", href: "#top" },
   { label: "How It Works", href: "#how-it-works" },
-  { label: "Try It", href: "#try-it" },
   { label: "Get Access", href: "#get-access" },
 ];
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const linkStyle = { color: "#EAF0FF", fontWeight: 600, opacity: 0.92, textDecoration: "none" as const };
-
   return (
     <header
-      className="sticky top-0 z-50"
+      className="sticky top-0 z-50 backdrop-blur-md"
       style={{
-        background: "#070B14",
-        borderBottom: "1px solid rgba(255,255,255,.10)",
+        background: "hsl(var(--background) / .85)",
+        borderBottom: "1px solid hsl(var(--border))",
       }}
     >
-      <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-6" style={{ padding: "18px 28px" }}>
-        <a href="#top" className="no-underline flex items-center gap-3">
+      <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-6 px-6 py-4">
+        <a href="#top" className="no-underline flex items-center">
           <Logo />
         </a>
 
-        <nav className="hidden md:flex items-center gap-[26px]">
+        <nav className="hidden md:flex items-center gap-8">
           {navLinks.map(({ label, href }) => (
-            <a key={label} href={href} className="no-underline" style={linkStyle}>
+            <a
+              key={label}
+              href={href}
+              className="text-sm font-medium no-underline transition-colors text-muted-foreground hover:text-foreground"
+            >
               {label}
             </a>
           ))}
+          <a
+            href="#get-access"
+            className="inline-flex items-center px-5 py-2 rounded-lg text-sm font-bold no-underline transition-all hover:brightness-110"
+            style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
+          >
+            Book a Demo
+          </a>
         </nav>
 
         <button
@@ -40,23 +47,30 @@ const Header = () => {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
-          {mobileMenuOpen ? <X size={24} color="#EAF0FF" /> : <Menu size={24} color="#EAF0FF" />}
+          {mobileMenuOpen ? <X size={22} className="text-foreground" /> : <Menu size={22} className="text-foreground" />}
         </button>
       </div>
 
       {mobileMenuOpen && (
-        <nav className="md:hidden flex flex-col gap-4 px-7 pb-5" style={{ background: "#070B14" }}>
+        <nav className="md:hidden flex flex-col gap-4 px-6 pb-5" style={{ background: "hsl(var(--background))" }}>
           {navLinks.map(({ label, href }) => (
             <a
               key={label}
               href={href}
-              className="no-underline"
-              style={linkStyle}
+              className="text-sm font-medium no-underline text-muted-foreground"
               onClick={() => setMobileMenuOpen(false)}
             >
               {label}
             </a>
           ))}
+          <a
+            href="#get-access"
+            className="inline-flex items-center justify-center px-5 py-2 rounded-lg text-sm font-bold no-underline"
+            style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Book a Demo
+          </a>
         </nav>
       )}
     </header>
