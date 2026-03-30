@@ -7,6 +7,7 @@ const navLinks = [
   { label: "Solutions", href: "/solutions" },
   { label: "Watch Demo", href: "/demo" },
   { label: "FAQ", href: "/faq" },
+  { label: "Bid Desk App", href: "/bid-desk-app", highlight: true },
 ];
 
 const Header = () => {
