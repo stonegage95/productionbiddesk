@@ -196,7 +196,7 @@ const Index = () => {
               className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-sm font-extrabold transition-all hover:brightness-110 cursor-pointer"
               style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
             >
-              Access the Bid Desk <ArrowRight size={16} />
+              Get Access <ArrowRight size={16} />
             </button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[480px] border-border bg-card text-foreground shadow-2xl">
