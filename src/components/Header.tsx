@@ -46,7 +46,7 @@ const Header = () => {
             className="inline-flex items-center px-5 py-2 rounded-lg text-sm font-bold no-underline transition-all hover:brightness-110"
             style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
           >
-            Book a Demo
+            Get Access
           </a>
         </nav>
 
