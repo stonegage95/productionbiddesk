@@ -121,7 +121,7 @@ const Index = () => {
           className="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg text-sm font-extrabold transition-all hover:brightness-110 no-underline"
           style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
         >
-          Access the Bid Desk <ArrowRight size={16} />
+          Get Access <ArrowRight size={16} />
         </a>
       </section>
 
@@ -196,7 +196,7 @@ const Index = () => {
               className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-sm font-extrabold transition-all hover:brightness-110 cursor-pointer"
               style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
             >
-              Access the Bid Desk <ArrowRight size={16} />
+              Get Access <ArrowRight size={16} />
             </button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[480px] border-border bg-card text-foreground shadow-2xl">
@@ -210,10 +210,10 @@ const Index = () => {
               <>
                 <DialogHeader>
                   <DialogTitle className="text-center text-xl font-extrabold tracking-tight">
-                    Get Early Access
+                    Get Access
                   </DialogTitle>
                   <p className="text-muted-foreground text-center text-sm pt-1">
-                    Precision starts here.
+                    Start bidding smarter today.
                   </p>
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4 pt-2">
