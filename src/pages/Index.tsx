@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ArrowRight, Upload, Cpu, FileCheck } from "lucide-react";
+import CompetitiveEdge from "@/components/CompetitiveEdge";
 
 const Index = () => {
   const [form, setForm] = useState({ name: "", email: "", company: "", interest: "" });
