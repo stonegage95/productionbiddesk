@@ -91,10 +91,11 @@ const Index = () => {
           20 years of global production expertise meets the power of Autonomous AI Agents. Built by a Producer, for the industry's best.
         </p>
 
-        {/* Video placeholder */}
-        <div
+        {/* Solutions preview */}
+        <a
+          href="/solutions"
           id="demo"
-          className="relative w-full aspect-video rounded-xl overflow-hidden mx-auto mb-10"
+          className="relative block w-full aspect-video rounded-xl overflow-hidden mx-auto mb-10 no-underline group"
           style={{
             background: "hsl(var(--secondary))",
             border: "1px solid hsl(var(--border))",
@@ -103,7 +104,7 @@ const Index = () => {
         >
           <div className="absolute inset-0 flex items-center justify-center">
             <div
-              className="w-16 h-16 rounded-full flex items-center justify-center cursor-pointer transition-transform hover:scale-110"
+              className="w-16 h-16 rounded-full flex items-center justify-center transition-transform group-hover:scale-110"
               style={{ background: "hsl(var(--gold) / .15)", border: "2px solid hsl(var(--gold) / .4)" }}
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="ml-1">
@@ -112,9 +113,9 @@ const Index = () => {
             </div>
           </div>
           <p className="absolute bottom-4 left-0 right-0 text-center text-xs text-muted-foreground font-medium tracking-wide uppercase">
-            Production Demo — Coming Soon
+            Explore Solutions
           </p>
-        </div>
+        </a>
 
         <a
           href="#get-access"
