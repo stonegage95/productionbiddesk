@@ -7,6 +7,7 @@ const navLinks = [
   { label: "Demo", href: "/demo" },
   { label: "Pricing", href: "/pricing" },
   { label: "FAQ", href: "/faq" },
+  { label: "Production Bid App", href: "/bid-desk-app" },
 ];
 
 const Header = () => {
