@@ -14,7 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bid_desk_reports: {
+        Row: {
+          budget: string | null
+          created_at: string
+          deliverables: string | null
+          id: string
+          locations: string | null
+          project_name: string
+          raw_markdown: string | null
+          risks: string | null
+          script: string | null
+          shoot_days: string | null
+          talent_level: string | null
+          timeline: string | null
+          user_id: string
+        }
+        Insert: {
+          budget?: string | null
+          created_at?: string
+          deliverables?: string | null
+          id?: string
+          locations?: string | null
+          project_name?: string
+          raw_markdown?: string | null
+          risks?: string | null
+          script?: string | null
+          shoot_days?: string | null
+          talent_level?: string | null
+          timeline?: string | null
+          user_id: string
+        }
+        Update: {
+          budget?: string | null
+          created_at?: string
+          deliverables?: string | null
+          id?: string
+          locations?: string | null
+          project_name?: string
+          raw_markdown?: string | null
+          risks?: string | null
+          script?: string | null
+          shoot_days?: string | null
+          talent_level?: string | null
+          timeline?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
