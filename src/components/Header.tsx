@@ -27,11 +27,16 @@ const Header = () => {
         </a>
 
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map(({ label, href }) => (
+          {navLinks.map(({ label, href, highlight }) => (
             <a
               key={label}
               href={href}
-              className="text-sm font-medium no-underline transition-colors text-muted-foreground hover:text-foreground"
+              className={`text-sm font-medium no-underline transition-colors ${
+                highlight
+                  ? "px-3.5 py-1 rounded-full border font-extrabold"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+              style={highlight ? { color: "hsl(var(--gold-bright))", borderColor: "hsl(var(--gold) / .5)" } : undefined}
             >
               {label}
             </a>
