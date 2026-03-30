@@ -28,6 +28,9 @@ const App = () => (
           <Route path="/security" element={<Security />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/demo" element={<Demo />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/bid-desk-app" element={<ProtectedRoute><BidDeskApp /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
