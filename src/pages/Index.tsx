@@ -174,6 +174,9 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ─── Competitive Edge ─── */}
+      <CompetitiveEdge />
+
       {/* ─── CTA ─── */}
       <section
         id="get-access"

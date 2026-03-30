@@ -3,8 +3,9 @@ import { Menu, X } from "lucide-react";
 import Logo from "@/components/Logo";
 
 const navLinks = [
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Get Access", href: "#get-access" },
+  { label: "How It Works", href: "/#how-it-works" },
+  { label: "Get Access", href: "/#get-access" },
+  { label: "FAQ", href: "/faq" },
 ];
 
 const Header = () => {
