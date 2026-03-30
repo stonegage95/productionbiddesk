@@ -7,6 +7,7 @@ import Index from "./pages/Index.tsx";
 import Solutions from "./pages/Solutions.tsx";
 import Security from "./pages/Security.tsx";
 import FAQ from "./pages/FAQ.tsx";
+import Demo from "./pages/Demo.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
