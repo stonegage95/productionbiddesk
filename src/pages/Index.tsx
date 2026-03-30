@@ -210,10 +210,10 @@ const Index = () => {
               <>
                 <DialogHeader>
                   <DialogTitle className="text-center text-xl font-extrabold tracking-tight">
-                    Get Early Access
+                    Get Access
                   </DialogTitle>
                   <p className="text-muted-foreground text-center text-sm pt-1">
-                    Precision starts here.
+                    Start bidding smarter today.
                   </p>
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4 pt-2">
