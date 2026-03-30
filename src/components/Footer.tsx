@@ -11,8 +11,8 @@ const Footer = () => (
         <div className="flex items-center gap-6">
           {[
             { label: "Product", href: "/" },
-            { label: "Solutions", href: "/solutions" },
             { label: "Demo", href: "/demo" },
+            { label: "Pricing", href: "/pricing" },
             { label: "FAQ", href: "/faq" },
           ].map((link) => (
             <a

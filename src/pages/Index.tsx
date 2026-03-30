@@ -91,31 +91,24 @@ const Index = () => {
           20 years of global production expertise meets the power of Autonomous AI Agents. Built by a Producer, for the industry's best.
         </p>
 
-        {/* Solutions preview */}
-        <a
-          href="/solutions"
-          id="demo"
-          className="relative block w-full aspect-video rounded-xl overflow-hidden mx-auto mb-10 no-underline group"
-          style={{
-            background: "hsl(var(--secondary))",
-            border: "1px solid hsl(var(--border))",
-            boxShadow: "0 30px 80px -20px rgba(0,0,0,.6)",
-          }}
+        <div
+          id="solutions"
+          className="mx-auto mb-10 max-w-[760px] rounded-[28px] border border-border bg-card/50 px-8 py-10"
+          style={{ boxShadow: "0 30px 80px -20px rgba(0,0,0,.45)" }}
         >
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              className="w-16 h-16 rounded-full flex items-center justify-center transition-transform group-hover:scale-110"
-              style={{ background: "hsl(var(--gold) / .15)", border: "2px solid hsl(var(--gold) / .4)" }}
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="ml-1">
-                <path d="M8 5v14l11-7L8 5z" fill="hsl(43, 72%, 52%)" />
-              </svg>
-            </div>
-          </div>
-          <p className="absolute bottom-4 left-0 right-0 text-center text-xs text-muted-foreground font-medium tracking-wide uppercase">
-            Explore Solutions
+          <p
+            className="text-xs font-bold tracking-[.2em] uppercase mb-4"
+            style={{ color: "hsl(var(--gold) / .6)" }}
+          >
+            Solutions
           </p>
-        </a>
+          <h2 className="text-[clamp(24px,3.5vw,40px)] leading-[1.08] tracking-tight font-extrabold text-foreground mb-4">
+            The ROI of Smarter Bidding
+          </h2>
+          <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-[52ch] mx-auto">
+            Speed. Scale. Security. Margin protection. Here&apos;s how Production Bid Desk gives you the competitive edge.
+          </p>
+        </div>
 
         <a
           href="#get-access"
