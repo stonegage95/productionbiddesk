@@ -31,7 +31,12 @@ const Header = () => {
             <a
               key={label}
               href={href}
-              className="text-sm font-medium no-underline transition-colors text-muted-foreground hover:text-foreground"
+              className={`text-sm font-medium no-underline transition-colors ${
+                label === "Production Bid App"
+                  ? "font-bold"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+              style={label === "Production Bid App" ? { color: "hsl(var(--gold))" } : undefined}
             >
               {label}
             </a>
