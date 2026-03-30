@@ -26,8 +26,8 @@ const faqs = [
     a: "Our agents break the project down by location, crew requirements, permits, and logistics risk factors. The system flags hidden costs — things like weather windows, overtime exposure, and travel day padding — so your bid reflects real-world production realities, not just spreadsheet math.",
   },
   {
-    q: "What does 'early access' mean — is there a cost?",
-    a: "Early access lets you be among the first to use the platform and shape its roadmap. Pricing details will be shared directly with approved applicants. Book a demo to learn more about what's included.",
+    q: "What does 'access' mean — is there a cost?",
+    a: "Access lets you be among the first to use the platform and shape its roadmap. Pricing details will be shared directly with approved applicants. Book a demo to learn more about what's included.",
   },
 ];
 
