@@ -7,6 +7,7 @@ const navLinks = [
   { label: "Solutions", href: "/solutions" },
   { label: "Watch Demo", href: "/demo" },
   { label: "FAQ", href: "/faq" },
+  { label: "Bid Desk App", href: "/bid-desk-app", highlight: true },
 ];
 
 const Header = () => {
@@ -26,11 +27,16 @@ const Header = () => {
         </a>
 
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map(({ label, href }) => (
+          {navLinks.map(({ label, href, highlight }) => (
             <a
               key={label}
               href={href}
-              className="text-sm font-medium no-underline transition-colors text-muted-foreground hover:text-foreground"
+              className={`text-sm font-medium no-underline transition-colors ${
+                highlight
+                  ? "px-3.5 py-1 rounded-full border font-extrabold"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+              style={highlight ? { color: "hsl(var(--gold-bright))", borderColor: "hsl(var(--gold) / .5)" } : undefined}
             >
               {label}
             </a>
@@ -55,11 +61,14 @@ const Header = () => {
 
       {mobileMenuOpen && (
         <nav className="md:hidden flex flex-col gap-4 px-6 pb-5" style={{ background: "hsl(var(--background))" }}>
-          {navLinks.map(({ label, href }) => (
+          {navLinks.map(({ label, href, highlight }) => (
             <a
               key={label}
               href={href}
-              className="text-sm font-medium no-underline text-muted-foreground"
+              className={`text-sm font-medium no-underline ${
+                highlight ? "font-extrabold w-fit px-3.5 py-1 rounded-full border" : "text-muted-foreground"
+              }`}
+              style={highlight ? { color: "hsl(var(--gold-bright))", borderColor: "hsl(var(--gold) / .5)" } : undefined}
               onClick={() => setMobileMenuOpen(false)}
             >
               {label}
