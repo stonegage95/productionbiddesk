@@ -1,12 +1,20 @@
 import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Shield, Lock, ServerCrash, FileCheck } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+
+const securityPillars = [
+  { icon: Lock, label: "End-to-End Encryption" },
+  { icon: ServerCrash, label: "Zero Data Retention" },
+  { icon: Shield, label: "Private-Instance APIs" },
+  { icon: FileCheck, label: "NDA-Ready Architecture" },
+];
 
 const faqs = [
   {
@@ -33,12 +41,12 @@ const faqs = [
 
 const FAQ = () => {
   useEffect(() => {
-    document.title = "FAQ — Production Bid Desk";
+    document.title = "FAQ & Security — Production Bid Desk";
     const meta = document.querySelector('meta[name="description"]');
     if (meta)
       meta.setAttribute(
         "content",
-        "Frequently asked questions about Production Bid Desk — AI-powered pre-bid analysis for producers and production teams."
+        "Security, confidentiality, and frequently asked questions about Production Bid Desk."
       );
   }, []);
 
@@ -46,13 +54,48 @@ const FAQ = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <section className="max-w-[720px] mx-auto px-6 pt-24 pb-28">
-        <p className="text-center text-xs font-bold tracking-[.2em] uppercase mb-3 text-muted-foreground">
-          Support
+      {/* Security & Confidentiality block */}
+      <section className="max-w-[720px] mx-auto px-6 pt-24 pb-12 text-center">
+        <p className="text-xs font-bold tracking-[.2em] uppercase mb-3 text-muted-foreground">
+          Security & Confidentiality
         </p>
-        <h1 className="text-[clamp(26px,4vw,44px)] font-extrabold tracking-tight text-foreground mb-14 text-center">
-          Frequently Asked Questions
+        <h1 className="text-[clamp(24px,3.5vw,38px)] font-extrabold tracking-tight text-foreground mb-4">
+          NDA-Compliant AI for Global Advertising
         </h1>
+        <p className="text-muted-foreground text-sm leading-relaxed max-w-[52ch] mx-auto mb-10">
+          All creative assets are processed via Tier-1 encrypted, private-instance APIs. Zero data retention for model training. Built for the world's leading agencies.
+        </p>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+          {securityPillars.map(({ icon: Icon, label }) => (
+            <div
+              key={label}
+              className="flex flex-col items-center gap-2 py-4 rounded-lg"
+              style={{
+                background: "hsl(var(--gold) / .04)",
+                border: "1px solid hsl(var(--gold) / .1)",
+              }}
+            >
+              <Icon size={20} style={{ color: "hsl(var(--gold-bright))" }} strokeWidth={1.5} />
+              <span className="text-xs font-semibold text-muted-foreground">{label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="max-w-[720px] mx-auto px-6">
+        <div style={{ borderTop: "1px solid hsl(var(--border))" }} />
+      </div>
+
+      {/* FAQ */}
+      <section className="max-w-[720px] mx-auto px-6 pt-12 pb-28">
+        <p className="text-center text-xs font-bold tracking-[.2em] uppercase mb-3 text-muted-foreground">
+          FAQ
+        </p>
+        <h2 className="text-[clamp(22px,3vw,32px)] font-extrabold tracking-tight text-foreground mb-14 text-center">
+          Frequently Asked Questions
+        </h2>
 
         <Accordion type="single" collapsible className="space-y-3">
           {faqs.map((faq, i) => (
