@@ -1,23 +1,21 @@
 const Footer = () => (
-  <footer className="max-w-[1140px] mx-auto px-5">
+  <footer className="max-w-[1000px] mx-auto px-6">
     <div
       className="py-8 flex flex-col sm:flex-row items-center justify-between gap-4"
-      style={{ borderTop: "1px solid hsl(var(--gold) / .12)" }}
+      style={{ borderTop: "1px solid hsl(var(--border))" }}
     >
-      <span className="font-bold text-[13px]" style={{ color: "hsl(var(--muted-foreground) / .6)" }}>
+      <span className="text-muted-foreground text-xs font-medium">
         © {new Date().getFullYear()} Production Bid Desk
       </span>
       <div className="flex items-center gap-6">
         {[
           { label: "How It Works", href: "#how-it-works" },
-          { label: "Try It", href: "#try-it" },
           { label: "Get Access", href: "#get-access" },
         ].map((link) => (
           <a
             key={link.href}
             href={link.href}
-            className="text-[12px] font-semibold no-underline transition-colors hover:text-foreground"
-            style={{ color: "hsl(var(--muted-foreground) / .5)" }}
+            className="text-xs font-medium no-underline text-muted-foreground transition-colors hover:text-foreground"
           >
             {link.label}
           </a>

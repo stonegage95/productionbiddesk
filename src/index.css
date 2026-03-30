@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,51 +6,49 @@
 
 @layer base {
   :root {
-    --background: 222 60% 5%;
-    --foreground: 222 60% 95%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 95%;
 
-    --card: 222 50% 12%;
-    --card-foreground: 222 60% 95%;
+    --card: 0 0% 11%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 222 50% 12%;
-    --popover-foreground: 222 60% 95%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 0 0% 95%;
 
     --primary: 43 72% 52%;
-    --primary-foreground: 222 50% 10%;
+    --primary-foreground: 0 0% 4%;
 
-    --secondary: 222 40% 16%;
-    --secondary-foreground: 222 60% 95%;
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 0 0% 95%;
 
-    --muted: 222 40% 16%;
-    --muted-foreground: 222 30% 72%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 60%;
 
     --accent: 43 72% 52%;
-    --accent-foreground: 222 50% 10%;
+    --accent-foreground: 0 0% 4%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 222 30% 14%;
-    --input: 222 30% 14%;
+    --border: 0 0% 14%;
+    --input: 0 0% 14%;
     --ring: 43 72% 52%;
 
-    --radius: 1.125rem;
+    --radius: 0.75rem;
 
     --gold: 43 72% 52%;
     --gold-bright: 43 68% 60%;
-    --navy-deep: 222 60% 5%;
-    --navy-panel: 222 50% 12%;
-    --node-blue: 214 100% 69%;
+    --slate-accent: 0 0% 18%;
 
-    --card-shadow: 0 22px 70px rgba(0,0,0,.45);
+    --card-shadow: 0 22px 70px rgba(0,0,0,.55);
 
-    --sidebar-background: 222 50% 8%;
-    --sidebar-foreground: 222 60% 95%;
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 95%;
     --sidebar-primary: 43 72% 52%;
-    --sidebar-primary-foreground: 222 50% 10%;
-    --sidebar-accent: 222 40% 16%;
-    --sidebar-accent-foreground: 222 60% 95%;
-    --sidebar-border: 222 30% 14%;
+    --sidebar-primary-foreground: 0 0% 4%;
+    --sidebar-accent: 0 0% 18%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 14%;
     --sidebar-ring: 43 72% 52%;
   }
 }
