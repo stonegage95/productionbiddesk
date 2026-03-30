@@ -2,54 +2,45 @@ import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import GradientText from "@/components/GradientText";
-import { Check } from "lucide-react";
 
 const tiers = [
   {
-    name: "Starter",
-    price: "$499",
-    period: "/month",
-    description: "For independent producers and small shops.",
+    name: "Independent Producer",
+    price: "$99",
+    period: " / Month",
+    bestFor: "Freelance PMs & Solopreneurs",
     features: [
-      "Up to 10 bid analyses / month",
-      "Script & brief upload",
-      "AI-powered cost breakdown",
-      "Standard turnaround",
-      "Email support",
+      "Up to 3 Bids per month",
+      "Standard AI Risk Mitigation",
+      "Basic Export (PDF/CSV)",
     ],
-    cta: "Get Started",
     featured: false,
   },
   {
-    name: "Pro",
-    price: "$1,299",
-    period: "/month",
-    description: "For production companies scaling output.",
+    name: "Production House",
+    badge: "Recommended",
+    price: "$299",
+    period: " / Month",
+    bestFor: "Boutique & Mid-Sized Houses",
     features: [
-      "Unlimited bid analyses",
-      "Priority AI processing",
-      "Historical bid comparison",
-      "Custom deliverable templates",
-      "Dedicated account manager",
-      "API access",
+      "Unlimited Bids",
+      "Advanced Logistics Analysis",
+      "Priority Support",
+      "Custom Branding on Exports",
     ],
-    cta: "Start Free Trial",
     featured: true,
   },
   {
-    name: "Enterprise",
-    price: "Custom",
+    name: "Agency Enterprise",
+    price: "Contact for Pricing",
     period: "",
-    description: "For studios & networks with complex workflows.",
+    bestFor: "Global Agencies & Networks",
     features: [
-      "Everything in Pro",
-      "SSO & team management",
-      "Custom AI model tuning",
-      "On-premise deployment option",
-      "SLA & priority support",
-      "White-label reports",
+      "Multi-User Team Access",
+      "Private API Instance",
+      "Custom NDA Integration",
+      "Dedicated Training",
     ],
-    cta: "Contact Sales",
     featured: false,
   },
 ];
@@ -63,17 +54,15 @@ const Pricing = () => {
     <div className="min-h-screen flex flex-col bg-background text-foreground font-[Manrope]">
       <Header />
       <main className="flex-1">
-        {/* Hero */}
         <section className="pt-20 pb-12 text-center px-6">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
-            <GradientText>Simple, Transparent Pricing</GradientText>
+            <GradientText>The "Executive" 3-Tier Pricing Model</GradientText>
           </h1>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">
             Choose the plan that fits your production volume. No hidden fees, cancel anytime.
           </p>
         </section>
 
-        {/* Pricing Cards */}
         <section className="max-w-[1100px] mx-auto px-6 pb-24">
           <div className="grid md:grid-cols-3 gap-6">
             {tiers.map((tier) => (
@@ -81,9 +70,10 @@ const Pricing = () => {
                 key={tier.name}
                 className={`relative rounded-2xl p-8 flex flex-col transition-all ${
                   tier.featured
-                    ? "bg-card border-2 border-primary shadow-[0_0_40px_rgba(212,175,55,0.15)] scale-[1.03]"
-                    : "bg-card border border-border"
+                    ? "border-2 border-primary shadow-[0_0_40px_rgba(212,175,55,0.15)] scale-[1.03]"
+                    : "border border-border"
                 }`}
+                style={{ background: "hsl(var(--card))" }}
               >
                 {tier.featured && (
                   <span
@@ -98,43 +88,40 @@ const Pricing = () => {
                 )}
 
                 <h3 className="text-xl font-bold mb-1">{tier.name}</h3>
-                <p className="text-muted-foreground text-sm mb-6">{tier.description}</p>
 
+                {/* Best For */}
+                <p className="text-muted-foreground text-sm mb-6">{tier.bestFor}</p>
+
+                {/* Price */}
                 <div className="mb-8">
-                  <span className="text-4xl font-extrabold">{tier.price}</span>
-                  <span className="text-muted-foreground text-sm">{tier.period}</span>
+                  <span className={`font-extrabold ${tier.period ? "text-4xl" : "text-2xl"}`}>
+                    {tier.price}
+                  </span>
+                  {tier.period && (
+                    <span className="text-muted-foreground text-sm">{tier.period}</span>
+                  )}
                 </div>
 
+                {/* Features */}
                 <ul className="space-y-3 mb-8 flex-1">
                   {tier.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3 text-sm">
-                      <Check
-                        size={16}
-                        className="mt-0.5 shrink-0"
-                        style={{ color: "hsl(var(--gold))" }}
-                      />
+                      <span style={{ color: "hsl(var(--gold))" }} className="mt-0.5 shrink-0">•</span>
                       <span className="text-foreground/80">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
+                {/* CTA */}
                 <a
                   href="/#get-access"
-                  className={`inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-bold no-underline transition-all ${
-                    tier.featured
-                      ? "hover:brightness-110"
-                      : "border border-border hover:border-primary hover:text-primary"
-                  }`}
-                  style={
-                    tier.featured
-                      ? {
-                          background: "hsl(var(--gold))",
-                          color: "hsl(var(--primary-foreground))",
-                        }
-                      : undefined
-                  }
+                  className="inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-bold no-underline transition-all hover:brightness-110"
+                  style={{
+                    background: "hsl(var(--gold))",
+                    color: "hsl(var(--primary-foreground))",
+                  }}
                 >
-                  {tier.cta}
+                  Get Started
                 </a>
               </div>
             ))}
