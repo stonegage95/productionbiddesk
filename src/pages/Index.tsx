@@ -93,7 +93,7 @@ const Index = () => {
 
         {/* Video placeholder */}
         <div
-          className="relative w-full aspect-video rounded-xl overflow-hidden mx-auto mb-10"
+          id="demo"
           style={{
             background: "hsl(var(--secondary))",
             border: "1px solid hsl(var(--border))",
