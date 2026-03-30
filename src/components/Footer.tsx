@@ -9,8 +9,9 @@ const Footer = () => (
       </span>
       <div className="flex items-center gap-6">
         {[
-          { label: "How It Works", href: "#how-it-works" },
-          { label: "Get Access", href: "#get-access" },
+          { label: "How It Works", href: "/#how-it-works" },
+          { label: "Get Access", href: "/#get-access" },
+          { label: "FAQ", href: "/faq" },
         ].map((link) => (
           <a
             key={link.href}
