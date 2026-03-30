@@ -33,6 +33,34 @@ const faqs = [
     q: "How does the AI handle complex, multi-location shoots?",
     a: "Our agents break the project down by location, crew requirements, permits, and logistics risk factors. The system flags hidden costs — things like weather windows, overtime exposure, and travel day padding — so your bid reflects real-world production realities, not just spreadsheet math.",
   },
+  {
+    q: "How long does it take to generate a bid outline?",
+    a: "About 60 seconds. Upload your brief, script, or storyboard and receive a professional, risk-mitigated bid outline almost instantly.",
+  },
+  {
+    q: "What file types can I upload?",
+    a: "Scripts, storyboards, briefs, treatments, and PDFs. Even rough concepts work — our AI agents are built to extract what matters from whatever format you're working in.",
+  },
+  {
+    q: "Can I edit the bid after it's generated?",
+    a: "Absolutely. The output is a starting point — a smart first draft you can refine, adjust, and make your own before presenting to clients.",
+  },
+  {
+    q: "Does AI replace my team?",
+    a: "Not at all. Think of it as an experienced second opinion that speeds up your process. Your team stays in control — the AI just removes the grunt work so you can focus on strategy and creative decisions.",
+  },
+  {
+    q: "How accurate are the bid estimates?",
+    a: "The system is built on 20 years of real-world production logic — factoring in crew rates, location logistics, overtime exposure, and hidden cost risks. It's designed to reflect production realities, not just spreadsheet math.",
+  },
+  {
+    q: "Can my whole team use it?",
+    a: "Yes. We offer team access with multi-seat plans so your producers, PMs, and cost consultants can all work from the same platform.",
+  },
+  {
+    q: "What types of productions does it support?",
+    a: "Commercials, branded content, series, music videos, corporate films — any production format where accurate bidding and risk mitigation matter.",
+  },
 ];
 
 const FAQ = () => {
