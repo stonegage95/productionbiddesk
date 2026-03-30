@@ -77,7 +77,7 @@ const Header = () => {
             style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
             onClick={() => setMobileMenuOpen(false)}
           >
-            Book a Demo
+            Get Access
           </a>
         </nav>
       )}
