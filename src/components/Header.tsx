@@ -10,6 +10,8 @@ const navLinks = [
   { label: "Bid Desk App", href: "/bid-desk-app", highlight: true },
 ];
 
+// "Book a Demo" is the primary CTA, rendered separately after nav links
+
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
