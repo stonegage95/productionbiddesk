@@ -121,7 +121,7 @@ const Index = () => {
           className="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg text-sm font-extrabold transition-all hover:brightness-110 no-underline"
           style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
         >
-          Access the Bid Desk <ArrowRight size={16} />
+          Get Access <ArrowRight size={16} />
         </a>
       </section>
 
