@@ -12,6 +12,7 @@ import Auth from "./pages/Auth.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
 import BidDeskApp from "./pages/BidDeskApp.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import Pricing from "./pages/Pricing.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
