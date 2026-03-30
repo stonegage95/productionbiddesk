@@ -8,6 +8,10 @@ import Solutions from "./pages/Solutions.tsx";
 import Security from "./pages/Security.tsx";
 import FAQ from "./pages/FAQ.tsx";
 import Demo from "./pages/Demo.tsx";
+import Auth from "./pages/Auth.tsx";
+import ResetPassword from "./pages/ResetPassword.tsx";
+import BidDeskApp from "./pages/BidDeskApp.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
