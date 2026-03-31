@@ -19,7 +19,7 @@ const tiers = [
   {
     name: "Production House",
     badge: "Recommended",
-    price: "$299",
+    price: "$399",
     period: " / Month",
     bestFor: "Boutique & Mid-Sized Houses",
     features: [
