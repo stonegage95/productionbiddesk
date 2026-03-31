@@ -133,26 +133,15 @@ const Index = () => {
         </h2>
 
         <div className="relative">
-          {/* Timeline line */}
+          {/* Timeline line - desktop only */}
           <div className="hidden md:block absolute left-1/2 -translate-x-px top-0 bottom-0 w-px" style={{ background: "hsl(var(--gold) / .15)" }} />
 
-          <div className="space-y-20 md:space-y-24">
+          <div className="space-y-12 md:space-y-24">
             {phases.map(({ icon: Icon, phase, title, desc }, i) => (
-              <div key={i} className={`flex flex-col md:flex-row items-center gap-8 ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
-                <div className={`flex-1 ${i % 2 !== 0 ? "md:text-left" : "md:text-right"}`}>
-                  <span
-                    className="text-[11px] font-bold tracking-[.2em] uppercase block mb-2"
-                    style={{ color: "hsl(var(--gold) / .6)" }}
-                  >
-                    Phase {phase}
-                  </span>
-                  <h3 className="text-xl font-extrabold text-foreground mb-2">{title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed max-w-[38ch]">{desc}</p>
-                </div>
-
-                {/* Center icon node */}
+              <div key={i} className={`flex flex-col md:flex-row items-center gap-5 md:gap-8 ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
+                {/* Icon first on mobile for visual hierarchy */}
                 <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center shrink-0 z-10"
+                  className="w-14 h-14 rounded-full flex items-center justify-center shrink-0 z-10 order-first md:order-none"
                   style={{
                     background: "hsl(var(--gold) / .08)",
                     border: "1px solid hsl(var(--gold) / .2)",
@@ -162,7 +151,18 @@ const Index = () => {
                   <Icon size={22} style={{ color: "hsl(var(--gold-bright))" }} strokeWidth={1.5} />
                 </div>
 
-                <div className="flex-1" />
+                <div className={`flex-1 text-center md:text-left ${i % 2 !== 0 ? "md:text-left" : "md:text-right"}`}>
+                  <span
+                    className="text-[11px] font-bold tracking-[.2em] uppercase block mb-2"
+                    style={{ color: "hsl(var(--gold) / .6)" }}
+                  >
+                    Phase {phase}
+                  </span>
+                  <h3 className="text-xl font-extrabold text-foreground mb-2">{title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed max-w-[38ch] mx-auto md:mx-0 md:ml-auto">{desc}</p>
+                </div>
+
+                <div className="hidden md:block flex-1" />
               </div>
             ))}
           </div>
