@@ -93,13 +93,6 @@ const Index = () => {
           Drop in your creative board and instantly get ballpark budgets, timelines, and logistics. Catch red flags before they become expensive mistakes, and walk into your client presentation with a clean, actionable outline. Built by a Producer with 20 years of global expertise, for the industry&apos;s best.
         </p>
 
-        <a
-          href="#get-access"
-          className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-sm font-extrabold transition-all hover:brightness-110 no-underline"
-          style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
-        >
-          Get Early Access <ArrowRight size={16} />
-        </a>
 
         <a
           href="#the-problem"
