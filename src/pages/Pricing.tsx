@@ -21,7 +21,7 @@ const tiers = [
     badge: "Recommended",
     price: "$399",
     period: " / Month",
-    bestFor: "Boutique & Mid-Sized Houses",
+    bestFor: "Production Houses / Mid-Size Agencies",
     features: [
       "Unlimited Bids",
       "Advanced Logistics Analysis",
