@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ArrowRight, Upload, Cpu, FileCheck } from "lucide-react";
+import { ArrowRight, Upload, Cpu, FileCheck, ChevronDown } from "lucide-react";
 import CompetitiveEdge from "@/components/CompetitiveEdge";
 
 const Index = () => {
@@ -110,6 +110,19 @@ const Index = () => {
           </p>
         </div>
 
+        <a
+          href="#how-it-works"
+          className="inline-flex flex-col items-center gap-1 no-underline mt-6 group"
+          aria-label="Scroll to learn more"
+        >
+          <span className="text-[11px] font-bold tracking-[.15em] uppercase text-muted-foreground group-hover:text-foreground transition-colors">
+            Discover
+          </span>
+          <ChevronDown
+            size={20}
+            className="text-muted-foreground group-hover:text-foreground transition-colors animate-bounce"
+          />
+        </a>
       </section>
 
       {/* ─── Phases ─── */}
