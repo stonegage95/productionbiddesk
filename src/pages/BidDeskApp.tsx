@@ -619,16 +619,75 @@ const BidDeskApp = () => {
             </div>
 
             <div className="space-y-2">
-              <Label>Script or storyboard <span className="text-primary">*</span></Label>
-              <p className="text-muted-foreground text-xs">Provide a script, a storyboard, or both.</p>
+              <Label>Script or brief <span className="text-primary">*</span></Label>
+              <div className="flex items-center justify-between">
+                <p className="text-muted-foreground text-xs">Paste your script below, or upload a text file.</p>
+                <label className="inline-flex items-center gap-1.5 cursor-pointer text-xs font-medium px-3 py-1.5 rounded-md border border-border bg-secondary/40 text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors shrink-0">
+                  <Upload className="h-3 w-3" />
+                  Upload script
+                  <input type="file" accept=".txt,.md,.rtf,.doc,.docx,.pdf" className="sr-only" onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    try {
+                      const text = await file.text();
+                      setScript((prev) => prev ? prev + "\n\n" + text : text);
+                      toast({ title: "Script loaded", description: file.name });
+                    } catch {
+                      toast({ title: "Couldn't read file", description: "Try pasting the text instead.", variant: "destructive" });
+                    }
+                    e.target.value = "";
+                  }} />
+                </label>
+              </div>
               <Textarea
                 placeholder="Paste your script here…"
                 className="min-h-[120px]"
                 value={script}
                 onChange={(e) => setScript(e.target.value)}
               />
+              <div className="flex flex-col sm:flex-row gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const input = document.createElement("input");
+                    input.type = "file";
+                    input.accept = ".pdf,.png,.jpg,.jpeg,.webp";
+                    input.onchange = () => {
+                      const file = input.files?.[0];
+                      if (file) {
+                        const valid = [".pdf", ".png", ".jpg", ".jpeg", ".webp"];
+                        if (valid.some((ext) => file.name.toLowerCase().endsWith(ext))) {
+                          setStoryboardFile(file);
+                          toast({ title: "Storyboard attached", description: file.size > MAX_FILE_SIZE ? `${file.name} (will be auto-compressed)` : file.name });
+                        } else {
+                          toast({ title: "Unsupported file", description: "Please use PDF, PNG, JPG, or WebP.", variant: "destructive" });
+                        }
+                      }
+                    };
+                    input.click();
+                  }}
+                  className={`flex items-center justify-center gap-2 rounded-lg border px-4 py-3 text-sm font-medium transition-colors w-full ${
+                    storyboardFile
+                      ? "border-primary/40 bg-secondary/40 text-foreground"
+                      : "border-border bg-secondary/40 text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                  }`}
+                >
+                  <Upload className="h-4 w-4 shrink-0" />
+                  {storyboardFile ? (
+                    <span className="flex items-center gap-2 truncate">
+                      <FileText className="h-3.5 w-3.5 shrink-0" />
+                      {storyboardFile.name}
+                    </span>
+                  ) : "Tap to upload storyboard"}
+                </button>
+                {storyboardFile && (
+                  <button type="button" onClick={() => setStoryboardFile(null)} className="text-muted-foreground hover:text-foreground p-2 self-center">
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
               <label
-                className={`flex items-center gap-2 cursor-pointer rounded-lg border border-dashed px-4 py-3 text-sm transition-colors ${
+                className={`hidden sm:flex items-center gap-2 cursor-pointer rounded-lg border border-dashed px-4 py-3 text-sm transition-colors ${
                   dragging
                     ? "border-primary bg-primary/10 text-foreground"
                     : storyboardFile
@@ -661,7 +720,7 @@ const BidDeskApp = () => {
                       <X className="h-3.5 w-3.5" />
                     </button>
                   </span>
-                ) : dragging ? "Drop your file here" : "Drag & drop or click to upload a storyboard"}
+                ) : dragging ? "Drop your file here" : "Or drag & drop a storyboard here"}
                 <input type="file" accept=".pdf,.png,.jpg,.jpeg,.webp" className="sr-only" onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) {
