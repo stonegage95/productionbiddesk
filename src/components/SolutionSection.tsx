@@ -1,21 +1,43 @@
 import { useScrollFadeIn } from "@/hooks/use-scroll-fade-in";
-import { AlertTriangle, Calculator, FileText } from "lucide-react";
+import {
+  AlertTriangle,
+  Calculator,
+  CalendarRange,
+  FileText,
+  MessageSquareQuote,
+  Users,
+} from "lucide-react";
 
 const features = [
   {
     icon: AlertTriangle,
-    title: "Catch Red Flags Early",
-    desc: "Instantly identify hidden logistical nightmares, talent issues, and budget drains upfront—before you commit to a shoot unprepared.",
+    title: "Risk Mitigation & Red Flags",
+    desc: "Spot production risks early, flag weak points in the plan, and surface the issues that could derail scope, budget, or execution before the meeting starts.",
   },
   {
     icon: Calculator,
-    title: "Ballpark Budgets & Timelines",
-    desc: "Get realistic budget breakdowns and high-level timelines in seconds. Know exactly what it takes to pull the job off.",
+    title: "Ballpark Budget Tiers",
+    desc: "Get fast budget ranges and tiered cost framing so you can speak confidently about what the idea may require at different levels of execution.",
+  },
+  {
+    icon: CalendarRange,
+    title: "Schedule Logistics & Timelines",
+    desc: "Map out timing, sequencing, and logistical realities in seconds so you know what the production actually demands before promising anything.",
+  },
+  {
+    icon: Users,
+    title: "Talent Negotiations",
+    desc: "Pressure-test talent assumptions early and understand the negotiation implications before they become budget or scheduling surprises.",
+  },
+  {
+    icon: MessageSquareQuote,
+    title: "Post Inquiries & Questions",
+    desc: "Generate the smart post questions that still need answers, so you walk into the conversation prepared instead of reacting in real time.",
   },
   {
     icon: FileText,
-    title: "A Clean, Client-Ready Outline",
-    desc: "No more scrambling to organize your thoughts. Get a perfectly structured outline that you can drop straight into your deck and present to the client with absolute authority.",
+    title: "Bid Outlines",
+    desc: "Turn the analysis into a clean, structured bid outline you can drop into your deck, organize quickly, and present with authority.",
   },
 ];
 
@@ -37,7 +59,7 @@ const SolutionSection = () => {
         Everything You Need to Present with Confidence.
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {features.map(({ icon: Icon, title, desc }) => (
           <div
             key={title}
