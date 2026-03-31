@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import GradientText from "@/components/GradientText";
+import ProblemSection from "@/components/ProblemSection";
+import SolutionSection from "@/components/SolutionSection";
+import ROISection from "@/components/ROISection";
 import { useScrollFadeIn } from "@/hooks/use-scroll-fade-in";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ArrowRight, Upload, Cpu, FileCheck, ChevronDown } from "lucide-react";
-import CompetitiveEdge from "@/components/CompetitiveEdge";
 
 const Index = () => {
   const [form, setForm] = useState({ name: "", email: "", company: "", interest: "" });
@@ -20,9 +22,9 @@ const Index = () => {
   const ctaFade = useScrollFadeIn(0.1);
 
   useEffect(() => {
-    document.title = "Production Bid Desk — Precision is in the Details";
+    document.title = "Production Bid Desk — Never Go Into a Pre-Bid Blind Again";
     const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "20 years of global production expertise meets Autonomous AI Agents. Pre-bid analysis built by a Producer, for the industry's best.");
+    if (meta) meta.setAttribute("content", "Drop in your creative board and instantly get ballpark budgets, timelines, and logistics. Catch red flags before they become expensive mistakes.");
   }, []);
 
   const update = (field: string, value: string) =>
@@ -47,20 +49,20 @@ const Index = () => {
     {
       icon: Upload,
       phase: "01",
-      title: "Intelligent Intake",
-      desc: "Upload a brief, script, or storyboard. Even rough concepts work.",
+      title: "Drop Your Board",
+      desc: "Upload your brief, script, or storyboard. Even if it's just a rough concept, the system is ready to analyze it.",
     },
     {
       icon: Cpu,
       phase: "02",
       title: "Autonomous Analysis",
-      desc: "Our AI Agent identifies hidden logistics risks and optimizes bidding margins in seconds.",
+      desc: "Our AI immediately breaks down the creative to evaluate scope, mitigate risks, and map out the logistics.",
     },
     {
       icon: FileCheck,
       phase: "03",
-      title: "Executive Export",
-      desc: "Receive a professional, risk-mitigated bid outline ready for your final review.",
+      title: "Get Your Outline",
+      desc: "Receive a professional, risk-mitigated bid outline detailing everything you need to know before your client meeting.",
     },
   ];
 
@@ -85,34 +87,23 @@ const Index = () => {
       {/* ─── Hero ─── */}
       <section id="top" className="max-w-[900px] mx-auto px-6 pt-24 pb-16 text-center">
         <h1 className="text-[clamp(28px,5vw,56px)] leading-[1.05] tracking-tight font-extrabold mb-6">
-          Precision is in the <GradientText>Details.</GradientText>
+          Never Go Into a Pre-Bid <GradientText>Blind Again.</GradientText>
         </h1>
-        <p className="text-muted-foreground text-lg md:text-xl leading-relaxed max-w-[55ch] mx-auto mb-10">
-          20 years of global production expertise meets the power of Autonomous AI Agents. Built by a Producer, for the industry's best.
+        <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-[58ch] mx-auto mb-10">
+          Drop in your creative board and instantly get ballpark budgets, timelines, and logistics. Catch red flags before they become expensive mistakes, and walk into your client presentation with a clean, actionable outline. Built by a Producer with 20 years of global expertise, for the industry&apos;s best.
         </p>
 
-        <div
-          id="solutions"
-          className="mx-auto mb-10 max-w-[760px] rounded-[28px] border border-border bg-card/50 px-8 py-10"
-          style={{ boxShadow: "0 30px 80px -20px rgba(0,0,0,.45)" }}
+        <a
+          href="#get-access"
+          className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-sm font-extrabold transition-all hover:brightness-110 no-underline"
+          style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
         >
-          <p
-            className="text-xs font-bold tracking-[.2em] uppercase mb-4"
-            style={{ color: "hsl(var(--gold) / .6)" }}
-          >
-            Solutions
-          </p>
-          <h2 className="text-[clamp(24px,3.5vw,40px)] leading-[1.08] tracking-tight font-extrabold text-foreground mb-4">
-            The ROI of Smarter Bidding
-          </h2>
-          <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-[52ch] mx-auto">
-            Speed. Scale. Security. Margin protection. Here&apos;s how Production Bid Desk gives you the competitive edge.
-          </p>
-        </div>
+          Get Early Access <ArrowRight size={16} />
+        </a>
 
         <a
-          href="#how-it-works"
-          className="inline-flex flex-col items-center gap-1 no-underline mt-6 group"
+          href="#the-problem"
+          className="inline-flex flex-col items-center gap-1 no-underline mt-12 group"
           aria-label="Scroll to learn more"
         >
           <span className="text-[11px] font-bold tracking-[.15em] uppercase text-muted-foreground group-hover:text-foreground transition-colors">
@@ -125,27 +116,36 @@ const Index = () => {
         </a>
       </section>
 
-      {/* ─── Phases ─── */}
+      {/* ─── The Problem ─── */}
+      <div id="the-problem">
+        <ProblemSection />
+      </div>
+
+      {/* ─── The Solution ─── */}
+      <SolutionSection />
+
+      {/* ─── How It Works ─── */}
       <section
         id="how-it-works"
         ref={phasesFade.ref}
         className={`max-w-[1000px] mx-auto px-6 py-24 transition-all duration-700 ease-out ${phasesFade.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
       >
-        <p className="text-center text-xs font-bold tracking-[.2em] uppercase mb-3 text-muted-foreground">
+        <p
+          className="text-center text-xs font-bold tracking-[.2em] uppercase mb-3"
+          style={{ color: "hsl(var(--gold) / .6)" }}
+        >
           The Process
         </p>
         <h2 className="text-[clamp(22px,3vw,36px)] font-extrabold tracking-tight text-foreground mb-16 text-center">
-          Three Phases to a Smarter Bid
+          From Rough Concept to Solid Plan in Seconds.
         </h2>
 
         <div className="relative">
-          {/* Timeline line - desktop only */}
           <div className="hidden md:block absolute left-1/2 -translate-x-px top-0 bottom-0 w-px" style={{ background: "hsl(var(--gold) / .15)" }} />
 
           <div className="space-y-12 md:space-y-24">
             {phases.map(({ icon: Icon, phase, title, desc }, i) => (
               <div key={i} className={`flex flex-col md:flex-row items-center gap-5 md:gap-8 ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
-                {/* Icon first on mobile for visual hierarchy */}
                 <div
                   className="w-14 h-14 rounded-full flex items-center justify-center shrink-0 z-10 order-first md:order-none"
                   style={{
@@ -175,8 +175,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ─── Competitive Edge ─── */}
-      <CompetitiveEdge />
+      {/* ─── ROI ─── */}
+      <ROISection />
 
       {/* ─── CTA ─── */}
       <section
@@ -185,10 +185,10 @@ const Index = () => {
         className={`max-w-[900px] mx-auto px-6 py-24 text-center transition-all duration-700 ease-out ${ctaFade.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
       >
         <h2 className="text-[clamp(22px,3vw,36px)] font-extrabold tracking-tight text-foreground mb-4">
-          Ready to bid smarter?
+          Ready to take the guesswork out of your next bid?
         </h2>
-        <p className="text-muted-foreground text-sm mb-8 max-w-[50ch] mx-auto">
-          Join the early access list for a deeper walkthrough or team demo.
+        <p className="text-muted-foreground text-sm mb-8 max-w-[54ch] mx-auto">
+          Join the early access list to streamline your logistics, catch the red flags, and win more jobs.
         </p>
         <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) { setSubmitted(false); setError(""); } }}>
           <DialogTrigger asChild>
@@ -203,7 +203,7 @@ const Index = () => {
             {submitted ? (
               <div className="py-6 text-center">
                 <p className="text-lg font-bold" style={{ color: "hsl(var(--gold))" }}>
-                  Request received. We'll be in touch shortly.
+                  Request received. We&apos;ll be in touch shortly.
                 </p>
               </div>
             ) : (
