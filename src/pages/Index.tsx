@@ -100,7 +100,7 @@ const Index = () => {
           Never Go Into a Client Meeting <GradientText>Blind Again.</GradientText>
         </h1>
         <p className="text-lg md:text-xl leading-relaxed font-semibold max-w-[52ch] mx-auto mb-4" style={{ color: "hsl(var(--gold))" }}>
-          Production Bid Desk is your artificial intelligence partner for smart bidding solutions in global advertising.
+          Production Bid Desk is your artificial intelligence partner for smart bidding and logistical solutions in global advertising.
         </p>
         <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-[58ch] mx-auto mb-10">
           Drop in your creative board and instantly get production ballpark budgets, timelines, and logistics. Catch red flags before they become expensive mistakes, and walk into your client presentation with a clean, actionable outline. Built by a Producer with 20 years of global expertise, for the industry&apos;s best.
