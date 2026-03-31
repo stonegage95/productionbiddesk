@@ -86,6 +86,16 @@ const Index = () => {
 
       {/* ─── Hero ─── */}
       <section id="top" className="max-w-[900px] mx-auto px-6 pt-24 pb-16 text-center">
+        <span
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[.12em] uppercase mb-8"
+          style={{
+            background: "hsl(var(--gold) / .08)",
+            border: "1px solid hsl(var(--gold) / .2)",
+            color: "hsl(var(--gold))",
+          }}
+        >
+          🔒 NDA-Compliant AI for Global Advertising
+        </span>
         <h1 className="text-[clamp(28px,5vw,56px)] leading-[1.05] tracking-tight font-extrabold mb-6">
           Never Go Into a Client Meeting <GradientText>Blind Again.</GradientText>
         </h1>

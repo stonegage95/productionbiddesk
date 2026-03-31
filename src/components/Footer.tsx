@@ -26,7 +26,8 @@ const Footer = () => (
         </div>
       </div>
       <p className="text-[10px] leading-relaxed text-center text-muted-foreground/60">
-        Production Bid Desk is an independent third-party solution. We respect your privacy and confidentiality: we do not sell user information or creative boards. All user-uploaded content is processed via private, secure APIs. AI-generated work and uploaded assets will never be shared with third parties or used for public model training.
+        <span style={{ color: "hsl(var(--gold) / .7)" }} className="font-bold">NDA-Compliant AI for Global Advertising.</span>{" "}
+        Production Bid Desk is an independent third-party solution. We respect your privacy and confidentiality: we do not sell or use your information, creative boards, or company data. All user-uploaded content is processed via private, secure APIs. AI-generated work and uploaded assets will never be shared with third parties or used for public model training.
       </p>
     </div>
   </footer>
