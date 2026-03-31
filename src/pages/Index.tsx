@@ -110,6 +110,19 @@ const Index = () => {
           </p>
         </div>
 
+        <a
+          href="#how-it-works"
+          className="inline-flex flex-col items-center gap-1 no-underline mt-6 group"
+          aria-label="Scroll to learn more"
+        >
+          <span className="text-[11px] font-bold tracking-[.15em] uppercase text-muted-foreground group-hover:text-foreground transition-colors">
+            Discover
+          </span>
+          <ChevronDown
+            size={20}
+            className="text-muted-foreground group-hover:text-foreground transition-colors animate-bounce"
+          />
+        </a>
       </section>
 
       {/* ─── Phases ─── */}
