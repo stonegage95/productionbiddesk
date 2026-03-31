@@ -60,12 +60,17 @@ const Header = () => {
       </div>
 
       {mobileMenuOpen && (
-        <nav className="md:hidden flex flex-col gap-4 px-6 pb-5" style={{ background: "hsl(var(--background))" }}>
+        <nav className="md:hidden flex flex-col gap-1 px-6 pb-5" style={{ background: "hsl(var(--background))" }}>
           {navLinks.map(({ label, href }) => (
             <a
               key={label}
               href={href}
-              className="text-sm font-medium no-underline text-muted-foreground"
+              className={`text-sm no-underline py-2.5 px-3 rounded-lg transition-colors ${
+                label === "Production Bid App"
+                  ? "font-bold"
+                  : "font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+              style={label === "Production Bid App" ? { color: "hsl(var(--gold))" } : undefined}
               onClick={() => setMobileMenuOpen(false)}
             >
               {label}
@@ -73,7 +78,7 @@ const Header = () => {
           ))}
           <a
             href="#get-access"
-            className="inline-flex items-center justify-center px-5 py-2 rounded-lg text-sm font-bold no-underline"
+            className="inline-flex items-center justify-center px-5 py-3 rounded-lg text-sm font-bold no-underline mt-2 transition-all hover:brightness-110"
             style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
             onClick={() => setMobileMenuOpen(false)}
           >
