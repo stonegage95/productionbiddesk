@@ -1,17 +1,15 @@
-import logoSrc from "@/assets/production-bid-desk-logo.png";
+import iconSrc from "@/assets/production-bid-desk-icon.png";
 
 const Logo = ({ className = "" }: { className?: string }) => {
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
+    <div className={`flex items-center gap-2.5 ${className}`}>
       <img
-        src={logoSrc}
+        src={iconSrc}
         alt=""
-        className="h-[36px] md:h-[44px] w-auto"
+        className="h-[32px] md:h-[38px] w-auto rounded-sm"
       />
       <div className="flex flex-col leading-none">
-        <span
-          className="text-sm md:text-base font-extrabold tracking-tight text-foreground"
-        >
+        <span className="text-sm md:text-base font-extrabold tracking-tight text-foreground">
           Production Bid Desk
         </span>
         <span
