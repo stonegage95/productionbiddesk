@@ -26,7 +26,7 @@ const Footer = () => (
         </div>
       </div>
       <p className="text-[10px] leading-relaxed text-center text-muted-foreground/60">
-        Legal Notice: All user-uploaded content is processed via private, secure APIs and is not used for public model training. Independent third-party solution.
+        Production Bid Desk is an independent third-party solution. We respect your privacy and confidentiality: we do not sell user information or creative boards. All user-uploaded content is processed via private, secure APIs. AI-generated work and uploaded assets will never be shared with third parties or used for public model training.
       </p>
     </div>
   </footer>
