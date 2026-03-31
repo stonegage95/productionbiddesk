@@ -22,7 +22,7 @@ const Index = () => {
   const ctaFade = useScrollFadeIn(0.1);
 
   useEffect(() => {
-    document.title = "Production Bid Desk — Never Go Into a Pre-Bid Blind Again";
+    document.title = "Production Bid Desk — Never Go Into a Client Meeting Blind Again";
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute("content", "Drop in your creative board and instantly get ballpark budgets, timelines, and logistics. Catch red flags before they become expensive mistakes.");
   }, []);
