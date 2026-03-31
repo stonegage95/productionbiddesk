@@ -87,7 +87,7 @@ const Index = () => {
       {/* ─── Hero ─── */}
       <section id="top" className="max-w-[900px] mx-auto px-6 pt-24 pb-16 text-center">
         <span
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-[.12em] uppercase mb-8"
+          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold tracking-[.12em] uppercase mb-8"
           style={{
             background: "hsl(var(--gold) / .08)",
             border: "1px solid hsl(var(--gold) / .2)",
@@ -100,7 +100,7 @@ const Index = () => {
           Never Go Into a Client Meeting <GradientText>Blind Again.</GradientText>
         </h1>
         <p className="text-foreground text-lg md:text-xl leading-relaxed font-semibold max-w-[52ch] mx-auto mb-4">
-          Production Bid Desk is your AI partner for smart bidding solutions in global advertising.
+          Production Bid Desk is your artificial intelligence partner for smart bidding solutions in global advertising.
         </p>
         <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-[58ch] mx-auto mb-10">
           Drop in your creative board and instantly get production ballpark budgets, timelines, and logistics. Catch red flags before they become expensive mistakes, and walk into your client presentation with a clean, actionable outline. Built by a Producer with 20 years of global expertise, for the industry&apos;s best.
