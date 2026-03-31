@@ -22,7 +22,7 @@ const Index = () => {
   const ctaFade = useScrollFadeIn(0.1);
 
   useEffect(() => {
-    document.title = "Production Bid Desk — Never Go Into a Pre-Bid Blind Again";
+    document.title = "Production Bid Desk — Never Go Into a Client Meeting Blind Again";
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute("content", "Drop in your creative board and instantly get ballpark budgets, timelines, and logistics. Catch red flags before they become expensive mistakes.");
   }, []);
@@ -87,7 +87,7 @@ const Index = () => {
       {/* ─── Hero ─── */}
       <section id="top" className="max-w-[900px] mx-auto px-6 pt-24 pb-16 text-center">
         <h1 className="text-[clamp(28px,5vw,56px)] leading-[1.05] tracking-tight font-extrabold mb-6">
-          Never Go Into a Pre-Bid <GradientText>Blind Again.</GradientText>
+          Never Go Into a Client Meeting <GradientText>Blind Again.</GradientText>
         </h1>
         <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-[58ch] mx-auto mb-10">
           Drop in your creative board and instantly get ballpark budgets, timelines, and logistics. Catch red flags before they become expensive mistakes, and walk into your client presentation with a clean, actionable outline. Built by a Producer with 20 years of global expertise, for the industry&apos;s best.
