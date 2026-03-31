@@ -99,7 +99,7 @@ const Index = () => {
         <h1 className="text-[clamp(28px,5vw,56px)] leading-[1.05] tracking-tight font-extrabold mb-6">
           Never Go Into a Client Meeting <GradientText>Blind Again.</GradientText>
         </h1>
-        <p className="text-foreground text-lg md:text-xl leading-relaxed font-semibold max-w-[52ch] mx-auto mb-4">
+        <p className="text-lg md:text-xl leading-relaxed font-semibold max-w-[52ch] mx-auto mb-4" style={{ color: "hsl(var(--gold))" }}>
           Production Bid Desk is your artificial intelligence partner for smart bidding solutions in global advertising.
         </p>
         <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-[58ch] mx-auto mb-10">
