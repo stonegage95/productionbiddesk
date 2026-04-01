@@ -730,6 +730,7 @@ const BidDeskApp = () => {
                 }} />
               </label>
               <p className="text-muted-foreground text-xs opacity-75">Large images are auto-compressed. PDFs over 4 MB should be compressed externally or exported as JPG/PNG.</p>
+              <p className="text-xs mt-1" style={{ color: "hsl(var(--gold))" }}>* Please upload a generic or non-branded script or storyboard for estimation purposes.</p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
