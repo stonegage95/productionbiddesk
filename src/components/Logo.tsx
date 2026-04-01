@@ -16,7 +16,7 @@ const Logo = ({ className = "" }: { className?: string }) => {
           className="text-[9px] md:text-[10px] font-medium tracking-[.08em] uppercase"
           style={{ color: "hsl(var(--gold) / .6)" }}
         >
-          Smart Bidding Solutions
+          Strategic Production Solutions
         </span>
       </div>
     </div>
