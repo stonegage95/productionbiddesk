@@ -251,8 +251,8 @@ const BidDeskApp = () => {
   const MAX_FILE_SIZE = 4 * 1024 * 1024;
 
   const handleStart = async () => {
-    if (!script.trim() && !storyboardFile) {
-      toast({ title: "Required", description: "Provide a script or storyboard to begin.", variant: "destructive" });
+    if (!deliverables.trim()) {
+      toast({ title: "Required", description: "Please enter deliverables to begin.", variant: "destructive" });
       return;
     }
 
@@ -614,12 +614,12 @@ const BidDeskApp = () => {
         {!started ? (
           <div className="rounded-xl border border-border bg-card p-6 space-y-5 max-w-2xl mx-auto w-full">
             <div className="space-y-1.5">
-              <Label>Project name <span className="text-primary">*</span></Label>
+              <Label>Project name</Label>
               <Input placeholder="e.g. Summer Campaign" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
             </div>
 
             <div className="space-y-2">
-              <Label>Script or brief <span className="text-primary">*</span></Label>
+              <Label>Script or brief</Label>
               <div className="flex items-center justify-between">
                 <p className="text-muted-foreground text-xs">Paste your script below, or upload a text file.</p>
                 <label className="inline-flex items-center gap-1.5 cursor-pointer text-xs font-medium px-3 py-1.5 rounded-md border border-border bg-secondary/40 text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors shrink-0">
@@ -748,17 +748,17 @@ const BidDeskApp = () => {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <Label>Deliverables <span className="text-muted-foreground text-xs">(optional)</span></Label>
+                <Label>Deliverables <span className="text-primary">*</span></Label>
                 <Input placeholder="e.g. :30, :15, social cuts" value={deliverables} onChange={(e) => setDeliverables(e.target.value)} />
               </div>
             </div>
 
-            <Button className="w-full mt-2" onClick={handleStart} disabled={streaming || (!script.trim() && !storyboardFile)}>
+            <Button className="w-full mt-2" onClick={handleStart} disabled={streaming || !deliverables.trim()}>
               Start Analysis
             </Button>
 
             <p className="text-muted-foreground text-xs opacity-75 mt-1">
-              <span className="text-primary">*</span> Required. The AI will determine locations, shoot days, and other production details from your script/storyboard. Use non‑branded materials.
+              <span className="text-primary">*</span> Required field.
             </p>
           </div>
         ) : (
