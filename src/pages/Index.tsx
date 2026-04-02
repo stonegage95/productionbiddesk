@@ -5,6 +5,7 @@ import GradientText from "@/components/GradientText";
 import ProblemSection from "@/components/ProblemSection";
 import SolutionSection from "@/components/SolutionSection";
 import ROISection from "@/components/ROISection";
+import FreeTrialBanner from "@/components/FreeTrialBanner";
 import { useScrollFadeIn } from "@/hooks/use-scroll-fade-in";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -183,6 +184,9 @@ const Index = () => {
 
       {/* ─── ROI ─── */}
       <ROISection />
+
+      {/* ─── Free Trial Banner ─── */}
+      <FreeTrialBanner />
 
       {/* ─── CTA ─── */}
       <section
