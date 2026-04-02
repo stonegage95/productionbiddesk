@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import neoGenesisIcon from "@/assets/neo-genesis-hero.jpeg";
+import Logo from "@/components/Logo";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
 import Header from "@/components/Header";
