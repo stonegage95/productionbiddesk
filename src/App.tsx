@@ -8,7 +8,9 @@ import Security from "./pages/Security.tsx";
 import FAQ from "./pages/FAQ.tsx";
 import Demo from "./pages/Demo.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
+import Auth from "./pages/Auth.tsx";
 import BidDeskApp from "./pages/BidDeskApp.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
