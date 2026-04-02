@@ -29,9 +29,9 @@ const App = () => (
           <Route path="/faq" element={<FAQ />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/demo" element={<Demo />} />
-          <Route path="/auth" element={<Navigate to="/bid-desk-app" replace />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/bid-desk-app" element={<BidDeskApp />} />
+          <Route path="/bid-desk-app" element={<ProtectedRoute><BidDeskApp /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
