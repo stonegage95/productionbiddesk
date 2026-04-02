@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { isEditorPreview } from "@/lib/is-editor-preview";
 
 interface TrialStatus {
   loading: boolean;
@@ -19,6 +20,17 @@ export function useTrialStatus(): TrialStatus {
   });
 
   useEffect(() => {
+    if (isEditorPreview()) {
+      setStatus({
+        loading: false,
+        trialActive: true,
+        daysRemaining: 3,
+        isSubscribed: false,
+        trialExpired: false,
+      });
+      return;
+    }
+
     const check = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {

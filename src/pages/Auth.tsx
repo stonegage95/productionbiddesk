@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { Eye, EyeOff } from "lucide-react";
 import Logo from "@/components/Logo";
+import { isEditorPreview } from "@/lib/is-editor-preview";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -18,6 +19,7 @@ const Auth = () => {
   const [showForgot, setShowForgot] = useState(false);
   const [forgotEmail, setForgotEmail] = useState("");
   const navigate = useNavigate();
+  const previewBypass = isEditorPreview();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,7 +73,6 @@ const Auth = () => {
           });
           setIsLogin(true);
         } else if (data.session && data.user) {
-          // User auto-confirmed, insert trial row
           await supabase.from("trial_users").insert({
             user_id: data.user.id,
             email,
@@ -79,7 +80,6 @@ const Auth = () => {
           });
           navigate("/bid-desk-app");
         } else if (data.user) {
-          // Email confirmation required — insert trial row now so it's ready
           await supabase.from("trial_users").upsert({
             user_id: data.user.id,
             email,
@@ -120,6 +120,18 @@ const Auth = () => {
         {!isLogin && (
           <p className="text-center text-sm text-muted-foreground">No credit card required.</p>
         )}
+
+        {previewBypass && (
+          <div className="rounded-md border border-border bg-muted/30 p-4 space-y-3 text-center">
+            <p className="text-sm text-muted-foreground">
+              Preview mode is active — you can open the app without logging in while testing here.
+            </p>
+            <Button type="button" variant="outline" className="w-full" onClick={() => navigate("/bid-desk-app")}>
+              Continue to app preview
+            </Button>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
             <div className="space-y-2">

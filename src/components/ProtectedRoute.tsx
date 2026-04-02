@@ -3,17 +3,26 @@ import { Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import type { Session } from "@supabase/supabase-js";
 import Logo from "@/components/Logo";
+import { isEditorPreview } from "@/lib/is-editor-preview";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
+  const previewBypass = isEditorPreview();
 
   useEffect(() => {
+    if (previewBypass) {
+      setSession(null);
+      return;
+    }
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
     supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
     return () => subscription.unsubscribe();
-  }, []);
+  }, [previewBypass]);
+
+  if (previewBypass) return <>{children}</>;
 
   if (session === undefined) {
     return (
