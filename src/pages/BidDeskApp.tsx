@@ -535,7 +535,7 @@ const BidDeskApp = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Header />
+      
 
       <div className="max-w-[960px] w-full mx-auto px-6 pt-6 pb-2 flex items-center justify-between">
         <div className="flex items-center gap-3">
