@@ -545,10 +545,7 @@ const BidDeskApp = () => {
             </Button>
           )}
           <div>
-            <h1 className="text-2xl font-bold text-foreground flex items-center gap-3">
-              <img src={neoGenesisIcon} alt="" className="w-8 h-8 rounded-lg object-cover border border-white/10" />
-              Production Bid Desk
-            </h1>
+            <Logo />
             {!started && (
               <p className="text-muted-foreground text-sm mt-1 max-w-xl">
                 Paste your script or storyboard and I'll walk you through risks, budget, timeline, and more — one step at a time.
