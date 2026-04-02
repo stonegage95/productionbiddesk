@@ -12,6 +12,7 @@ const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
@@ -30,10 +31,19 @@ const Auth = () => {
         navigate("/bid-desk-app");
       }
     } else {
+      if (!name.trim()) {
+        toast({ title: "Name required", description: "Please enter your name.", variant: "destructive" });
+        setLoading(false);
+        return;
+      }
+
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: { emailRedirectTo: window.location.origin },
+        options: {
+          emailRedirectTo: window.location.origin,
+          data: { full_name: name.trim() },
+        },
       });
 
       if (error) {
@@ -42,17 +52,11 @@ const Auth = () => {
           error.message?.toLowerCase().includes("already been registered");
 
         if (isAlreadyRegistered) {
-          const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-          if (signInError) {
-            setIsLogin(true);
-            toast({
-              title: "Account already exists",
-              description: "Please sign in with your password, or reset it below.",
-            });
-          } else {
-            toast({ title: "Welcome back", description: "Signed in successfully." });
-            navigate("/bid-desk-app");
-          }
+          setIsLogin(true);
+          toast({
+            title: "Account already exists",
+            description: "Please sign in with your password, or reset it below.",
+          });
         } else {
           toast({ title: "Sign up failed", description: error.message, variant: "destructive" });
         }
@@ -60,21 +64,27 @@ const Auth = () => {
         const existingAccount = !!data.user && (data.user.identities?.length ?? 0) === 0;
 
         if (existingAccount) {
-          const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-
-          if (signInError) {
-            toast({
-              title: "Account already exists",
-              description: "Use Sign in, or click Forgot password if needed.",
-              variant: "destructive",
-            });
-          } else {
-            toast({ title: "Welcome back", description: "Signed in successfully." });
-            navigate("/bid-desk-app");
-          }
-        } else if (data.session) {
+          toast({
+            title: "Account already exists",
+            description: "Use Sign in, or click Forgot password if needed.",
+            variant: "destructive",
+          });
+          setIsLogin(true);
+        } else if (data.session && data.user) {
+          // User auto-confirmed, insert trial row
+          await supabase.from("trial_users").insert({
+            user_id: data.user.id,
+            email,
+            name: name.trim(),
+          });
           navigate("/bid-desk-app");
-        } else {
+        } else if (data.user) {
+          // Email confirmation required — insert trial row now so it's ready
+          await supabase.from("trial_users").upsert({
+            user_id: data.user.id,
+            email,
+            name: name.trim(),
+          }, { onConflict: "user_id" });
           toast({ title: "Check your email", description: "We sent you a confirmation link." });
         }
       }
@@ -105,9 +115,25 @@ const Auth = () => {
           <Logo />
         </div>
         <h1 className="text-xl font-semibold text-center text-foreground">
-          {isLogin ? "Sign in to Production Bid Desk" : "Create an account"}
+          {isLogin ? "Sign in to Production Bid Desk" : "Start your free 3-day trial"}
         </h1>
+        {!isLogin && (
+          <p className="text-center text-sm text-muted-foreground">No credit card required.</p>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
+          {!isLogin && (
+            <div className="space-y-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="Your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required={!isLogin}
+              />
+            </div>
+          )}
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -142,7 +168,7 @@ const Auth = () => {
             </div>
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Please wait…" : isLogin ? "Sign in" : "Sign up"}
+            {loading ? "Please wait…" : isLogin ? "Sign in" : "Start Free Trial"}
           </Button>
         </form>
 
@@ -182,7 +208,7 @@ const Auth = () => {
             onClick={() => setIsLogin(!isLogin)}
             className="text-primary hover:underline font-medium"
           >
-            {isLogin ? "Sign up" : "Sign in"}
+            {isLogin ? "Start free trial" : "Sign in"}
           </button>
         </p>
       </div>

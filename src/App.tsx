@@ -8,7 +8,9 @@ import Security from "./pages/Security.tsx";
 import FAQ from "./pages/FAQ.tsx";
 import Demo from "./pages/Demo.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
+import Auth from "./pages/Auth.tsx";
 import BidDeskApp from "./pages/BidDeskApp.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -27,9 +29,9 @@ const App = () => (
           <Route path="/faq" element={<FAQ />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/demo" element={<Demo />} />
-          <Route path="/auth" element={<Navigate to="/bid-desk-app" replace />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/bid-desk-app" element={<BidDeskApp />} />
+          <Route path="/bid-desk-app" element={<ProtectedRoute><BidDeskApp /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

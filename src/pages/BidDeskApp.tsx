@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Logo from "@/components/Logo";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
+import TrialBanner from "@/components/TrialBanner";
+import Paywall from "@/components/Paywall";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -534,7 +536,10 @@ const BidDeskApp = () => {
   ];
 
   return (
+    <>
+    <Paywall />
     <div className="min-h-screen bg-background flex flex-col">
+      <TrialBanner />
       
 
       <div className="max-w-[960px] w-full mx-auto px-6 pt-6 pb-2 flex items-center justify-between">
@@ -893,6 +898,7 @@ const BidDeskApp = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 
