@@ -898,6 +898,7 @@ const BidDeskApp = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 
