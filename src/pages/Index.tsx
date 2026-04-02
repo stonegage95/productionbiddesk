@@ -185,6 +185,9 @@ const Index = () => {
       {/* ─── ROI ─── */}
       <ROISection />
 
+      {/* ─── Free Trial Banner ─── */}
+      <FreeTrialBanner />
+
       {/* ─── CTA ─── */}
       <section
         id="get-access"
