@@ -62,6 +62,42 @@ export type Database = {
         }
         Relationships: []
       }
+      trial_users: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          is_subscribed: boolean
+          name: string
+          stripe_customer_id: string | null
+          trial_end: string
+          trial_start: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          is_subscribed?: boolean
+          name: string
+          stripe_customer_id?: string | null
+          trial_end?: string
+          trial_start?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          is_subscribed?: boolean
+          name?: string
+          stripe_customer_id?: string | null
+          trial_end?: string
+          trial_start?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
