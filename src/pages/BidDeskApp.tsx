@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Logo from "@/components/Logo";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
+import TrialBanner from "@/components/TrialBanner";
+import Paywall from "@/components/Paywall";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
