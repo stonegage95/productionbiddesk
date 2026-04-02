@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import neoGenesisIcon from "@/assets/neo-genesis-hero.jpeg";
+import Logo from "@/components/Logo";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
-import Header from "@/components/Header";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -535,7 +535,7 @@ const BidDeskApp = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Header />
+      
 
       <div className="max-w-[960px] w-full mx-auto px-6 pt-6 pb-2 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -545,10 +545,7 @@ const BidDeskApp = () => {
             </Button>
           )}
           <div>
-            <h1 className="text-2xl font-bold text-foreground flex items-center gap-3">
-              <img src={neoGenesisIcon} alt="" className="w-8 h-8 rounded-lg object-cover border border-white/10" />
-              Production Bid Desk
-            </h1>
+            <Logo />
             {!started && (
               <p className="text-muted-foreground text-sm mt-1 max-w-xl">
                 Paste your script or storyboard and I'll walk you through risks, budget, timeline, and more — one step at a time.
