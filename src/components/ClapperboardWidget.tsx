@@ -126,7 +126,7 @@ const ClapperboardWidget = () => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, streaming]);
 
-  if (location.pathname.startsWith("/bid-desk-app")) return null;
+  if (location.pathname.startsWith("/app") || location.pathname.startsWith("/bid-desk-app")) return null;
 
   const handleOpen = () => {
     setIsOpen(true);
