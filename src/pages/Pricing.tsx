@@ -111,6 +111,9 @@ const Pricing = () => {
               </div>
             ))}
           </div>
+          <p className="text-center text-sm text-muted-foreground">
+            3-day free trial · No credit card required · Cancel anytime
+          </p>
         </section>
       </main>
       <Footer />
