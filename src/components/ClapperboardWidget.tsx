@@ -9,11 +9,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
 const messageSchema = z.object({
-  name: z.string().trim().max(100, "Name must be under 100 characters").optional(),
+  name: z.string().trim().max(100).optional(),
   email: z
     .string()
     .trim()
-    .max(255, "Email must be under 255 characters")
+    .max(255)
     .email("Invalid email address")
     .optional()
     .or(z.literal("")),
@@ -27,23 +27,68 @@ const messageSchema = z.object({
 
 const TOPICS = ["Pricing", "Demo", "Tech help"] as const;
 
-// Proper clapperboard top: alternating black + white diagonal teeth
-const ClapperTop = ({ height = 14 }: { height?: number }) => (
+/**
+ * Real clapperboard "sticks" — the hinged arm at the top with
+ * alternating black/white diagonal teeth. Pure B&W, no brand color.
+ */
+const ClapperSticks = ({
+  height = 18,
+  rotated = false,
+}: {
+  height?: number;
+  rotated?: boolean;
+}) => (
   <div
-    className="w-full"
+    className="w-full origin-bottom-left transition-transform duration-300"
     style={{
       height,
-      background:
-        "repeating-linear-gradient(115deg, #0A0A0A 0 14px, #F5F5F0 14px 28px)",
-      borderBottom: "2px solid #D4AF37",
+      background: "#111111",
+      transform: rotated ? "rotate(-12deg)" : "rotate(0deg)",
+      transformOrigin: "0% 100%",
     }}
     aria-hidden
-  />
+  >
+    {/* white teeth strip */}
+    <div
+      className="w-full h-full"
+      style={{
+        background:
+          "repeating-linear-gradient(115deg, #111111 0 16px, #FFFFFF 16px 32px)",
+      }}
+    />
+  </div>
+);
+
+/**
+ * The slate body — the dark board below the sticks. Has the classic
+ * "PROD / SCENE / TAKE" rows you'd write on with chalk.
+ */
+const SlateRows = () => (
+  <div className="flex flex-col gap-[3px] px-2 py-1.5 bg-[#1a1a1a]">
+    {[
+      { label: "PROD", value: "BID DESK" },
+      { label: "SCENE", value: "01" },
+      { label: "TAKE", value: "1" },
+    ].map((row) => (
+      <div
+        key={row.label}
+        className="flex items-center gap-2 border-b border-white/15 pb-[2px]"
+      >
+        <span className="text-[7px] font-bold tracking-[0.15em] text-white/70 w-9">
+          {row.label}
+        </span>
+        <span className="text-[8px] font-mono text-white tracking-wider">
+          {row.value}
+        </span>
+      </div>
+    ))}
+  </div>
 );
 
 const ClapperboardWidget = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const [hover, setHover] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [topic, setTopic] = useState<string>("");
@@ -86,63 +131,65 @@ const ClapperboardWidget = () => {
     }
   };
 
+  // ── Closed launcher: small clapperboard icon, wider than tall ──
   if (!isOpen) {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        aria-label="Open help chat"
-        className="fixed bottom-4 right-4 z-50 w-14 h-14 overflow-hidden rounded-md shadow-xl transition-transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
-        style={{
-          background: "#F5F5F0",
-          border: "1px solid #D4AF37",
-        }}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        aria-label="Open help"
+        className="fixed bottom-4 right-4 z-50 group flex flex-col items-end gap-1 focus:outline-none"
       >
-        <ClapperTop height={12} />
         <div
-          className="flex items-center justify-center text-[#0A0A0A]"
-          style={{ height: "calc(100% - 12px)", fontFamily: "Manrope, sans-serif" }}
+          className="w-[72px] h-[54px] rounded-[3px] overflow-hidden shadow-xl bg-[#1a1a1a] flex flex-col"
+          style={{ border: "1px solid #000" }}
         >
-          <span className="text-[9px] font-bold tracking-[0.1em] leading-tight text-center px-1">
-            NEED<br />HELP?
-          </span>
+          <ClapperSticks height={16} rotated={hover} />
+          <SlateRows />
         </div>
+        <span className="text-[9px] font-bold tracking-[0.15em] text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+          NEED HELP?
+        </span>
       </button>
     );
   }
 
+  // ── Open panel: same clapperboard styling on top, form below ──
   return (
     <div
-      className="fixed bottom-4 right-4 z-50 w-[300px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-md shadow-2xl"
+      className="fixed bottom-4 right-4 z-50 w-[320px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[4px] shadow-2xl bg-[#F5F5F0]"
       style={{
-        background: "#F5F5F0",
         fontFamily: "Manrope, sans-serif",
-        border: "1px solid #D4AF37",
+        border: "1px solid #000",
       }}
       role="dialog"
-      aria-label="Help chat"
+      aria-label="Help"
     >
-      <ClapperTop />
-      <div className="p-3 text-[#0A0A0A]">
-        <div className="flex items-start justify-between">
-          <div>
-            <div className="text-[9px] font-bold tracking-[0.18em] text-[#0A0A0A]/70">
-              PRODUCTION BID DESK
-            </div>
-            <div className="mt-0.5 text-sm font-semibold tracking-tight">
-              How can we help?
-            </div>
+      {/* Sticks */}
+      <ClapperSticks height={20} />
+
+      {/* Slate header strip */}
+      <div className="bg-[#1a1a1a] px-3 py-2 flex items-center justify-between">
+        <div>
+          <div className="text-[8px] font-bold tracking-[0.2em] text-white/60">
+            PRODUCTION BID DESK
           </div>
-          <button
-            onClick={() => setIsOpen(false)}
-            aria-label="Close"
-            className="rounded p-1 text-[#0A0A0A]/60 hover:bg-[#0A0A0A]/5 hover:text-[#0A0A0A]"
-          >
-            <X className="h-4 w-4" />
-          </button>
+          <div className="text-xs font-bold tracking-tight text-white">
+            How can we help?
+          </div>
         </div>
+        <button
+          onClick={() => setIsOpen(false)}
+          aria-label="Close"
+          className="rounded p-1 text-white/70 hover:bg-white/10 hover:text-white"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      </div>
 
-        <div className="my-2 h-px bg-[#0A0A0A]/15" />
-
+      {/* Form on cream "paper" body */}
+      <div className="p-3 text-[#0A0A0A]">
         <form onSubmit={handleSubmit} className="space-y-2">
           <div className="flex flex-wrap gap-1">
             {TOPICS.map((t) => (
@@ -152,9 +199,9 @@ const ClapperboardWidget = () => {
                 onClick={() => setTopic(topic === t ? "" : t)}
                 className="rounded-full border px-2 py-0.5 text-[10px] font-medium tracking-wide transition-colors"
                 style={{
-                  borderColor: topic === t ? "#D4AF37" : "rgba(10,10,10,0.2)",
-                  background: topic === t ? "#D4AF37" : "transparent",
-                  color: topic === t ? "#0A0A0A" : "rgba(10,10,10,0.7)",
+                  borderColor: topic === t ? "#0A0A0A" : "rgba(10,10,10,0.25)",
+                  background: topic === t ? "#0A0A0A" : "transparent",
+                  color: topic === t ? "#F5F5F0" : "rgba(10,10,10,0.75)",
                 }}
               >
                 {t}
@@ -168,7 +215,7 @@ const ClapperboardWidget = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             maxLength={255}
-            className="h-8 text-xs border-[#0A0A0A]/20 bg-white text-[#0A0A0A] placeholder:text-[#0A0A0A]/40"
+            className="h-8 text-xs border-[#0A0A0A]/25 bg-white text-[#0A0A0A] placeholder:text-[#0A0A0A]/40"
           />
 
           <Textarea
@@ -177,15 +224,14 @@ const ClapperboardWidget = () => {
             onChange={(e) => setMessage(e.target.value)}
             maxLength={1000}
             rows={3}
-            className="text-xs border-[#0A0A0A]/20 bg-white text-[#0A0A0A] placeholder:text-[#0A0A0A]/40"
+            className="text-xs border-[#0A0A0A]/25 bg-white text-[#0A0A0A] placeholder:text-[#0A0A0A]/40"
             required
           />
 
           <Button
             type="submit"
             disabled={submitting}
-            className="w-full h-8 text-xs font-bold tracking-[0.2em] hover:opacity-90"
-            style={{ background: "#D4AF37", color: "#0A0A0A" }}
+            className="w-full h-8 text-xs font-bold tracking-[0.2em] bg-[#0A0A0A] text-[#F5F5F0] hover:bg-[#0A0A0A]/90"
           >
             {submitting ? "SENDING..." : "SEND"}
           </Button>
