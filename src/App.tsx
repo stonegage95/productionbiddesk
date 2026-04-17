@@ -13,6 +13,7 @@ import BidDeskApp from "./pages/BidDeskApp.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import Pricing from "./pages/Pricing.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import ClapperboardWidget from "./components/ClapperboardWidget.tsx";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <ClapperboardWidget />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
