@@ -15,6 +15,7 @@ import Pricing from "./pages/Pricing.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import ClapperboardWidget from "./components/ClapperboardWidget.tsx";
 import AdminMessages from "./pages/AdminMessages.tsx";
+import AdminTrialUsers from "./pages/AdminTrialUsers.tsx";
 
 const queryClient = new QueryClient();
 
@@ -33,8 +34,10 @@ const App = () => (
           <Route path="/demo" element={<Demo />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/bid-desk-app" element={<ProtectedRoute><BidDeskApp /></ProtectedRoute>} />
+          <Route path="/app" element={<ProtectedRoute><BidDeskApp /></ProtectedRoute>} />
+          <Route path="/bid-desk-app" element={<Navigate to="/app" replace />} />
           <Route path="/admin/messages" element={<ProtectedRoute><AdminMessages /></ProtectedRoute>} />
+          <Route path="/admin/trial-users" element={<ProtectedRoute><AdminTrialUsers /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
