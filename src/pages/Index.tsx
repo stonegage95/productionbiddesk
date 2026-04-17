@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import GradientText from "@/components/GradientText";
@@ -7,18 +7,9 @@ import SolutionSection from "@/components/SolutionSection";
 import ROISection from "@/components/ROISection";
 import FreeTrialBanner from "@/components/FreeTrialBanner";
 import { useScrollFadeIn } from "@/hooks/use-scroll-fade-in";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ArrowRight, Upload, Cpu, FileCheck, ChevronDown } from "lucide-react";
 
 const Index = () => {
-  const [form, setForm] = useState({ name: "", email: "", company: "", interest: "" });
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
-  const [dialogOpen, setDialogOpen] = useState(false);
   const phasesFade = useScrollFadeIn(0.1);
   const ctaFade = useScrollFadeIn(0.1);
 
@@ -28,23 +19,6 @@ const Index = () => {
     if (meta) meta.setAttribute("content", "Drop in your creative board and instantly get ballpark budgets, timelines, and logistics. Catch red flags before they become expensive mistakes.");
   }, []);
 
-  const update = (field: string, value: string) =>
-    setForm((prev) => ({ ...prev, [field]: value }));
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setSubmitting(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setForm({ name: "", email: "", company: "", interest: "" });
-      setSubmitted(true);
-    } catch {
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
 
   const phases = [
     {
@@ -208,67 +182,18 @@ const Index = () => {
           Ready to take the guesswork out of your next bid?
         </h2>
         <p className="text-muted-foreground text-sm mb-8 max-w-[54ch] mx-auto">
-          Join the early access list to streamline your logistics, catch the red flags, and win more jobs.
+          Start your free 3-day trial — no credit card required. Just your name, email, phone, and company.
         </p>
-        <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) { setSubmitted(false); setError(""); } }}>
-          <DialogTrigger asChild>
-            <button
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-sm font-extrabold transition-all hover:brightness-110 cursor-pointer"
-              style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
-            >
-              Get Access <ArrowRight size={16} />
-            </button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[480px] border-border bg-card text-foreground shadow-2xl">
-            {submitted ? (
-              <div className="py-6 text-center">
-                <p className="text-lg font-bold" style={{ color: "hsl(var(--gold))" }}>
-                  Request received. We&apos;ll be in touch shortly.
-                </p>
-              </div>
-            ) : (
-              <>
-                <DialogHeader>
-                  <DialogTitle className="text-center text-xl font-extrabold tracking-tight">
-                    Get Access
-                  </DialogTitle>
-                  <p className="text-muted-foreground text-center text-sm pt-1">
-                    Start bidding smarter today.
-                  </p>
-                </DialogHeader>
-                <form onSubmit={handleSubmit} className="space-y-4 pt-2">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="pb-name">Name *</Label>
-                      <Input id="pb-name" required maxLength={100} value={form.name} onChange={(e) => update("name", e.target.value)} placeholder="Your name" />
-                    </div>
-                    <div className="space-y-1.5">
-                      <Label htmlFor="pb-email">Email *</Label>
-                      <Input id="pb-email" type="email" required maxLength={255} value={form.email} onChange={(e) => update("email", e.target.value)} placeholder="you@company.com" />
-                    </div>
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="pb-company">Company</Label>
-                    <Input id="pb-company" maxLength={100} value={form.company} onChange={(e) => update("company", e.target.value)} placeholder="Company name" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="pb-interest">What types of projects?</Label>
-                    <Input id="pb-interest" maxLength={200} value={form.interest} onChange={(e) => update("interest", e.target.value)} placeholder="e.g. campaign bids, series production" />
-                  </div>
-                  {error && <p className="text-sm font-medium text-destructive">{error}</p>}
-                  <Button
-                    type="submit"
-                    disabled={submitting}
-                    className="w-full font-extrabold"
-                    style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
-                  >
-                    {submitting ? "Submitting…" : "Submit"}
-                  </Button>
-                </form>
-              </>
-            )}
-          </DialogContent>
-        </Dialog>
+        <a
+          href="/auth"
+          className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-sm font-extrabold no-underline transition-all hover:brightness-110"
+          style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
+        >
+          Start Free Trial <ArrowRight size={16} />
+        </a>
+        <p className="text-muted-foreground text-xs mt-4">
+          Instant access · Cancel anytime
+        </p>
       </section>
 
       <Footer />

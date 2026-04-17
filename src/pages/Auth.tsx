@@ -14,6 +14,8 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [company, setCompany] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
@@ -38,13 +40,27 @@ const Auth = () => {
         setLoading(false);
         return;
       }
+      if (!phone.trim()) {
+        toast({ title: "Phone required", description: "Please enter your phone number.", variant: "destructive" });
+        setLoading(false);
+        return;
+      }
+      if (!company.trim()) {
+        toast({ title: "Company required", description: "Please enter your company.", variant: "destructive" });
+        setLoading(false);
+        return;
+      }
 
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: window.location.origin,
-          data: { full_name: name.trim() },
+          data: {
+            full_name: name.trim(),
+            phone: phone.trim(),
+            company: company.trim(),
+          },
         },
       });
 
@@ -72,20 +88,32 @@ const Auth = () => {
             variant: "destructive",
           });
           setIsLogin(true);
-        } else if (data.session && data.user) {
-          await supabase.from("trial_users").insert({
-            user_id: data.user.id,
-            email,
-            name: name.trim(),
-          });
-          navigate("/bid-desk-app");
         } else if (data.user) {
-          await supabase.from("trial_users").upsert({
-            user_id: data.user.id,
-            email,
-            name: name.trim(),
-          }, { onConflict: "user_id" });
-          toast({ title: "Check your email", description: "We sent you a confirmation link." });
+          // Auto-confirm is on, so a session should be present. Save trial info either way.
+          await supabase.from("trial_users").upsert(
+            {
+              user_id: data.user.id,
+              email,
+              name: name.trim(),
+              phone: phone.trim(),
+              company: company.trim(),
+            },
+            { onConflict: "user_id" }
+          );
+
+          if (data.session) {
+            toast({ title: "Welcome — your 3-day trial just started" });
+            navigate("/bid-desk-app");
+          } else {
+            // Fallback: try to log them in directly (auto-confirm should make this work)
+            const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+            if (signInError) {
+              toast({ title: "Almost there", description: "Please sign in with your new credentials." });
+              setIsLogin(true);
+            } else {
+              navigate("/bid-desk-app");
+            }
+          }
         }
       }
     }
@@ -109,7 +137,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4 py-10">
       <div className="w-full max-w-sm space-y-6">
         <div className="flex justify-center mb-4">
           <Logo />
@@ -118,7 +146,9 @@ const Auth = () => {
           {isLogin ? "Sign in to Production Bid Desk" : "Start your free 3-day trial"}
         </h1>
         {!isLogin && (
-          <p className="text-center text-sm text-muted-foreground">No credit card required.</p>
+          <p className="text-center text-sm text-muted-foreground">
+            No credit card required · Instant access
+          </p>
         )}
 
         {previewBypass && (
@@ -134,31 +164,59 @@ const Auth = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
-            <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="Your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required={!isLogin}
-              />
-            </div>
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="name">Full name *</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Jane Producer"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  maxLength={100}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone *</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="+1 555 123 4567"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                  maxLength={30}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="company">Company *</Label>
+                <Input
+                  id="company"
+                  type="text"
+                  placeholder="Your production company"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                  required
+                  maxLength={100}
+                />
+              </div>
+            </>
           )}
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">Email *</Label>
             <Input
               id="email"
               type="email"
-              placeholder="you@example.com"
+              placeholder="you@company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              maxLength={255}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Password *</Label>
             <div className="relative">
               <Input
                 id="password"
