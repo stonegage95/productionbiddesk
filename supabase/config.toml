@@ -1,1 +1,7 @@
 project_id = "gbdtriwvknyxwayxmlkr"
+
+[functions.clapper-chat]
+verify_jwt = false
+
+[functions.bid-desk-analyze]
+verify_jwt = false
