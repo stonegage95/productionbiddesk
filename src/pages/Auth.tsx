@@ -32,7 +32,7 @@ const Auth = () => {
       if (error) {
         toast({ title: "Login failed", description: error.message, variant: "destructive" });
       } else {
-        navigate("/bid-desk-app");
+        navigate("/app");
       }
     } else {
       if (!name.trim()) {
@@ -103,7 +103,7 @@ const Auth = () => {
 
           if (data.session) {
             toast({ title: "Welcome — your 3-day trial just started" });
-            navigate("/bid-desk-app");
+            navigate("/app");
           } else {
             // Fallback: try to log them in directly (auto-confirm should make this work)
             const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
@@ -111,7 +111,7 @@ const Auth = () => {
               toast({ title: "Almost there", description: "Please sign in with your new credentials." });
               setIsLogin(true);
             } else {
-              navigate("/bid-desk-app");
+              navigate("/app");
             }
           }
         }
@@ -156,7 +156,7 @@ const Auth = () => {
             <p className="text-sm text-muted-foreground">
               Preview mode is active — you can open the app without logging in while testing here.
             </p>
-            <Button type="button" variant="outline" className="w-full" onClick={() => navigate("/bid-desk-app")}>
+            <Button type="button" variant="outline" className="w-full" onClick={() => navigate("/app")}>
               Continue to app preview
             </Button>
           </div>
