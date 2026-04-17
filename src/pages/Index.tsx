@@ -19,23 +19,6 @@ const Index = () => {
     if (meta) meta.setAttribute("content", "Drop in your creative board and instantly get ballpark budgets, timelines, and logistics. Catch red flags before they become expensive mistakes.");
   }, []);
 
-  const update = (field: string, value: string) =>
-    setForm((prev) => ({ ...prev, [field]: value }));
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setSubmitting(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setForm({ name: "", email: "", company: "", interest: "" });
-      setSubmitted(true);
-    } catch {
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
 
   const phases = [
     {
