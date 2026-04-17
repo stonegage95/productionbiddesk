@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import GradientText from "@/components/GradientText";
@@ -7,18 +7,9 @@ import SolutionSection from "@/components/SolutionSection";
 import ROISection from "@/components/ROISection";
 import FreeTrialBanner from "@/components/FreeTrialBanner";
 import { useScrollFadeIn } from "@/hooks/use-scroll-fade-in";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ArrowRight, Upload, Cpu, FileCheck, ChevronDown } from "lucide-react";
 
 const Index = () => {
-  const [form, setForm] = useState({ name: "", email: "", company: "", interest: "" });
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
-  const [dialogOpen, setDialogOpen] = useState(false);
   const phasesFade = useScrollFadeIn(0.1);
   const ctaFade = useScrollFadeIn(0.1);
 
