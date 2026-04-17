@@ -18,6 +18,26 @@ const securityPillars = [
 
 const faqs = [
   {
+    q: "How does Production Bid Desk know this information is accurate?",
+    a: "Production Bid Desk is powered by AI trained on real production data, including union rates, industry standards, talent rates, and global logistics. It continuously draws from this knowledge base to give you estimates that reflect current industry realities.",
+  },
+  {
+    q: "Is it just pulling numbers out of thin air?",
+    a: "No. Every estimate is grounded in real production data — the same knowledge base an experienced producer with decades of global experience would draw from. The AI synthesizes this instantly.",
+  },
+  {
+    q: "Does it follow union rules and guidelines?",
+    a: "Yes. Production Bid Desk accounts for union rates and standard industry guidelines when calculating budgets, timelines, and talent estimates. Always verify final numbers with your line producer or union rep before locking a bid.",
+  },
+  {
+    q: "How current is the information?",
+    a: "The AI is trained on up-to-date production data and industry standards. For rapidly changing rates, verify with your line producer or union rep before locking a bid.",
+  },
+  {
+    q: "Is my script or storyboard kept confidential?",
+    a: "Yes. Production Bid Desk is NDA-compliant. Your uploaded content is used solely for estimation purposes and is not shared, stored for training, or distributed. Please upload generic, non-branded content.",
+  },
+  {
     q: "What exactly does Production Bid Desk do?",
     a: "Production Bid Desk uses Autonomous AI Agents to analyse scripts, briefs, and storyboards — then generates a professional, risk-mitigated bid outline in about 60 seconds. Think of it as 20 years of line-producing instinct distilled into an instant second opinion on every bid.",
   },
@@ -48,10 +68,6 @@ const faqs = [
   {
     q: "Does AI replace my team?",
     a: "Not at all. Think of it as an experienced second opinion that speeds up your process. Your team stays in control — the AI just removes the grunt work so you can focus on strategy and creative decisions.",
-  },
-  {
-    q: "How accurate are the bid estimates?",
-    a: "The system is built on 20 years of real-world production logic — factoring in crew rates, location logistics, overtime exposure, and hidden cost risks. It's designed to reflect production realities, not just spreadsheet math.",
   },
   {
     q: "Can my whole team use it?",

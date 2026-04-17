@@ -5,42 +5,27 @@ import GradientText from "@/components/GradientText";
 
 const tiers = [
   {
-    name: "Independent Producer",
+    name: "Solo",
     price: "$99",
     period: " / Month",
-    bestFor: "Freelance PMs & Solopreneurs",
-    features: [
-      "Up to 3 Bids per month",
-      "Standard AI Risk Mitigation",
-      "Basic Export (PDF/CSV)",
-    ],
+    bestFor: "1 seat",
+    features: [],
     featured: false,
   },
   {
-    name: "Production House",
-    badge: "Recommended",
-    price: "$399",
+    name: "Agency",
+    price: "$299",
     period: " / Month",
-    bestFor: "Production Houses / Mid-Size Agencies",
-    features: [
-      "Unlimited Bids",
-      "Advanced Logistics Analysis",
-      "Priority Support",
-      "Custom Branding on Exports",
-    ],
+    bestFor: "Up to 5 seats",
+    features: [],
     featured: true,
   },
   {
-    name: "Agency Enterprise",
-    price: "Contact for Pricing",
+    name: "Enterprise",
+    price: "Contact Us",
     period: "",
-    bestFor: "Global Agencies & Networks",
-    features: [
-      "Multi-User Team Access",
-      "Private API Instance",
-      "Custom NDA Integration",
-      "Dedicated Training",
-    ],
+    bestFor: "10+ seats",
+    features: [],
     featured: false,
   },
 ];
@@ -64,7 +49,7 @@ const Pricing = () => {
         </section>
 
         <section className="max-w-[1100px] mx-auto px-6 pb-24">
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
             {tiers.map((tier) => (
               <div
                 key={tier.name}
@@ -126,6 +111,9 @@ const Pricing = () => {
               </div>
             ))}
           </div>
+          <p className="text-center text-sm text-muted-foreground">
+            3-day free trial · No credit card required · Cancel anytime
+          </p>
         </section>
       </main>
       <Footer />

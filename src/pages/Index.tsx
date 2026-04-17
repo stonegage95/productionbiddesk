@@ -103,9 +103,20 @@ const Index = () => {
         <p className="text-lg md:text-xl leading-relaxed font-semibold max-w-[52ch] mx-auto mb-4" style={{ color: "hsl(var(--gold))" }}>
           Production Bid Desk is your artificial intelligence partner for production strategy and logistical execution in global advertising.
         </p>
-        <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-[58ch] mx-auto mb-10">
+        <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-[58ch] mx-auto mb-8">
           Drop in your creative board and instantly get production ballpark budgets, timelines, and logistics. Catch red flags before they become expensive mistakes, and walk into your client presentation with a clean, actionable outline. Built by a Producer with 20 years of global expertise, for the industry&apos;s best.
         </p>
+
+        <div
+          className="max-w-[58ch] mx-auto mb-10 rounded-xl px-6 py-5 text-sm md:text-base leading-relaxed"
+          style={{
+            background: "hsl(var(--gold) / .06)",
+            border: "1px solid hsl(var(--gold) / .2)",
+            color: "hsl(var(--foreground) / .9)",
+          }}
+        >
+          Production Bid Desk is powered by AI trained on real production data — keeping up with union rates, industry standards, and global logistics to give you accurate, up-to-date estimates every time.
+        </div>
 
 
         <a
