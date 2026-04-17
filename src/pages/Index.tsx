@@ -184,6 +184,9 @@ const Index = () => {
         <p className="text-muted-foreground text-sm mb-8 max-w-[54ch] mx-auto">
           Start your free 3-day trial — no credit card required. Just your name, email, phone, and company.
         </p>
+        <p className="text-foreground text-base md:text-lg font-semibold mb-6">
+          Ready to revolutionize your production?
+        </p>
         <a
           href="/auth"
           className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-sm font-extrabold no-underline transition-all hover:brightness-110"
