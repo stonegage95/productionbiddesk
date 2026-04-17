@@ -42,11 +42,11 @@ const Header = () => {
             </a>
           ))}
           <a
-            href="/#get-access"
+            href="/auth"
             className="inline-flex items-center px-5 py-2 rounded-lg text-sm font-bold no-underline transition-all hover:brightness-110"
             style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
           >
-            Get Access
+            Start Free Trial
           </a>
         </nav>
 
@@ -77,12 +77,12 @@ const Header = () => {
             </a>
           ))}
           <a
-            href="#get-access"
+            href="/auth"
             className="inline-flex items-center justify-center px-5 py-3 rounded-lg text-sm font-bold no-underline mt-2 transition-all hover:brightness-110"
             style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
             onClick={() => setMobileMenuOpen(false)}
           >
-            Get Access
+            Start Free Trial
           </a>
         </nav>
       )}
