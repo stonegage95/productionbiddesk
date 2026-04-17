@@ -97,9 +97,12 @@ const Index = () => {
         >
           🔒 NDA-Compliant AI for Global Advertising
         </span>
-        <h1 className="text-[clamp(28px,5vw,56px)] leading-[1.05] tracking-tight font-extrabold mb-6">
+        <h1 className="text-[clamp(28px,5vw,56px)] leading-[1.05] tracking-tight font-extrabold mb-4">
           Never Go Into a Client Meeting <GradientText>Blind Again.</GradientText>
         </h1>
+        <p className="text-[clamp(18px,2.4vw,26px)] font-extrabold tracking-tight text-foreground mb-6">
+          Revolutionize your production.
+        </p>
         <p className="text-lg md:text-xl leading-relaxed font-semibold max-w-[52ch] mx-auto mb-4" style={{ color: "hsl(var(--gold))" }}>
           Production Bid Desk is your artificial intelligence partner for production strategy and logistical execution in global advertising.
         </p>
