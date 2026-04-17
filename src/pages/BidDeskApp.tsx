@@ -542,30 +542,30 @@ const BidDeskApp = () => {
       <TrialBanner />
       
 
-      <div className="max-w-[960px] w-full mx-auto px-6 pt-6 pb-2 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      <div className="max-w-[960px] w-full mx-auto px-4 sm:px-6 pt-4 sm:pt-6 pb-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex items-center gap-3 min-w-0">
           {started && (
             <Button variant="ghost" size="icon" onClick={handleNewAnalysis} className="shrink-0" title="New analysis">
               <ArrowLeft className="h-4 w-4" />
             </Button>
           )}
-          <div>
+          <div className="min-w-0">
             <Logo />
             {!started && (
               <p className="text-muted-foreground text-sm mt-1 max-w-xl">
-                Paste your script or storyboard and I'll walk you through risks, budget, timeline, and more — one step at a time.
+                Paste your script or storyboard and I'll walk you through risks, budget, timeline, and more.
               </p>
             )}
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           {started && messages.some((m) => m.role === "assistant") && (
             <>
               <Button variant="outline" size="sm" onClick={handleExportDeckOutline} className="gap-1.5 text-xs">
-                <FileText className="h-3.5 w-3.5" /> Deck Outline
+                <FileText className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Deck Outline</span><span className="sm:hidden">Deck</span>
               </Button>
               <Button variant="outline" size="sm" onClick={handleExportPDF} className="gap-1.5 text-xs">
-                <Download className="h-3.5 w-3.5" /> Export PDF
+                <Download className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Export </span>PDF
               </Button>
             </>
           )}
@@ -578,7 +578,7 @@ const BidDeskApp = () => {
             <History className="h-4 w-4" /> History
           </Button>
           <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-muted-foreground gap-1.5">
-            <LogOut className="h-4 w-4" /> Sign out
+            <LogOut className="h-4 w-4" /> <span className="hidden sm:inline">Sign out</span>
           </Button>
         </div>
       </div>
