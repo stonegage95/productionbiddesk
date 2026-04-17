@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { z } from "zod";
 import { X } from "lucide-react";
@@ -7,9 +7,9 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { ClapperIllustration } from "@/components/clapperboard/ClapperIllustration";
 
 const messageSchema = z.object({
-  name: z.string().trim().max(100).optional(),
   email: z
     .string()
     .trim()
@@ -27,80 +27,49 @@ const messageSchema = z.object({
 
 const TOPICS = ["Pricing", "Demo", "Tech help"] as const;
 
-/**
- * Real clapperboard "sticks" — the hinged arm at the top with
- * alternating black/white diagonal teeth. Pure B&W, no brand color.
- */
-const ClapperSticks = ({
-  height = 18,
-  rotated = false,
-}: {
-  height?: number;
-  rotated?: boolean;
-}) => (
-  <div
-    className="w-full origin-bottom-left transition-transform duration-300"
-    style={{
-      height,
-      background: "#111111",
-      transform: rotated ? "rotate(-12deg)" : "rotate(0deg)",
-      transformOrigin: "0% 100%",
-    }}
-    aria-hidden
-  >
-    {/* white teeth strip */}
-    <div
-      className="w-full h-full"
-      style={{
-        background:
-          "repeating-linear-gradient(115deg, #111111 0 16px, #FFFFFF 16px 32px)",
-      }}
-    />
-  </div>
-);
-
-/**
- * The slate body — the dark board below the sticks. Has the classic
- * "PROD / SCENE / TAKE" rows you'd write on with chalk.
- */
-const SlateRows = () => (
-  <div className="flex flex-col gap-[3px] px-2 py-1.5 bg-[#1a1a1a]">
-    {[
-      { label: "PROD", value: "BID DESK" },
-      { label: "SCENE", value: "01" },
-      { label: "TAKE", value: "1" },
-    ].map((row) => (
-      <div
-        key={row.label}
-        className="flex items-center gap-2 border-b border-white/15 pb-[2px]"
-      >
-        <span className="text-[7px] font-bold tracking-[0.15em] text-white/70 w-9">
-          {row.label}
-        </span>
-        <span className="text-[8px] font-mono text-white tracking-wider">
-          {row.value}
-        </span>
-      </div>
-    ))}
-  </div>
-);
-
 const ClapperboardWidget = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const [hover, setHover] = useState(false);
-  const [name, setName] = useState("");
+  const [isHovered, setIsHovered] = useState(false);
+  const [isAutoClapping, setIsAutoClapping] = useState(false);
   const [email, setEmail] = useState("");
   const [topic, setTopic] = useState<string>("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  useEffect(() => {
+    if (isOpen) return;
+
+    let releaseTimeout: number | undefined;
+    const interval = window.setInterval(() => {
+      setIsAutoClapping(true);
+      releaseTimeout = window.setTimeout(() => setIsAutoClapping(false), 220);
+    }, 4200);
+
+    return () => {
+      window.clearInterval(interval);
+      if (releaseTimeout) window.clearTimeout(releaseTimeout);
+    };
+  }, [isOpen]);
+
   if (location.pathname.startsWith("/bid-desk-app")) return null;
+
+  const handleOpen = () => {
+    setIsOpen(true);
+    setIsHovered(false);
+    setIsAutoClapping(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setIsHovered(false);
+    setIsAutoClapping(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const parsed = messageSchema.safeParse({ name, email, topic, message });
+    const parsed = messageSchema.safeParse({ email, topic, message });
     if (!parsed.success) {
       toast.error(parsed.error.errors[0]?.message ?? "Invalid input");
       return;
@@ -111,19 +80,18 @@ const ClapperboardWidget = () => {
       const { data: userData } = await supabase.auth.getUser();
       const { error } = await supabase.from("support_messages").insert({
         user_id: userData.user?.id ?? null,
-        name: parsed.data.name || null,
         email: parsed.data.email || null,
         topic: parsed.data.topic || null,
         message: parsed.data.message,
       });
+
       if (error) throw error;
 
       toast.success("Got it! We'll be in touch shortly.");
-      setName("");
       setEmail("");
       setTopic("");
       setMessage("");
-      setIsOpen(false);
+      handleClose();
     } catch {
       toast.error("Couldn't send your message. Please try again.");
     } finally {
@@ -131,113 +99,100 @@ const ClapperboardWidget = () => {
     }
   };
 
-  // ── Closed launcher: small clapperboard icon, wider than tall ──
-  if (!isOpen) {
-    return (
-      <button
-        onClick={() => setIsOpen(true)}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        aria-label="Open help"
-        className="fixed bottom-4 right-4 z-50 group flex flex-col items-end gap-1 focus:outline-none"
-      >
-        <div
-          className="w-[72px] h-[54px] rounded-[3px] overflow-hidden shadow-xl bg-[#1a1a1a] flex flex-col"
-          style={{ border: "1px solid #000" }}
-        >
-          <ClapperSticks height={16} rotated={hover} />
-          <SlateRows />
-        </div>
-        <span className="text-[9px] font-bold tracking-[0.15em] text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-          NEED HELP?
-        </span>
-      </button>
-    );
-  }
+  const launcherRaised = isHovered || isAutoClapping;
 
-  // ── Open panel: same clapperboard styling on top, form below ──
   return (
-    <div
-      className="fixed bottom-4 right-4 z-50 w-[320px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-[4px] shadow-2xl bg-[#F5F5F0]"
-      style={{
-        fontFamily: "Manrope, sans-serif",
-        border: "1px solid #000",
-      }}
-      role="dialog"
-      aria-label="Help"
-    >
-      {/* Sticks */}
-      <ClapperSticks height={20} />
+    <>
+      <button
+        type="button"
+        onClick={handleOpen}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        aria-label="Open help"
+        className={`fixed bottom-4 right-3 z-50 transition-all duration-200 ease-out md:bottom-5 md:right-5 ${
+          isOpen ? "pointer-events-none translate-y-2 opacity-0" : "translate-y-0 opacity-100"
+        }`}
+      >
+        <ClapperIllustration raised={launcherRaised} compact />
+      </button>
 
-      {/* Slate header strip */}
-      <div className="bg-[#1a1a1a] px-3 py-2 flex items-center justify-between">
-        <div>
-          <div className="text-[8px] font-bold tracking-[0.2em] text-white/60">
-            PRODUCTION BID DESK
+      <div
+        className={`fixed bottom-4 right-3 z-50 w-[16rem] max-w-[calc(100vw-1rem)] transition-all duration-200 ease-out md:bottom-5 md:right-5 ${
+          isOpen ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
+        }`}
+        role="dialog"
+        aria-label="Help"
+      >
+        <div className="overflow-hidden rounded-[1.25rem] border border-foreground/15 bg-secondary shadow-[0_26px_60px_hsl(var(--background)/0.6)]">
+          <div className="relative border-b border-foreground/10 px-3 pb-2 pt-3">
+            <button
+              type="button"
+              onClick={handleClose}
+              aria-label="Close"
+              className="absolute right-3 top-3 rounded-full border border-foreground/15 p-1 text-foreground/70 transition-colors hover:bg-foreground/10 hover:text-foreground"
+            >
+              <X className="h-4 w-4" />
+            </button>
+            <ClapperIllustration raised className="pr-10" />
           </div>
-          <div className="text-xs font-bold tracking-tight text-white">
-            How can we help?
+
+          <div className="bg-background/95 px-3 py-3 text-foreground">
+            <p className="mb-2 text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-foreground/55">
+              Ask a production question
+            </p>
+
+            <form onSubmit={handleSubmit} className="space-y-2.5">
+              <div className="flex flex-wrap gap-1.5">
+                {TOPICS.map((item) => {
+                  const selected = topic === item;
+                  return (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => setTopic(selected ? "" : item)}
+                      className={`rounded-full border px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.16em] transition-colors ${
+                        selected
+                          ? "border-foreground bg-foreground text-background"
+                          : "border-foreground/20 bg-transparent text-foreground/70 hover:border-foreground/40 hover:text-foreground"
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <Input
+                type="email"
+                placeholder="Email (optional)"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                maxLength={255}
+                className="h-9 rounded-xl border-foreground/15 bg-card text-sm text-foreground placeholder:text-muted-foreground"
+              />
+
+              <Textarea
+                placeholder="Your message..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                maxLength={1000}
+                rows={4}
+                className="min-h-[6rem] rounded-xl border-foreground/15 bg-card text-sm text-foreground placeholder:text-muted-foreground"
+                required
+              />
+
+              <Button
+                type="submit"
+                disabled={submitting}
+                className="h-9 w-full rounded-xl bg-foreground text-background hover:bg-foreground/90"
+              >
+                {submitting ? "Sending..." : "Send"}
+              </Button>
+            </form>
           </div>
         </div>
-        <button
-          onClick={() => setIsOpen(false)}
-          aria-label="Close"
-          className="rounded p-1 text-white/70 hover:bg-white/10 hover:text-white"
-        >
-          <X className="h-4 w-4" />
-        </button>
       </div>
-
-      {/* Form on cream "paper" body */}
-      <div className="p-3 text-[#0A0A0A]">
-        <form onSubmit={handleSubmit} className="space-y-2">
-          <div className="flex flex-wrap gap-1">
-            {TOPICS.map((t) => (
-              <button
-                key={t}
-                type="button"
-                onClick={() => setTopic(topic === t ? "" : t)}
-                className="rounded-full border px-2 py-0.5 text-[10px] font-medium tracking-wide transition-colors"
-                style={{
-                  borderColor: topic === t ? "#0A0A0A" : "rgba(10,10,10,0.25)",
-                  background: topic === t ? "#0A0A0A" : "transparent",
-                  color: topic === t ? "#F5F5F0" : "rgba(10,10,10,0.75)",
-                }}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-
-          <Input
-            type="email"
-            placeholder="Email (optional)"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            maxLength={255}
-            className="h-8 text-xs border-[#0A0A0A]/25 bg-white text-[#0A0A0A] placeholder:text-[#0A0A0A]/40"
-          />
-
-          <Textarea
-            placeholder="Your message..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            maxLength={1000}
-            rows={3}
-            className="text-xs border-[#0A0A0A]/25 bg-white text-[#0A0A0A] placeholder:text-[#0A0A0A]/40"
-            required
-          />
-
-          <Button
-            type="submit"
-            disabled={submitting}
-            className="w-full h-8 text-xs font-bold tracking-[0.2em] bg-[#0A0A0A] text-[#F5F5F0] hover:bg-[#0A0A0A]/90"
-          >
-            {submitting ? "SENDING..." : "SEND"}
-          </Button>
-        </form>
-      </div>
-    </div>
+    </>
   );
 };
 
