@@ -104,7 +104,7 @@ const Index = () => {
           Production Bid Desk is your artificial intelligence partner for production strategy and logistical execution in global advertising.
         </p>
         <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-[58ch] mx-auto mb-8">
-          Drop in your creative board and instantly get production ballpark budgets, timelines, and logistics. Catch red flags before they become expensive mistakes, and walk into your client presentation with a clean, actionable outline. Built by a Producer with 20 years of global expertise, for the industry&apos;s best.
+          Drop in your creative board and instantly get production ballpark budgets, timelines, risk mitigation, logistics, and a bid outline. Catch red flags before they become expensive mistakes, and walk into your client presentation with a clean, actionable outline. Built by a Producer with 23 years of global expertise, for the industry&apos;s best.
         </p>
 
         <div
