@@ -94,33 +94,39 @@ export type Database = {
       }
       trial_users: {
         Row: {
+          company: string | null
           created_at: string
           email: string
           id: string
           is_subscribed: boolean
           name: string
+          phone: string | null
           stripe_customer_id: string | null
           trial_end: string
           trial_start: string
           user_id: string
         }
         Insert: {
+          company?: string | null
           created_at?: string
           email: string
           id?: string
           is_subscribed?: boolean
           name: string
+          phone?: string | null
           stripe_customer_id?: string | null
           trial_end?: string
           trial_start?: string
           user_id: string
         }
         Update: {
+          company?: string | null
           created_at?: string
           email?: string
           id?: string
           is_subscribed?: boolean
           name?: string
+          phone?: string | null
           stripe_customer_id?: string | null
           trial_end?: string
           trial_start?: string
