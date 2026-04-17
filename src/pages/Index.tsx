@@ -107,16 +107,12 @@ const Index = () => {
           Drop in your creative board and instantly get production ballpark budgets, timelines, risk mitigation, logistics, and a bid outline. Catch red flags before they become expensive mistakes, and walk into your client presentation with a clean, actionable outline. Built by a Producer with 23 years of global expertise, for the industry&apos;s best.
         </p>
 
-        <div
-          className="max-w-[58ch] mx-auto mb-10 rounded-xl px-6 py-5 text-sm md:text-base leading-relaxed"
-          style={{
-            background: "hsl(var(--gold) / .06)",
-            border: "1px solid hsl(var(--gold) / .2)",
-            color: "hsl(var(--foreground) / .9)",
-          }}
+        <p
+          className="max-w-[52ch] mx-auto mb-10 text-xs md:text-sm leading-snug font-medium"
+          style={{ color: "hsl(var(--gold))" }}
         >
-          Production Bid Desk is powered by AI trained on real production data — keeping up with union rates, industry standards, and global logistics to give you accurate, up-to-date estimates every time.
-        </div>
+          Powered by AI trained on real production data — keeping up with union rates, industry standards, and global logistics for accurate, up-to-date estimates.
+        </p>
 
 
         <a
