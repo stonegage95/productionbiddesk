@@ -99,14 +99,14 @@ const Pricing = () => {
 
                 {/* CTA */}
                 <a
-                  href="/#get-access"
+                  href="/auth"
                   className="inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-bold no-underline transition-all hover:brightness-110"
                   style={{
                     background: "hsl(var(--gold))",
                     color: "hsl(var(--primary-foreground))",
                   }}
                 >
-                  Get Started
+                  {tier.name === "Enterprise" ? "Contact Us" : "Start Free Trial"}
                 </a>
               </div>
             ))}
