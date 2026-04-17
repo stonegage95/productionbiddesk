@@ -43,8 +43,12 @@ const FreeTrialBanner = () => {
           <h2 className="text-[clamp(22px,3.5vw,36px)] font-extrabold tracking-tight text-foreground mb-3">
             Try Production Bid Desk Free for 3 Days
           </h2>
-          <p className="text-muted-foreground text-sm md:text-base leading-relaxed max-w-[50ch] mx-auto mb-8">
+          <p className="text-muted-foreground text-sm md:text-base leading-relaxed max-w-[50ch] mx-auto mb-6">
             No credit card required. Get full access to AI-powered bid analysis, risk detection, and production planning — completely free.
+          </p>
+
+          <p className="text-base md:text-lg font-extrabold tracking-tight mb-5" style={{ color: "hsl(var(--gold))" }}>
+            Ready to revolutionize your production?
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
