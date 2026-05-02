@@ -560,7 +560,9 @@ const BidDeskApp = () => {
             </Button>
           )}
           <div className="min-w-0">
-            <Logo />
+            <a href="/" className="no-underline inline-block" title="Back to homepage">
+              <Logo />
+            </a>
             {!started && (
               <p className="text-muted-foreground text-sm mt-1 max-w-xl">
                 Paste your script or storyboard and I'll walk you through risks, budget, timeline, and more.
