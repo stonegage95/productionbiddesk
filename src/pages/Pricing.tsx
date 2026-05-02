@@ -6,7 +6,7 @@ import GradientText from "@/components/GradientText";
 const tiers = [
   {
     name: "Solo",
-    price: "$99",
+    price: "$79",
     period: " / Month",
     bestFor: "1 seat",
     features: [],
