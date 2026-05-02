@@ -40,10 +40,10 @@ const Pricing = () => {
       <Header />
       <main className="flex-1">
         <section className="pt-20 pb-12 text-center px-6">
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight mb-3">
             <GradientText>The "Executive" 3-Tier Pricing Model</GradientText>
           </h1>
-          <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+          <p className="text-muted-foreground text-base max-w-xl mx-auto">
             Choose the plan that fits your production volume. No hidden fees, cancel anytime.
           </p>
         </section>
@@ -97,17 +97,18 @@ const Pricing = () => {
                   ))}
                 </ul>
 
-                {/* CTA */}
-                <a
-                  href="/auth"
-                  className="inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-bold no-underline transition-all hover:brightness-110"
-                  style={{
-                    background: "hsl(var(--gold))",
-                    color: "hsl(var(--primary-foreground))",
-                  }}
-                >
-                  {tier.name === "Enterprise" ? "Contact Us" : "Start 3-Day Free Trial · No Credit Card"}
-                </a>
+                {tier.name === "Enterprise" && (
+                  <a
+                    href="/auth"
+                    className="inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-bold no-underline transition-all hover:brightness-110"
+                    style={{
+                      background: "hsl(var(--gold))",
+                      color: "hsl(var(--primary-foreground))",
+                    }}
+                  >
+                    Contact Us
+                  </a>
+                )}
               </div>
             ))}
           </div>
