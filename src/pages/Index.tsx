@@ -75,7 +75,7 @@ const Index = () => {
             color: "hsl(var(--gold))",
           }}
         >
-          🔒 NDA-Compliant AI for Global Advertising
+          🔒 AI-powered production tools for global advertising teams, built for NDA-sensitive workflows, secure collaboration, and controlled customer access.
         </span>
         <h1 className="text-[clamp(28px,5vw,56px)] leading-[1.05] tracking-tight font-extrabold mb-4">
           Never Go Into a Client Meeting <GradientText>Blind Again.</GradientText>
