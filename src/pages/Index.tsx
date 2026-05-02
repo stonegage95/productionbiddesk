@@ -74,23 +74,37 @@ const Index = () => {
         <h1 className="text-[clamp(28px,5vw,56px)] leading-[1.05] tracking-tight font-extrabold mb-4">
           Never Go Into a Client Meeting <GradientText>Blind Again.</GradientText>
         </h1>
-        <p className="text-[clamp(18px,2.4vw,26px)] font-extrabold tracking-tight text-foreground mb-6">
-          Revolutionize your production.
-        </p>
-        <p className="text-lg md:text-xl leading-relaxed font-semibold max-w-[52ch] mx-auto mb-4" style={{ color: "hsl(var(--gold))" }}>
-          Production Bid Desk is your artificial intelligence partner for production strategy and logistical execution in global advertising.
-        </p>
-        <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-[58ch] mx-auto mb-8">
-          Drop in your creative board and instantly get production ballpark budgets, timelines, risk mitigation, logistics, and a bid outline. Catch red flags before they become expensive mistakes, and walk into your client presentation with a clean, actionable outline. Built by a Producer with 23 years of global expertise, for the industry&apos;s best.
+        <p className="text-lg md:text-xl leading-relaxed font-semibold max-w-[52ch] mx-auto mb-8" style={{ color: "hsl(var(--gold))" }}>
+          Your AI partner for production strategy and logistical execution in global advertising.
         </p>
 
-        <p
-          className="max-w-[52ch] mx-auto mb-10 text-xs md:text-sm leading-snug font-medium"
-          style={{ color: "hsl(var(--gold))" }}
+        {/* ─── Inline Video (not a demo) ─── */}
+        <div
+          className="relative w-full aspect-video rounded-xl overflow-hidden mx-auto mt-2 mb-10"
+          style={{
+            background: "hsl(var(--secondary))",
+            border: "1px solid hsl(var(--gold) / .2)",
+            boxShadow: "0 30px 80px -20px rgba(0,0,0,.6)",
+          }}
         >
-          Powered by AI trained on real production data — keeping up with union rates, industry standards, and global logistics for accurate, up-to-date estimates.
-        </p>
+          <video
+            src="/demo/production-bid-desk-demo.mp4"
+            controls
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 h-full w-full object-contain bg-black"
+          >
+            Your browser does not support the video tag.
+          </video>
+        </div>
 
+        <a
+          href="/auth"
+          className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-sm font-extrabold no-underline transition-all hover:brightness-110"
+          style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
+        >
+          Start 3-Day Free Trial · No Credit Card <ArrowRight size={16} />
+        </a>
 
         <a
           href="#the-problem"
