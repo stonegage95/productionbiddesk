@@ -571,6 +571,18 @@ const BidDeskApp = () => {
           </div>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
+          <a
+            href="/"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold no-underline transition-colors"
+            style={{
+              border: "1px solid hsl(var(--gold) / .4)",
+              color: "hsl(var(--gold))",
+              background: "hsl(var(--gold) / .05)",
+            }}
+            title="Back to homepage"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" /> Homepage
+          </a>
           {started && messages.some((m) => m.role === "assistant") && (
             <>
               <Button variant="outline" size="sm" onClick={handleExportDeckOutline} className="gap-1.5 text-xs">
