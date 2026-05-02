@@ -551,6 +551,16 @@ const BidDeskApp = () => {
           )}
           <div className="min-w-0">
             <Logo />
+            <p
+              className="text-[10px] font-semibold mt-1.5 inline-block px-2 py-0.5 rounded-full"
+              style={{
+                background: "hsl(var(--gold) / .08)",
+                border: "1px solid hsl(var(--gold) / .2)",
+                color: "hsl(var(--foreground))",
+              }}
+            >
+              🔒 NDA-sensitive AI tools for global advertising teams, with secure customer login powered by Auth0 by Okta.
+            </p>
             {!started && (
               <p className="text-muted-foreground text-sm mt-1 max-w-xl">
                 Paste your script or storyboard and I'll walk you through risks, budget, timeline, and more.
