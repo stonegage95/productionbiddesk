@@ -58,7 +58,7 @@ const FreeTrialBanner = () => {
               style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
               onClick={() => navigate("/auth")}
             >
-              Start Free Trial <ArrowRight size={16} />
+              Start 3-Day Free Trial · No Credit Card <ArrowRight size={16} />
             </Button>
             <Button
               variant="outline"
