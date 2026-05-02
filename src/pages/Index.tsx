@@ -68,7 +68,7 @@ const Index = () => {
       {/* ─── Hero ─── */}
       <section id="top" className="max-w-[900px] mx-auto px-6 pt-24 pb-16 text-center">
         <span
-          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold tracking-[.12em] uppercase mb-8"
+          className="inline-flex items-start gap-1.5 px-4 py-2 rounded-full text-[11px] font-semibold leading-snug max-w-[60ch] mb-8 text-left"
           style={{
             background: "hsl(var(--gold) / .08)",
             border: "1px solid hsl(var(--gold) / .2)",
