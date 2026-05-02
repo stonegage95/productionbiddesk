@@ -24,20 +24,20 @@ const Index = () => {
     {
       icon: Upload,
       phase: "01",
-      title: "Drop Your Board",
-      desc: "Upload your brief, script, or storyboard. Even if it's just a rough concept, the system is ready to analyze it.",
+      title: "Drop Board",
+      desc: "Ingest scripts",
     },
     {
       icon: Cpu,
       phase: "02",
-      title: "Autonomous Analysis",
-      desc: "Our AI immediately breaks down the creative to evaluate scope, mitigate risks, and map out the logistics.",
+      title: "AI Analysis",
+      desc: "Scene mapping",
     },
     {
       icon: FileCheck,
       phase: "03",
-      title: "Get Your Outline",
-      desc: "Receive a professional, risk-mitigated bid outline detailing everything you need to know before your client meeting.",
+      title: "Get Outline",
+      desc: "Line-item export",
     },
   ];
 
