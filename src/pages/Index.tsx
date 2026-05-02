@@ -36,8 +36,8 @@ const Index = () => {
     {
       icon: FileCheck,
       phase: "03",
-      title: "Get Outline",
-      desc: "Line-item export",
+      title: "Get Insights",
+      desc: "Outline optional",
     },
   ];
 
