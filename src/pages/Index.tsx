@@ -24,20 +24,20 @@ const Index = () => {
     {
       icon: Upload,
       phase: "01",
-      title: "Drop Your Board",
-      desc: "Upload your brief, script, or storyboard. Even if it's just a rough concept, the system is ready to analyze it.",
+      title: "Drop Board",
+      desc: "Ingest scripts",
     },
     {
       icon: Cpu,
       phase: "02",
-      title: "Autonomous Analysis",
-      desc: "Our AI immediately breaks down the creative to evaluate scope, mitigate risks, and map out the logistics.",
+      title: "AI Analysis",
+      desc: "Scene mapping",
     },
     {
       icon: FileCheck,
       phase: "03",
-      title: "Get Your Outline",
-      desc: "Receive a professional, risk-mitigated bid outline detailing everything you need to know before your client meeting.",
+      title: "Get Outline",
+      desc: "Line-item export",
     },
   ];
 
@@ -131,38 +131,39 @@ const Index = () => {
           From Rough Concept to Solid Plan in Seconds.
         </h2>
 
-        <div className="relative">
-          <div className="hidden md:block absolute left-1/2 -translate-x-px top-0 bottom-0 w-px" style={{ background: "hsl(var(--gold) / .15)" }} />
-
-          <div className="space-y-12 md:space-y-24">
-            {phases.map(({ icon: Icon, phase, title, desc }, i) => (
-              <div key={i} className={`flex flex-col md:flex-row items-center gap-5 md:gap-8 ${i % 2 !== 0 ? "md:flex-row-reverse" : ""}`}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-3xl mx-auto">
+          {phases.map(({ icon: Icon, phase, title, desc }, i) => (
+            <button
+              key={i}
+              type="button"
+              className="group p-5 text-left transition-all hover:-translate-y-0.5"
+              style={{
+                background: "hsl(0 0% 100% / .03)",
+                border: "1px solid hsl(var(--gold) / .15)",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "hsl(var(--gold) / .5)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "hsl(var(--gold) / .15)"; }}
+            >
+              <div className="flex items-center justify-between mb-4">
                 <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center shrink-0 z-10 order-first md:order-none"
+                  className="w-9 h-9 rounded-full flex items-center justify-center"
                   style={{
-                    background: "hsl(var(--gold) / .08)",
-                    border: "1px solid hsl(var(--gold) / .2)",
-                    boxShadow: "0 0 30px hsl(43 72% 52% / .08)",
+                    background: "hsl(var(--gold) / .1)",
+                    border: "1px solid hsl(var(--gold) / .25)",
                   }}
                 >
-                  <Icon size={22} style={{ color: "hsl(var(--gold-bright))" }} strokeWidth={1.5} />
+                  <Icon size={16} style={{ color: "hsl(var(--gold-bright))" }} strokeWidth={1.75} />
                 </div>
-
-                <div className={`flex-1 text-center md:text-left ${i % 2 !== 0 ? "md:text-left" : "md:text-right"}`}>
-                  <span
-                    className="text-[11px] font-bold tracking-[.2em] uppercase block mb-2"
-                    style={{ color: "hsl(var(--gold) / .6)" }}
-                  >
-                    Phase {phase}
-                  </span>
-                  <h3 className="text-xl font-extrabold text-foreground mb-2">{title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed max-w-[38ch] mx-auto md:mx-0 md:ml-auto">{desc}</p>
-                </div>
-
-                <div className="hidden md:block flex-1" />
+                <span className="text-[10px] font-mono tracking-widest text-muted-foreground">
+                  {phase}/03
+                </span>
               </div>
-            ))}
-          </div>
+              <h3 className="text-xs font-bold uppercase tracking-tight mb-1" style={{ color: "hsl(var(--gold))" }}>
+                {title}
+              </h3>
+              <p className="text-[11px] text-muted-foreground">{desc}</p>
+            </button>
+          ))}
         </div>
       </section>
 
