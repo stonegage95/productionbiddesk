@@ -72,7 +72,7 @@ const Index = () => {
           style={{
             background: "hsl(var(--gold) / .08)",
             border: "1px solid hsl(var(--gold) / .2)",
-            color: "hsl(var(--gold))",
+            color: "hsl(var(--foreground))",
           }}
         >
           🔒 AI-powered production tools for global advertising teams, built for NDA-sensitive workflows, secure collaboration, and controlled customer access.
