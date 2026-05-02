@@ -539,6 +539,16 @@ const BidDeskApp = () => {
     <>
     <Paywall />
     <div className="min-h-screen bg-background flex flex-col">
+      <div
+        className="w-full text-center text-[10px] font-semibold py-1 px-3 truncate"
+        style={{
+          background: "hsl(var(--gold) / .08)",
+          borderBottom: "1px solid hsl(var(--gold) / .2)",
+          color: "hsl(var(--gold))",
+        }}
+      >
+        🔒 NDA-sensitive AI tools for global advertising teams · secure customer login powered by Auth0 by Okta
+      </div>
       <TrialBanner />
       
 
