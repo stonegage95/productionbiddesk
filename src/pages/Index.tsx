@@ -7,7 +7,7 @@ import SolutionSection from "@/components/SolutionSection";
 import ROISection from "@/components/ROISection";
 import FreeTrialBanner from "@/components/FreeTrialBanner";
 import { useScrollFadeIn } from "@/hooks/use-scroll-fade-in";
-import { ArrowRight, Upload, Cpu, FileCheck, ChevronDown } from "lucide-react";
+import { ArrowRight, Upload, Cpu, FileCheck, Presentation, ChevronDown } from "lucide-react";
 
 const Index = () => {
   const phasesFade = useScrollFadeIn(0.1);
@@ -24,20 +24,26 @@ const Index = () => {
     {
       icon: Upload,
       phase: "01",
-      title: "Drop Board",
-      desc: "Ingest scripts",
+      title: "Drop Your Board",
+      desc: "Upload script, treatment, or creative board — any format.",
     },
     {
       icon: Cpu,
       phase: "02",
-      title: "AI Analysis",
-      desc: "Scene mapping",
+      title: "AI Breaks It Down",
+      desc: "Scene-by-scene mapping, logistics, crew, and location reads.",
     },
     {
       icon: FileCheck,
       phase: "03",
       title: "Get Insights",
-      desc: "Outline optional",
+      desc: "Ballpark budgets, timelines, red flags. Outline optional.",
+    },
+    {
+      icon: Presentation,
+      phase: "04",
+      title: "Walk In Ready",
+      desc: "Hit your client meeting with answers, not guesses.",
     },
   ];
 
@@ -78,7 +84,52 @@ const Index = () => {
           Your AI partner for production strategy and logistical execution in global advertising.
         </p>
 
-        {/* ─── Inline Video (not a demo) ─── */}
+        {/* ─── Phases Outline (above video) ─── */}
+        <div className="mb-8">
+          <p
+            className="text-[11px] font-bold tracking-[.2em] uppercase mb-4"
+            style={{ color: "hsl(var(--gold) / .7)" }}
+          >
+            How It Works
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-left">
+            {phases.map(({ icon: Icon, phase, title, desc }, i) => (
+              <div
+                key={i}
+                className="p-4 rounded-lg"
+                style={{
+                  background: "hsl(0 0% 100% / .03)",
+                  border: "1px solid hsl(var(--gold) / .15)",
+                }}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center"
+                    style={{
+                      background: "hsl(var(--gold) / .1)",
+                      border: "1px solid hsl(var(--gold) / .25)",
+                    }}
+                  >
+                    <Icon size={14} style={{ color: "hsl(var(--gold-bright))" }} strokeWidth={1.75} />
+                  </div>
+                  <span className="text-[9px] font-mono tracking-widest text-muted-foreground">
+                    {phase}/04
+                  </span>
+                </div>
+                <h3 className="text-xs font-bold uppercase tracking-tight mb-1" style={{ color: "hsl(var(--gold))" }}>
+                  {title}
+                </h3>
+                <p className="text-[11px] leading-snug text-muted-foreground">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-xs font-bold tracking-[.15em] uppercase text-muted-foreground mb-3">
+          ▶ See It In Action
+        </p>
+
+        {/* ─── Inline Video ─── */}
         <div
           className="relative w-full aspect-video rounded-xl overflow-hidden mx-auto mt-2 mb-10"
           style={{
