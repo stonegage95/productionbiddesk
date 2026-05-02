@@ -238,7 +238,7 @@ const Auth = () => {
             </div>
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Please wait…" : isLogin ? "Sign in" : "Start Free Trial"}
+            {loading ? "Please wait…" : isLogin ? "Sign in" : "Start 3-Day Free Trial · No Credit Card"}
           </Button>
         </form>
 

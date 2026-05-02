@@ -106,7 +106,7 @@ const Pricing = () => {
                     color: "hsl(var(--primary-foreground))",
                   }}
                 >
-                  {tier.name === "Enterprise" ? "Contact Us" : "Start Free Trial"}
+                  {tier.name === "Enterprise" ? "Contact Us" : "Start 3-Day Free Trial · No Credit Card"}
                 </a>
               </div>
             ))}
