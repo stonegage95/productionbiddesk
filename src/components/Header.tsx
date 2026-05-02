@@ -43,10 +43,10 @@ const Header = () => {
           ))}
           <a
             href="/auth"
-            className="inline-flex items-center px-5 py-2 rounded-lg text-sm font-bold no-underline transition-all hover:brightness-110"
+            className="inline-flex items-center px-2.5 py-1 rounded text-[10px] font-semibold no-underline transition-all hover:brightness-110 whitespace-nowrap"
             style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
           >
-            Start 3-Day Free Trial · No Credit Card
+            Start 3-Day Free Trial
           </a>
         </nav>
 
