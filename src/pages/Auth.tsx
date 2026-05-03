@@ -8,6 +8,7 @@ import { toast } from "@/hooks/use-toast";
 import { Eye, EyeOff } from "lucide-react";
 import Logo from "@/components/Logo";
 import { isEditorPreview } from "@/lib/is-editor-preview";
+import { lovable } from "@/integrations/lovable";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -161,6 +162,34 @@ const Auth = () => {
             </Button>
           </div>
         )}
+
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full flex items-center justify-center gap-2"
+          onClick={async () => {
+            const result = await lovable.auth.signInWithOAuth("google", {
+              redirect_uri: `${window.location.origin}/app`,
+            });
+            if (result.error) {
+              toast({ title: "Google sign-in failed", description: result.error.message, variant: "destructive" });
+            }
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M21.6 12.227c0-.709-.064-1.39-.182-2.045H12v3.868h5.382a4.6 4.6 0 0 1-1.995 3.018v2.51h3.227c1.886-1.737 2.986-4.296 2.986-7.35z"/>
+            <path fill="#34A853" d="M12 22c2.7 0 4.964-.895 6.618-2.422l-3.227-2.51c-.895.6-2.04.955-3.391.955-2.605 0-4.81-1.76-5.596-4.123H3.064v2.59A9.997 9.997 0 0 0 12 22z"/>
+            <path fill="#FBBC05" d="M6.404 13.9a6.005 6.005 0 0 1 0-3.8V7.51H3.064a10.005 10.005 0 0 0 0 8.98l3.34-2.59z"/>
+            <path fill="#EA4335" d="M12 5.977c1.468 0 2.786.505 3.823 1.496l2.864-2.864C16.96 2.99 14.696 2 12 2A9.997 9.997 0 0 0 3.064 7.51l3.34 2.59C7.19 7.736 9.395 5.977 12 5.977z"/>
+          </svg>
+          Continue with Google
+        </Button>
+
+        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <div className="flex-1 h-px bg-border" />
+          <span>or</span>
+          <div className="flex-1 h-px bg-border" />
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
