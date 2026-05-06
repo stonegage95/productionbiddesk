@@ -111,12 +111,30 @@ function compressImageFile(file: File): Promise<{ base64: string; mime: string }
   });
 }
 
+async function fetchWithRetry(url: string, init: RequestInit, retries = 2): Promise<Response> {
+  let lastErr: unknown;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await fetch(url, init);
+    } catch (e) {
+      lastErr = e;
+      if (attempt < retries) {
+        await new Promise((r) => setTimeout(r, 600 * (attempt + 1)));
+        continue;
+      }
+    }
+  }
+  throw lastErr instanceof Error
+    ? new Error(`Network hiccup — couldn't reach the analysis service. Please check your connection and try again. (${lastErr.message})`)
+    : new Error("Network hiccup — couldn't reach the analysis service.");
+}
+
 async function streamResponse(
   body: Record<string, unknown>,
   onDelta: (chunk: string) => void,
   onDone: () => void
 ) {
-  const resp = await fetch(ANALYZE_URL, {
+  const resp = await fetchWithRetry(ANALYZE_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
