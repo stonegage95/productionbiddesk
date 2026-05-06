@@ -111,12 +111,30 @@ function compressImageFile(file: File): Promise<{ base64: string; mime: string }
   });
 }
 
+async function fetchWithRetry(url: string, init: RequestInit, retries = 2): Promise<Response> {
+  let lastErr: unknown;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await fetch(url, init);
+    } catch (e) {
+      lastErr = e;
+      if (attempt < retries) {
+        await new Promise((r) => setTimeout(r, 600 * (attempt + 1)));
+        continue;
+      }
+    }
+  }
+  throw lastErr instanceof Error
+    ? new Error(`Network hiccup — couldn't reach the analysis service. Please check your connection and try again. (${lastErr.message})`)
+    : new Error("Network hiccup — couldn't reach the analysis service.");
+}
+
 async function streamResponse(
   body: Record<string, unknown>,
   onDelta: (chunk: string) => void,
   onDone: () => void
 ) {
-  const resp = await fetch(ANALYZE_URL, {
+  const resp = await fetchWithRetry(ANALYZE_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -318,6 +336,7 @@ const BidDeskApp = () => {
   const handleFollowUp = async () => {
     if (!followUp.trim() || streaming) return;
 
+    const originalText = followUp;
     const userMsg: ChatMessage = { role: "user", content: followUp };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
@@ -346,7 +365,14 @@ const BidDeskApp = () => {
       );
     } catch (e: any) {
       setStreaming(false);
-      toast({ title: "Error", description: e.message || "Failed to get response", variant: "destructive" });
+      // Roll back the user message and restore their text so they don't lose it mid-demo
+      setMessages(messages);
+      setFollowUp(originalText);
+      toast({
+        title: "Network hiccup",
+        description: e.message || "Couldn't reach the analysis service. Your message was restored — hit send again.",
+        variant: "destructive",
+      });
     }
   };
 
