@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Lock } from "lucide-react";
 import Logo from "@/components/Logo";
 import { useNavigate } from "react-router-dom";
+import { lovable } from "@/integrations/lovable";
+import { toast } from "@/hooks/use-toast";
 
 const Paywall = () => {
   const { loading, trialExpired, isSubscribed } = useTrialStatus();
