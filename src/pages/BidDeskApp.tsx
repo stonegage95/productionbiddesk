@@ -336,6 +336,7 @@ const BidDeskApp = () => {
   const handleFollowUp = async () => {
     if (!followUp.trim() || streaming) return;
 
+    const originalText = followUp;
     const userMsg: ChatMessage = { role: "user", content: followUp };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
@@ -364,7 +365,14 @@ const BidDeskApp = () => {
       );
     } catch (e: any) {
       setStreaming(false);
-      toast({ title: "Error", description: e.message || "Failed to get response", variant: "destructive" });
+      // Roll back the user message and restore their text so they don't lose it mid-demo
+      setMessages(messages);
+      setFollowUp(originalText);
+      toast({
+        title: "Network hiccup",
+        description: e.message || "Couldn't reach the analysis service. Your message was restored — hit send again.",
+        variant: "destructive",
+      });
     }
   };
 
