@@ -539,17 +539,15 @@ const BidDeskApp = () => {
 </body>
 </html>`;
 
-    const safeTitle = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "production-bid-desk";
-    const blob = new Blob([outlineHtml], { type: "text/html;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${safeTitle}-deck-outline.html`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    toast({ title: "Deck outline downloaded", description: "Open the HTML file and use Print → Save as PDF to create a polished PDF." });
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) {
+      toast({ title: "Pop-up blocked", description: "Please allow pop-ups for PDF export.", variant: "destructive" });
+      return;
+    }
+    printWindow.document.write(outlineHtml);
+    printWindow.document.close();
+    setTimeout(() => printWindow.print(), 400);
+    toast({ title: "Deck outline ready", description: "Choose 'Save as PDF' in the print dialog." });
   };
 
   const quickActions = [
