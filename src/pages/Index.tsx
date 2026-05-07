@@ -126,7 +126,7 @@ const Index = () => {
         </div>
 
         <p className="text-xs font-bold tracking-[.15em] uppercase text-muted-foreground mb-3">
-          ▶ See It In Action
+          ▶ Production Is Changing
         </p>
 
         {/* ─── Inline Video ─── */}
