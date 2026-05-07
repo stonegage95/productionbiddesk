@@ -6,15 +6,15 @@ import GradientText from "@/components/GradientText";
 const tiers = [
   {
     name: "Solo",
-    price: "$79",
-    period: " / Month",
-    bestFor: "1 seat",
+    price: "$49.99",
+    period: " one-time",
+    bestFor: "Single download / use",
     features: [],
     featured: false,
   },
   {
-    name: "Agency",
-    price: "$299",
+    name: "Prod Co / Cost Advisors",
+    price: "$199",
     period: " / Month",
     bestFor: "Up to 5 seats",
     features: [],
