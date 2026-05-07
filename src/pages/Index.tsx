@@ -78,10 +78,10 @@ const Index = () => {
           🔒 NDA-sensitive AI tools for global advertising teams, with secure customer login powered by Auth0 by Okta.
         </span>
         <h1 className="text-[clamp(28px,5vw,56px)] leading-[1.05] tracking-tight font-extrabold mb-4">
-          Never Go Into a Client Meeting <GradientText>Blind Again.</GradientText>
+          Your AI partner for production strategy and <GradientText>logistical execution in global advertising.</GradientText>
         </h1>
-        <p className="text-lg md:text-xl leading-relaxed font-semibold max-w-[52ch] mx-auto mb-8" style={{ color: "hsl(var(--gold))" }}>
-          Your AI partner for production strategy and logistical execution in global advertising.
+        <p className="text-lg md:text-xl leading-relaxed font-semibold max-w-[60ch] mx-auto mb-8" style={{ color: "hsl(var(--gold))" }}>
+          PBD saves you time & protects your production. Your bids run smoother, your margins stay protected, and you never walk into a client meeting unprepared.
         </p>
 
         {/* ─── Phases Outline (above video) ─── */}
