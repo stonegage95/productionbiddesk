@@ -348,6 +348,8 @@ const BidDeskApp = () => {
     if (!followUp.trim() || streaming) return;
 
     const originalText = followUp;
+    const isDeckOutline = /deck outline|deck\s+outline/i.test(followUp);
+    deckOutlineRequestedRef.current = isDeckOutline;
     const userMsg: ChatMessage = { role: "user", content: followUp };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
