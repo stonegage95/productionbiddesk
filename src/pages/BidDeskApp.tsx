@@ -228,6 +228,12 @@ const BidDeskApp = () => {
     scrollToBottom();
   }, [messages, streaming]);
 
+  useEffect(() => {
+    if (started) {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }
+  }, [started]);
+
   const fetchHistory = async () => {
     setLoadingHistory(true);
     const { data, error } = await supabase
@@ -324,7 +330,10 @@ const BidDeskApp = () => {
         updateAssistant,
         () => {
           setStreaming(false);
-          if (assistantText.trim()) saveReport(assistantText);
+          if (assistantText.trim()) {
+            saveReport(assistantText);
+            toast({ title: "Analysis complete", description: "Your report is ready. Scroll down to review or ask follow-up questions." });
+          }
         }
       );
     } catch (e: any) {
