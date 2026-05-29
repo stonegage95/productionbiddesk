@@ -374,7 +374,14 @@ const BidDeskApp = () => {
       await streamResponse(
         { messages: apiMessages },
         updateAssistant,
-        () => setStreaming(false)
+        () => {
+          setStreaming(false);
+          if (deckOutlineRequestedRef.current) {
+            deckOutlineRequestedRef.current = false;
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            setShowDeckReady(true);
+          }
+        }
       );
     } catch (e: any) {
       setStreaming(false);
