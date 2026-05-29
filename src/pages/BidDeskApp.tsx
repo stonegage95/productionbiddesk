@@ -228,6 +228,12 @@ const BidDeskApp = () => {
     scrollToBottom();
   }, [messages, streaming]);
 
+  useEffect(() => {
+    if (started) {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }
+  }, [started]);
+
   const fetchHistory = async () => {
     setLoadingHistory(true);
     const { data, error } = await supabase
