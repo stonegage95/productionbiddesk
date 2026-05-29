@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Logo from "@/components/Logo";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
@@ -19,7 +18,6 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import {
-  LogOut,
   Upload,
   FileText,
   X,
@@ -199,8 +197,6 @@ async function streamResponse(
 }
 
 const BidDeskApp = () => {
-  const navigate = useNavigate();
-
   const [projectName, setProjectName] = useState("");
   const [script, setScript] = useState("");
   const [storyboardFile, setStoryboardFile] = useState<File | null>(null);
