@@ -334,7 +334,7 @@ const BidDeskApp = () => {
           setStreaming(false);
           if (assistantText.trim()) {
             saveReport(assistantText);
-            toast({ title: "Analysis complete", description: "Your report is ready. Scroll down to review or ask follow-up questions." });
+            setShowFirstReady(true);
           }
         }
       );
