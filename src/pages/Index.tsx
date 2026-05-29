@@ -150,11 +150,11 @@ const Index = () => {
         </div>
 
         <a
-          href="/auth"
+          href="/app"
           className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-sm font-extrabold no-underline transition-all hover:brightness-110"
           style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
         >
-          Start 3-Day Free Trial · No Credit Card <ArrowRight size={16} />
+          Open the App <ArrowRight size={16} />
         </a>
 
         <a
@@ -254,11 +254,11 @@ const Index = () => {
           Ready to revolutionize your production?
         </p>
         <a
-          href="/auth"
+          href="/app"
           className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-sm font-extrabold no-underline transition-all hover:brightness-110"
           style={{ background: "hsl(var(--gold))", color: "hsl(var(--primary-foreground))" }}
         >
-          Start 3-Day Free Trial · No Credit Card <ArrowRight size={16} />
+          Open the App <ArrowRight size={16} />
         </a>
         <p className="text-muted-foreground text-xs mt-4">
           Instant access · Cancel anytime

@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Logo from "@/components/Logo";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
@@ -19,7 +18,6 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import {
-  LogOut,
   Upload,
   FileText,
   X,
@@ -199,8 +197,6 @@ async function streamResponse(
 }
 
 const BidDeskApp = () => {
-  const navigate = useNavigate();
-
   const [projectName, setProjectName] = useState("");
   const [script, setScript] = useState("");
   const [storyboardFile, setStoryboardFile] = useState<File | null>(null);
@@ -248,11 +244,6 @@ const BidDeskApp = () => {
   useEffect(() => {
     fetchHistory();
   }, []);
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/auth");
-  };
 
   const saveReport = async (fullMarkdown: string) => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -633,9 +624,6 @@ const BidDeskApp = () => {
             className="gap-1.5 text-muted-foreground"
           >
             <History className="h-4 w-4" /> History
-          </Button>
-          <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-muted-foreground gap-1.5">
-            <LogOut className="h-4 w-4" /> <span className="hidden sm:inline">Sign out</span>
           </Button>
         </div>
       </div>
