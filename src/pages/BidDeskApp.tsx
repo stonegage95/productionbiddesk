@@ -16,6 +16,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
 import {
   Upload,
@@ -215,6 +223,9 @@ const BidDeskApp = () => {
   const [loadingHistory, setLoadingHistory] = useState(false);
 
   const storyboardDataRef = useRef<{ base64: string; mime: string } | null>(null);
+  const deckOutlineRequestedRef = useRef(false);
+  const [showDeckReady, setShowDeckReady] = useState(false);
+  const [showFirstReady, setShowFirstReady] = useState(false);
 
   const scrollToBottom = () => {
     setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
@@ -323,7 +334,7 @@ const BidDeskApp = () => {
           setStreaming(false);
           if (assistantText.trim()) {
             saveReport(assistantText);
-            toast({ title: "Analysis complete", description: "Your report is ready. Scroll down to review or ask follow-up questions." });
+            setShowFirstReady(true);
           }
         }
       );
@@ -337,6 +348,8 @@ const BidDeskApp = () => {
     if (!followUp.trim() || streaming) return;
 
     const originalText = followUp;
+    const isDeckOutline = /deck outline|deck\s+outline/i.test(followUp);
+    deckOutlineRequestedRef.current = isDeckOutline;
     const userMsg: ChatMessage = { role: "user", content: followUp };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
@@ -361,7 +374,14 @@ const BidDeskApp = () => {
       await streamResponse(
         { messages: apiMessages },
         updateAssistant,
-        () => setStreaming(false)
+        () => {
+          setStreaming(false);
+          if (deckOutlineRequestedRef.current) {
+            deckOutlineRequestedRef.current = false;
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            setShowDeckReady(true);
+          }
+        }
       );
     } catch (e: any) {
       setStreaming(false);
@@ -943,6 +963,52 @@ const BidDeskApp = () => {
         )}
       </div>
     </div>
+
+    <Dialog open={showFirstReady} onOpenChange={setShowFirstReady}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>✅ Your Bid Desk analysis is ready</DialogTitle>
+          <DialogDescription>
+            Review the report below. You can ask follow-up questions, or use a Quick Action like <strong>📋 Deck outline</strong> when you're ready to export a polished PDF.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => setShowFirstReady(false)}>Keep exploring</Button>
+          <Button
+            onClick={() => {
+              setShowFirstReady(false);
+              setFollowUp("Generate a production deck outline I can use in my bid deck");
+              setTimeout(() => handleFollowUp(), 50);
+            }}
+          >
+            Generate deck outline
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+
+    <Dialog open={showDeckReady} onOpenChange={setShowDeckReady}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>📋 Deck outline ready — export now</DialogTitle>
+          <DialogDescription>
+            Your production deck outline is built. Export it as a print-ready PDF below.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => setShowDeckReady(false)}>Close</Button>
+          <Button
+            onClick={() => {
+              setShowDeckReady(false);
+              handleExportDeckOutline();
+            }}
+            className="gap-1.5"
+          >
+            <Download className="h-4 w-4" /> Export Deck Outline PDF
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
     </>
   );
 };
