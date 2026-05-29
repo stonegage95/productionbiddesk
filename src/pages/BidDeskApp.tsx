@@ -245,11 +245,6 @@ const BidDeskApp = () => {
     fetchHistory();
   }, []);
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/auth");
-  };
-
   const saveReport = async (fullMarkdown: string) => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
@@ -629,9 +624,6 @@ const BidDeskApp = () => {
             className="gap-1.5 text-muted-foreground"
           >
             <History className="h-4 w-4" /> History
-          </Button>
-          <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-muted-foreground gap-1.5">
-            <LogOut className="h-4 w-4" /> <span className="hidden sm:inline">Sign out</span>
           </Button>
         </div>
       </div>
