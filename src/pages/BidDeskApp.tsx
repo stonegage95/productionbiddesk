@@ -159,6 +159,18 @@ async function streamResponse(
   const reader = resp.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
+  let pendingDelta = "";
+  let deltaTimer: ReturnType<typeof setTimeout> | null = null;
+  const flushDelta = () => {
+    if (!pendingDelta) return;
+    onDelta(pendingDelta);
+    pendingDelta = "";
+    deltaTimer = null;
+  };
+  const queueDelta = (chunk: string) => {
+    pendingDelta += chunk;
+    if (!deltaTimer) deltaTimer = setTimeout(flushDelta, 90);
+  };
 
   while (true) {
     const { done, value } = await reader.read();
@@ -177,7 +189,7 @@ async function streamResponse(
       try {
         const parsed = JSON.parse(jsonStr);
         const content = parsed.choices?.[0]?.delta?.content as string | undefined;
-        if (content) onDelta(content);
+        if (content) queueDelta(content);
       } catch {
         buffer = line + "\n" + buffer;
         break;
@@ -195,13 +207,15 @@ async function streamResponse(
       try {
         const parsed = JSON.parse(jsonStr);
         const content = parsed.choices?.[0]?.delta?.content as string | undefined;
-        if (content) onDelta(content);
+        if (content) queueDelta(content);
       } catch {
         /* ignore */
       }
     }
   }
 
+  if (deltaTimer) clearTimeout(deltaTimer);
+  flushDelta();
   onDone();
 }
 
@@ -218,6 +232,7 @@ const BidDeskApp = () => {
   const [streaming, setStreaming] = useState(false);
   const [followUp, setFollowUp] = useState("");
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const scrollTimerRef = useRef<number | null>(null);
 
   const [history, setHistory] = useState<Report[]>([]);
   const [showHistory, setShowHistory] = useState(false);
@@ -227,15 +242,25 @@ const BidDeskApp = () => {
   const deckOutlineRequestedRef = useRef(false);
   const [deckOutlineReady, setDeckOutlineReady] = useState(false);
   const [showDeckReady, setShowDeckReady] = useState(false);
+  const [deckOutlineGenerating, setDeckOutlineGenerating] = useState(false);
   
 
-  const scrollToBottom = () => {
-    setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
+  const scrollToBottom = (behavior: ScrollBehavior = "auto") => {
+    if (scrollTimerRef.current) window.clearTimeout(scrollTimerRef.current);
+    scrollTimerRef.current = window.setTimeout(() => {
+      chatEndRef.current?.scrollIntoView({ behavior, block: "end" });
+    }, 100);
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, streaming]);
+    scrollToBottom(streaming ? "auto" : "smooth");
+  }, [messages.length, streaming]);
+
+  useEffect(() => {
+    return () => {
+      if (scrollTimerRef.current) window.clearTimeout(scrollTimerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (started) {
@@ -312,6 +337,7 @@ const BidDeskApp = () => {
     setMessages([]);
     setDeckOutlineReady(false);
     setShowDeckReady(false);
+    setDeckOutlineGenerating(false);
 
     const parts = [
       `Project: ${projectName || "Untitled"}`,
@@ -339,6 +365,10 @@ const BidDeskApp = () => {
         storyboardBase64 = await fileToBase64(storyboardFile);
         storyboardMimeType = storyboardFile.type || "image/png";
       }
+      storyboardDataRef.current = storyboardBase64
+        ? { base64: storyboardBase64, mime: storyboardMimeType || "image/png" }
+        : null;
+    } else {
       storyboardDataRef.current = null;
     }
 
@@ -368,24 +398,27 @@ const BidDeskApp = () => {
     }
   };
 
-  const handleFollowUp = async () => {
-    if (!followUp.trim() || streaming) return;
+  const handleFollowUp = async (overrideText?: string) => {
+    const text = overrideText ?? followUp;
+    if (!text.trim() || streaming) return;
 
-    const originalText = followUp;
+    const originalText = text;
     const isExportRequest = /\b(export|download|print|pdf|save as pdf)\b/i.test(originalText) && !/\b(generate|create|build|make|deliver)\b/i.test(originalText);
     if (isExportRequest) {
       setFollowUp("");
+      setDeckOutlineGenerating(false);
       handleExportPDF();
       return;
     }
 
-    const isDeckOutline = /\b(generate|create|build|make|deliver|export)\b[\s\S]*\b(bid\s+)?(deck\s+)?outline\b|\b(bid\s+package|deck\s+outline|bid\s+outline)\b/i.test(followUp);
+    const isDeckOutline = /\b(generate|create|build|make|deliver|export)\b[\s\S]*\b(bid\s+)?(deck\s+)?outline\b|\b(bid\s+package|deck\s+outline|bid\s+outline)\b/i.test(text);
     deckOutlineRequestedRef.current = isDeckOutline;
     if (isDeckOutline) {
       setDeckOutlineReady(false);
       setShowDeckReady(false);
+      setDeckOutlineGenerating(true);
     }
-    const userMsg: ChatMessage = { role: "user", content: followUp };
+    const userMsg: ChatMessage = { role: "user", content: text };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
     setFollowUp("");
@@ -413,6 +446,7 @@ const BidDeskApp = () => {
           setStreaming(false);
           if (deckOutlineRequestedRef.current) {
             deckOutlineRequestedRef.current = false;
+            setDeckOutlineGenerating(false);
             window.scrollTo({ top: 0, behavior: "smooth" });
             setDeckOutlineReady(true);
             setShowDeckReady(true);
@@ -421,6 +455,7 @@ const BidDeskApp = () => {
       );
     } catch (e: any) {
       setStreaming(false);
+      setDeckOutlineGenerating(false);
       // Roll back the user message and restore their text so they don't lose it mid-demo
       setMessages(messages);
       setFollowUp(originalText);
@@ -442,6 +477,7 @@ const BidDeskApp = () => {
     setDeliverables("");
     setDeckOutlineReady(false);
     setShowDeckReady(false);
+    setDeckOutlineGenerating(false);
     storyboardDataRef.current = null;
   };
 
@@ -562,8 +598,8 @@ const BidDeskApp = () => {
             <ArrowLeft className="h-3.5 w-3.5" /> Homepage
           </a>
           {started && messages.some((m) => m.role === "assistant") && (
-            <Button variant="outline" size="sm" onClick={handleExportPDF} className="gap-1.5 text-xs">
-              <Download className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Export Production Outline </span>PDF
+            <Button variant={deckOutlineReady ? "default" : "outline"} size="sm" onClick={handleExportPDF} className="gap-1.5 text-xs">
+              <Download className="h-3.5 w-3.5" /> {deckOutlineReady ? "Your outline is ready — Export PDF" : <><span className="hidden sm:inline">Export Production Outline </span>PDF</>}
             </Button>
           )}
           <Button
@@ -755,6 +791,21 @@ const BidDeskApp = () => {
               <div ref={chatEndRef} />
             </div>
 
+            {deckOutlineGenerating && streaming && (
+              <div className="sticky bottom-0 z-10 flex justify-center pb-2 pt-2">
+                <div
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold shadow-lg"
+                  style={{
+                    background: "hsl(var(--gold) / .14)",
+                    color: "hsl(var(--gold))",
+                    border: "1px solid hsl(var(--gold) / .35)",
+                  }}
+                >
+                  Building production outline…
+                </div>
+              </div>
+            )}
+
             {!streaming && deckOutlineReady && messages.length >= 1 && messages[messages.length - 1]?.role === "assistant" && (
               <div className="sticky bottom-0 z-10 flex justify-center pb-2 pt-2">
                 <button
@@ -766,7 +817,7 @@ const BidDeskApp = () => {
                   }}
                 >
                   <ArrowUp className="h-4 w-4" />
-                  Production outline is ready — scroll up to export
+                  Your outline is ready — scroll up to export
                 </button>
               </div>
             )}
@@ -780,48 +831,7 @@ const BidDeskApp = () => {
                     size="sm"
                     className="text-xs"
                     onClick={() => {
-                      setFollowUp(qa.message);
-                      setTimeout(() => {
-                        setFollowUp("");
-                        const userMsg: ChatMessage = { role: "user", content: qa.message };
-                        const newMsgs = [...messages, userMsg];
-                        setMessages(newMsgs);
-                        setStreaming(true);
-
-                        const apiMessages = newMsgs.map((m, idx) => {
-                          if (idx === 0 && m.role === "user" && storyboardDataRef.current) {
-                            return {
-                              role: "user",
-                              content: [
-                                { type: "text", text: m.content },
-                                { type: "image_url", image_url: { url: `data:${storyboardDataRef.current.mime};base64,${storyboardDataRef.current.base64}` } },
-                              ],
-                            };
-                          }
-                          return m;
-                        });
-
-                        let assistantText = "";
-                        streamResponse(
-                          { messages: apiMessages },
-                          (chunk) => {
-                            assistantText += chunk;
-                            setMessages((prev) => {
-                              const last = prev[prev.length - 1];
-                              if (last?.role === "assistant" && prev.length === newMsgs.length + 1) {
-                                return prev.map((m, idx2) => (idx2 === prev.length - 1 ? { ...m, content: assistantText } : m));
-                              }
-                              return [...prev, { role: "assistant", content: assistantText }];
-                            });
-                          },
-                          () => {
-                            setStreaming(false);
-                          }
-                        ).catch((e) => {
-                          setStreaming(false);
-                          toast({ title: "Error", description: e.message, variant: "destructive" });
-                        });
-                      }, 0);
+                      handleFollowUp(qa.message);
                     }}
                   >
                     {qa.label}
@@ -839,7 +849,7 @@ const BidDeskApp = () => {
                 disabled={streaming}
                 className="flex-1"
               />
-              <Button size="icon" onClick={handleFollowUp} disabled={streaming || !followUp.trim()}>
+              <Button size="icon" onClick={() => handleFollowUp()} disabled={streaming || !followUp.trim()}>
                 <Send className="h-4 w-4" />
               </Button>
             </div>
