@@ -372,6 +372,13 @@ const BidDeskApp = () => {
     if (!followUp.trim() || streaming) return;
 
     const originalText = followUp;
+    const isExportRequest = /\b(export|download|print|pdf|save as pdf)\b/i.test(originalText) && !/\b(generate|create|build|make|deliver)\b/i.test(originalText);
+    if (isExportRequest) {
+      setFollowUp("");
+      handleExportPDF();
+      return;
+    }
+
     const isDeckOutline = /\b(generate|create|build|make|deliver|export)\b[\s\S]*\b(bid\s+)?(deck\s+)?outline\b|\b(bid\s+package|deck\s+outline|bid\s+outline)\b/i.test(followUp);
     deckOutlineRequestedRef.current = isDeckOutline;
     if (isDeckOutline) {
@@ -497,113 +504,8 @@ const BidDeskApp = () => {
     setTimeout(() => printWindow.print(), 400);
   };
 
-  const handleExportDeckOutline = () => {
-    const allAssistant = messages.filter((m) => m.role === "assistant").map((m) => m.content).join("\n\n");
-    if (!allAssistant.trim()) {
-      toast({ title: "Nothing to export", description: "Run an analysis first, then export the deck outline.", variant: "destructive" });
-      return;
-    }
-
-    const title = projectName || "Production Bid Desk";
-    const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-
-    const extractSection = (text: string, headings: string[]) => {
-      for (const heading of headings) {
-        const regex = new RegExp(`(?:^|\\n)##?\\s*${heading}[^\\n]*\\n([\\s\\S]*?)(?=\\n##|$)`, "i");
-        const match = text.match(regex);
-        if (match) return match[1].trim();
-      }
-      return null;
-    };
-
-    const risks = extractSection(allAssistant, ["Risks", "Risk"]) || "Not yet analyzed — ask the AI for a risks assessment.";
-    const budget = extractSection(allAssistant, ["Budget", "Ballpark", "Cost"]) || "Not yet analyzed — ask the AI for ballpark numbers.";
-    const timeline = extractSection(allAssistant, ["Timeline", "Schedule", "Production Schedule"]) || "Not yet analyzed — ask the AI for a timeline.";
-    const postProd = extractSection(allAssistant, ["Post-Production", "Post Production", "Editorial"]) || null;
-    const crew = extractSection(allAssistant, ["Crew", "Equipment", "Production Approach"]) || null;
-    const assumptions = extractSection(allAssistant, ["Assumptions", "Key Assumptions"]) || null;
-
-    const mdToHtml = (md: string) =>
-      md
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.+?)\*/g, "<em>$1</em>")
-        .replace(/^- (.+)$/gm, "<li>$1</li>")
-        .replace(/(<li>.*<\/li>\n?)+/g, (match) => `<ul>${match}</ul>`)
-        .replace(/^### (.+)$/gm, "<h4>$1</h4>")
-        .replace(/^## (.+)$/gm, "<h3>$1</h3>")
-        .replace(/\n{2,}/g, "<br/><br/>")
-        .replace(/\n/g, "<br/>");
-
-    const section = (num: string, label: string, content: string) =>
-      `<div class="section"><div class="section-header"><span class="section-num">${num}</span>${label}</div><div class="section-body">${mdToHtml(content)}</div></div>`;
-
-    const sections = [
-      section("01", "Project Overview", `<strong>${title}</strong><br/>Format: Commercial / Branded Content<br/>Date: ${date}${deliverables ? `<br/>Deliverables: ${deliverables}` : ""}${talentLevel ? `<br/>Talent: ${talentLevel}` : ""}`),
-      section("02", "Risk Register", risks),
-      section("03", "Budget Summary", budget),
-      section("04", "Production Schedule", timeline),
-      postProd ? section("05", "Post-Production Plan", postProd) : "",
-      assumptions ? section(postProd ? "06" : "05", "Key Assumptions", assumptions) : "",
-      crew ? section(postProd && assumptions ? "07" : postProd || assumptions ? "06" : "05", "Crew & Equipment", crew) : "",
-    ].filter(Boolean).join("");
-
-    const outlineHtml = `<!DOCTYPE html>
-<html>
-<head>
-  <title>${title} — Production Deck Outline</title>
-  <style>
-    @page { margin: 0.75in 1in; size: letter; }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #1a1a1a; line-height: 1.55; }
-    .cover { text-align: center; padding: 80px 40px 40px; border-bottom: 4px solid #c9a227; margin-bottom: 32px; }
-    .cover h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
-    .cover .type { font-size: 14px; color: #c9a227; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 12px; }
-    .cover .meta { font-size: 12px; color: #888; }
-    .section { margin-bottom: 24px; page-break-inside: avoid; }
-    .section-header { font-size: 15px; font-weight: 700; border-bottom: 2px solid #c9a227; padding-bottom: 4px; margin-bottom: 10px; display: flex; align-items: baseline; gap: 8px; }
-    .section-num { color: #c9a227; font-size: 13px; font-weight: 600; }
-    .section-body { font-size: 12.5px; color: #333; }
-    .section-body ul { padding-left: 18px; margin: 6px 0; }
-    .section-body li { margin-bottom: 3px; }
-    .section-body strong { font-weight: 600; }
-    .section-body h3 { font-size: 13px; font-weight: 600; margin-top: 10px; margin-bottom: 4px; }
-    .section-body h4 { font-size: 12.5px; font-weight: 600; margin-top: 8px; }
-    .footer { margin-top: 40px; padding-top: 12px; border-top: 1px solid #e5e5e5; font-size: 10px; color: #aaa; text-align: center; }
-    .open-items { margin-top: 28px; padding: 16px; background: #fafaf8; border: 1px solid #e5e5e5; border-radius: 4px; }
-    .open-items h3 { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
-    .open-items p { font-size: 12px; color: #666; }
-    @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
-  </style>
-</head>
-<body>
-  <div class="cover">
-    <div class="type">Production Deck Outline</div>
-    <h1>${title}</h1>
-    <div class="meta">${date} &bull; Prepared by Production Bid Desk</div>
-  </div>
-  ${sections}
-  <div class="open-items">
-    <h3>Next Steps / Open Questions</h3>
-    <p>This deck outline was generated from an AI-assisted pre-bid analysis. Review all estimates, validate assumptions with your production team, and refine numbers based on actual vendor quotes and location scouts.</p>
-  </div>
-  <div class="footer">Production Bid Desk &bull; Confidential &bull; ${date}</div>
-</body>
-</html>`;
-
-    const printWindow = window.open("", "_blank");
-    if (!printWindow) {
-      toast({ title: "Pop-up blocked", description: "Please allow pop-ups for PDF export.", variant: "destructive" });
-      return;
-    }
-    printWindow.document.write(outlineHtml);
-    printWindow.document.close();
-    setTimeout(() => printWindow.print(), 400);
-    toast({ title: "Deck outline ready", description: "Choose 'Save as PDF' in the print dialog." });
-  };
-
   const quickActions = [
     { label: "📊 Ballpark numbers", message: "Give me ballpark budget numbers including production AND post-production cost drivers" },
-    { label: "📋 Deck outline", message: "Generate a COMPLETE production deck outline. Include EVERY section with detail, using these exact markdown headings in this order:\n\n## Project Overview\n## Risks\n## Budget\n## Timeline\n## Post-Production\n## Crew & Equipment\n## Talent\n## Production Approach\n## Key Assumptions\n\nEach section must be thorough — multiple bullets or paragraphs, real numbers and ranges where possible, no placeholders. Do not skip any section." },
     { label: "🗓️ Timeline", message: "Give me a high-level production timeline from pre-pro through post and delivery" },
     { label: "🎬 Post-production", message: "Break down the post-production workflow, edit schedule, VFX/finishing, and cost estimates" },
     { label: "🎭 Talent recs", message: "What are your talent and casting recommendations?" },
@@ -659,14 +561,9 @@ const BidDeskApp = () => {
             <ArrowLeft className="h-3.5 w-3.5" /> Homepage
           </a>
           {started && messages.some((m) => m.role === "assistant") && (
-            <>
-              <Button variant="outline" size="sm" onClick={handleExportDeckOutline} className="gap-1.5 text-xs">
-                <FileText className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Deck Outline</span><span className="sm:hidden">Deck</span>
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleExportPDF} className="gap-1.5 text-xs">
-                <Download className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Export </span>PDF
-              </Button>
-            </>
+            <Button variant="outline" size="sm" onClick={handleExportPDF} className="gap-1.5 text-xs">
+              <Download className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Export Production Outline </span>PDF
+            </Button>
           )}
           <Button
             variant="outline"
@@ -868,7 +765,7 @@ const BidDeskApp = () => {
                   }}
                 >
                   <ArrowUp className="h-4 w-4" />
-                  Bid package is ready — scroll up to export
+                  Production outline is ready — scroll up to export
                 </button>
               </div>
             )}
@@ -885,11 +782,6 @@ const BidDeskApp = () => {
                       setFollowUp(qa.message);
                       setTimeout(() => {
                         setFollowUp("");
-                        const isDeckOutlineAction = qa.label.includes("Deck outline");
-                        if (isDeckOutlineAction) {
-                          setDeckOutlineReady(false);
-                          setShowDeckReady(false);
-                        }
                         const userMsg: ChatMessage = { role: "user", content: qa.message };
                         const newMsgs = [...messages, userMsg];
                         setMessages(newMsgs);
@@ -923,11 +815,6 @@ const BidDeskApp = () => {
                           },
                           () => {
                             setStreaming(false);
-                            if (isDeckOutlineAction) {
-                              window.scrollTo({ top: 0, behavior: "smooth" });
-                              setDeckOutlineReady(true);
-                              setShowDeckReady(true);
-                            }
                           }
                         ).catch((e) => {
                           setStreaming(false);
@@ -964,9 +851,9 @@ const BidDeskApp = () => {
     <Dialog open={showDeckReady} onOpenChange={setShowDeckReady}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>📋 Deck outline ready — export now</DialogTitle>
+          <DialogTitle>📋 Production outline ready — export now</DialogTitle>
           <DialogDescription>
-            Your production deck outline is built. Export it as a print-ready PDF below.
+            Your production outline is built. Export the full report as a print-ready PDF below.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -974,11 +861,11 @@ const BidDeskApp = () => {
           <Button
             onClick={() => {
               setShowDeckReady(false);
-              handleExportDeckOutline();
+              handleExportPDF();
             }}
             className="gap-1.5"
           >
-            <Download className="h-4 w-4" /> Export Deck Outline PDF
+            <Download className="h-4 w-4" /> Export Production Outline PDF
           </Button>
         </DialogFooter>
       </DialogContent>
