@@ -24,7 +24,7 @@ const Index = () => {
     {
       icon: Upload,
       phase: "01",
-      title: "Drop Your Board",
+      title: "Drop Your Generic Board",
       desc: "Upload script, treatment, or creative board — any format.",
     },
     {
