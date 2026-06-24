@@ -55,14 +55,15 @@ serve(async (req) => {
       if (!GEMINI_API_KEY) throw new Error("GEMINI_API_KEY is not configured");
 
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions?key=${GEMINI_API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${GEMINI_API_KEY}`,
           },
           body: JSON.stringify({
-            model: "gemini-2.5-flash-preview-04-21",
+            model: "gemini-2.5-flash",
             messages: [
               { role: "system", content: SYSTEM_PROMPT },
               ...messages,
@@ -116,14 +117,15 @@ serve(async (req) => {
     }
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${GEMINI_API_KEY}`,
         },
         body: JSON.stringify({
-          model: "gemini-2.5-flash-preview-04-21",
+          model: "gemini-2.5-flash",
           messages: [
             { role: "system", content: SYSTEM_PROMPT },
             { role: "user", content: userContent },
