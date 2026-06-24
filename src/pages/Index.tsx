@@ -37,7 +37,7 @@ const Index = () => {
       icon: FileCheck,
       phase: "03",
       title: "Get Insights",
-      desc: "Ballpark budgets, timelines, red flags. Outline optional.",
+      desc: "Ballpark budgets, timelines, red flags, production approach. Outline ready.",
     },
     {
       icon: Presentation,
