@@ -225,7 +225,7 @@ const BidDeskApp = () => {
   const storyboardDataRef = useRef<{ base64: string; mime: string } | null>(null);
   const deckOutlineRequestedRef = useRef(false);
   const [showDeckReady, setShowDeckReady] = useState(false);
-  const [showFirstReady, setShowFirstReady] = useState(false);
+  
 
   const scrollToBottom = () => {
     setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
@@ -355,7 +355,6 @@ const BidDeskApp = () => {
           setStreaming(false);
           if (assistantText.trim()) {
             saveReport(assistantText);
-            setShowFirstReady(true);
           }
         }
       );
@@ -593,7 +592,7 @@ const BidDeskApp = () => {
 
   const quickActions = [
     { label: "📊 Ballpark numbers", message: "Give me ballpark budget numbers including production AND post-production cost drivers" },
-    { label: "📋 Deck outline", message: "Generate a production deck outline I can use in my bid deck" },
+    { label: "📋 Deck outline", message: "Generate a COMPLETE production deck outline. Include EVERY section with detail, using these exact markdown headings in this order:\n\n## Project Overview\n## Risks\n## Budget\n## Timeline\n## Post-Production\n## Crew & Equipment\n## Talent\n## Production Approach\n## Key Assumptions\n\nEach section must be thorough — multiple bullets or paragraphs, real numbers and ranges where possible, no placeholders. Do not skip any section." },
     { label: "🗓️ Timeline", message: "Give me a high-level production timeline from pre-pro through post and delivery" },
     { label: "🎬 Post-production", message: "Break down the post-production workflow, edit schedule, VFX/finishing, and cost estimates" },
     { label: "🎭 Talent recs", message: "What are your talent and casting recommendations?" },
@@ -922,28 +921,6 @@ const BidDeskApp = () => {
       </div>
     </div>
 
-    <Dialog open={showFirstReady} onOpenChange={setShowFirstReady}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>✅ Your Bid Desk analysis is ready</DialogTitle>
-          <DialogDescription>
-            Review the report below. You can ask follow-up questions, or use a Quick Action like <strong>📋 Deck outline</strong> when you're ready to export a polished PDF.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setShowFirstReady(false)}>Keep exploring</Button>
-          <Button
-            onClick={() => {
-              setShowFirstReady(false);
-              setFollowUp("Generate a production deck outline I can use in my bid deck");
-              setTimeout(() => handleFollowUp(), 50);
-            }}
-          >
-            Generate deck outline
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
 
     <Dialog open={showDeckReady} onOpenChange={setShowDeckReady}>
       <DialogContent>
