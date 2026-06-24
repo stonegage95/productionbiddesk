@@ -847,6 +847,22 @@ const BidDeskApp = () => {
               <div ref={chatEndRef} />
             </div>
 
+            {!streaming && messages.length >= 1 && messages[messages.length - 1]?.role === "assistant" && (
+              <div className="sticky bottom-0 z-10 flex justify-center pb-2 pt-2">
+                <button
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold shadow-lg transition-transform hover:scale-105"
+                  style={{
+                    background: "hsl(var(--gold))",
+                    color: "hsl(var(--gold-foreground))",
+                  }}
+                >
+                  <ArrowUp className="h-4 w-4" />
+                  Bid package is ready — scroll up to export
+                </button>
+              </div>
+            )}
+
             {!streaming && messages.length >= 2 && messages[messages.length - 1]?.role === "assistant" && (
               <div className="flex flex-wrap gap-2 pb-3">
                 {quickActions.map((qa) => (
