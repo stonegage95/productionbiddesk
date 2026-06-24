@@ -36,6 +36,7 @@ import {
   Bot,
   User,
   ArrowLeft,
+  ArrowUp,
 } from "lucide-react";
 
 const ANALYZE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/bid-desk-analyze`;
