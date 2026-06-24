@@ -225,7 +225,7 @@ const BidDeskApp = () => {
   const storyboardDataRef = useRef<{ base64: string; mime: string } | null>(null);
   const deckOutlineRequestedRef = useRef(false);
   const [showDeckReady, setShowDeckReady] = useState(false);
-  const [showFirstReady, setShowFirstReady] = useState(false);
+  
 
   const scrollToBottom = () => {
     setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
