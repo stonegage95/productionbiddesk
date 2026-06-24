@@ -355,7 +355,6 @@ const BidDeskApp = () => {
           setStreaming(false);
           if (assistantText.trim()) {
             saveReport(assistantText);
-            setShowFirstReady(true);
           }
         }
       );
