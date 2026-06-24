@@ -592,7 +592,7 @@ const BidDeskApp = () => {
 
   const quickActions = [
     { label: "📊 Ballpark numbers", message: "Give me ballpark budget numbers including production AND post-production cost drivers" },
-    { label: "📋 Deck outline", message: "Generate a production deck outline I can use in my bid deck" },
+    { label: "📋 Deck outline", message: "Generate a COMPLETE production deck outline. Include EVERY section with detail, using these exact markdown headings in this order:\n\n## Project Overview\n## Risks\n## Budget\n## Timeline\n## Post-Production\n## Crew & Equipment\n## Talent\n## Production Approach\n## Key Assumptions\n\nEach section must be thorough — multiple bullets or paragraphs, real numbers and ranges where possible, no placeholders. Do not skip any section." },
     { label: "🗓️ Timeline", message: "Give me a high-level production timeline from pre-pro through post and delivery" },
     { label: "🎬 Post-production", message: "Break down the post-production workflow, edit schedule, VFX/finishing, and cost estimates" },
     { label: "🎭 Talent recs", message: "What are your talent and casting recommendations?" },
