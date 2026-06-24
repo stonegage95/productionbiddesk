@@ -242,6 +242,7 @@ const BidDeskApp = () => {
   const deckOutlineRequestedRef = useRef(false);
   const [deckOutlineReady, setDeckOutlineReady] = useState(false);
   const [showDeckReady, setShowDeckReady] = useState(false);
+  const [showPostExport, setShowPostExport] = useState(false);
   const [deckOutlineGenerating, setDeckOutlineGenerating] = useState(false);
   
 
@@ -505,6 +506,9 @@ const BidDeskApp = () => {
         .replace(/\n{2,}/g, "<br/><br/>")
         .replace(/\n/g, "<br/>");
 
+    const appUrl = `${window.location.origin}/app`;
+    const homeUrl = `${window.location.origin}/`;
+
     printWindow.document.write(`<!DOCTYPE html>
 <html>
 <head>
@@ -513,6 +517,11 @@ const BidDeskApp = () => {
     @page { margin: 0.75in 1in; size: letter; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #1a1a1a; line-height: 1.6; padding: 0; }
+    .toolbar { position: sticky; top: 0; background: #1a1612; color: #fff; padding: 10px 16px; display: flex; gap: 8px; align-items: center; justify-content: flex-end; border-bottom: 2px solid #c9a227; z-index: 100; }
+    .toolbar .label { margin-right: auto; font-size: 12px; color: #c9a227; font-weight: 600; }
+    .toolbar button, .toolbar a { font: inherit; font-size: 12px; padding: 6px 12px; border-radius: 6px; border: 1px solid #c9a227; background: transparent; color: #fff; cursor: pointer; text-decoration: none; display: inline-block; }
+    .toolbar button.primary { background: #c9a227; color: #1a1612; border-color: #c9a227; font-weight: 600; }
+    .page { padding: 32px 48px 48px; }
     .header { border-bottom: 3px solid #c9a227; padding-bottom: 16px; margin-bottom: 28px; }
     .header h1 { font-size: 22px; font-weight: 700; }
     .header .subtitle { font-size: 13px; color: #666; }
@@ -524,20 +533,30 @@ const BidDeskApp = () => {
     .content strong { font-weight: 600; }
     .content hr { margin: 20px 0; border: none; border-top: 1px solid #e5e5e5; }
     .footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid #e5e5e5; font-size: 11px; color: #999; text-align: center; }
-    @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+    @media print { .toolbar { display: none !important; } .page { padding: 0; } body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>${title}</h1>
-    <div class="subtitle">Production Bid Desk Report &bull; ${date}</div>
+  <div class="toolbar">
+    <span class="label">Production Bid Desk — Report</span>
+    <button class="primary" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    <a href="${appUrl}">← Back to App</a>
+    <a href="${homeUrl}">🏠 Homepage</a>
+    <button onclick="window.close()">✕ Close</button>
   </div>
-  <div class="content">${mdToHtml(allAssistant)}</div>
-  <div class="footer">Production Bid Desk &bull; Confidential</div>
+  <div class="page">
+    <div class="header">
+      <h1>${title}</h1>
+      <div class="subtitle">Production Bid Desk Report &bull; ${date}</div>
+    </div>
+    <div class="content">${mdToHtml(allAssistant)}</div>
+    <div class="footer">Production Bid Desk &bull; Confidential</div>
+  </div>
 </body>
 </html>`);
     printWindow.document.close();
     setTimeout(() => printWindow.print(), 400);
+    setShowPostExport(true);
   };
 
   const quickActions = [
@@ -877,6 +896,24 @@ const BidDeskApp = () => {
             className="gap-1.5"
           >
             <Download className="h-4 w-4" /> Export Production Outline PDF
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+
+    <Dialog open={showPostExport} onOpenChange={setShowPostExport}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>✅ Export sent to a new tab</DialogTitle>
+          <DialogDescription>
+            Your report opened in a new tab with a Print / Save as PDF button. What next?
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="flex-col sm:flex-row gap-2">
+          <Button variant="outline" onClick={() => setShowPostExport(false)}>Stay in this project</Button>
+          <Button variant="outline" onClick={() => { setShowPostExport(false); window.location.href = "/"; }}>🏠 Homepage</Button>
+          <Button onClick={() => { setShowPostExport(false); window.location.reload(); }} className="gap-1.5">
+            ＋ Start new project
           </Button>
         </DialogFooter>
       </DialogContent>
