@@ -372,6 +372,13 @@ const BidDeskApp = () => {
     if (!followUp.trim() || streaming) return;
 
     const originalText = followUp;
+    const isExportRequest = /\b(export|download|print|pdf|save as pdf)\b/i.test(originalText) && !/\b(generate|create|build|make|deliver)\b/i.test(originalText);
+    if (isExportRequest) {
+      setFollowUp("");
+      handleExportPDF();
+      return;
+    }
+
     const isDeckOutline = /\b(generate|create|build|make|deliver|export)\b[\s\S]*\b(bid\s+)?(deck\s+)?outline\b|\b(bid\s+package|deck\s+outline|bid\s+outline)\b/i.test(followUp);
     deckOutlineRequestedRef.current = isDeckOutline;
     if (isDeckOutline) {
@@ -758,7 +765,7 @@ const BidDeskApp = () => {
                   }}
                 >
                   <ArrowUp className="h-4 w-4" />
-                  Bid package is ready — scroll up to export
+                  Production outline is ready — scroll up to export
                 </button>
               </div>
             )}
@@ -775,11 +782,6 @@ const BidDeskApp = () => {
                       setFollowUp(qa.message);
                       setTimeout(() => {
                         setFollowUp("");
-                        const isDeckOutlineAction = qa.label.includes("Deck outline");
-                        if (isDeckOutlineAction) {
-                          setDeckOutlineReady(false);
-                          setShowDeckReady(false);
-                        }
                         const userMsg: ChatMessage = { role: "user", content: qa.message };
                         const newMsgs = [...messages, userMsg];
                         setMessages(newMsgs);
@@ -813,11 +815,6 @@ const BidDeskApp = () => {
                           },
                           () => {
                             setStreaming(false);
-                            if (isDeckOutlineAction) {
-                              window.scrollTo({ top: 0, behavior: "smooth" });
-                              setDeckOutlineReady(true);
-                              setShowDeckReady(true);
-                            }
                           }
                         ).catch((e) => {
                           setStreaming(false);
@@ -854,9 +851,9 @@ const BidDeskApp = () => {
     <Dialog open={showDeckReady} onOpenChange={setShowDeckReady}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>📋 Deck outline ready — export now</DialogTitle>
+          <DialogTitle>📋 Production outline ready — export now</DialogTitle>
           <DialogDescription>
-            Your production deck outline is built. Export it as a print-ready PDF below.
+            Your production outline is built. Export the full report as a print-ready PDF below.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
