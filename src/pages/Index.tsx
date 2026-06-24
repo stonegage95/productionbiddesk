@@ -81,7 +81,7 @@ const Index = () => {
           Your AI partner for production strategy and <GradientText>logistical execution in global advertising.</GradientText>
         </h1>
         <p className="text-lg md:text-xl leading-relaxed font-semibold max-w-[60ch] mx-auto mb-8" style={{ color: "hsl(var(--gold))" }}>
-          PBD saves you time & protects your production. Your bids run smoother, your margins stay protected, and you never walk into a client meeting unprepared.
+          Production Bid Desk saves you time & protects your production. Your bids run smoother, your margins stay protected, and you never walk into a client meeting unprepared.
         </p>
 
         {/* ─── Phases Outline (above video) ─── */}
