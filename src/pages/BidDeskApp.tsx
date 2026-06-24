@@ -854,7 +854,7 @@ const BidDeskApp = () => {
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold shadow-lg transition-transform hover:scale-105"
                   style={{
                     background: "hsl(var(--gold))",
-                    color: "hsl(var(--gold-foreground))",
+                    color: "#0f0f0f",
                   }}
                 >
                   <ArrowUp className="h-4 w-4" />
