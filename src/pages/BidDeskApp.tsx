@@ -505,6 +505,7 @@ const BidDeskApp = () => {
   };
 
   const quickActions = [
+    { label: "📋 Generate Production Outline", message: "Generate the full production outline / bid package now — include every section: Project Overview, Creative Summary, Production Schedule, Budget Summary, Post-Production Plan, Key Assumptions, Risk Register, Crew & Equipment, Next Steps." },
     { label: "📊 Ballpark numbers", message: "Give me ballpark budget numbers including production AND post-production cost drivers" },
     { label: "🗓️ Timeline", message: "Give me a high-level production timeline from pre-pro through post and delivery" },
     { label: "🎬 Post-production", message: "Break down the post-production workflow, edit schedule, VFX/finishing, and cost estimates" },
