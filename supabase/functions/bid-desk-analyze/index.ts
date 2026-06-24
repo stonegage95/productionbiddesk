@@ -51,33 +51,30 @@ serve(async (req) => {
     const { messages, projectName, script, talentLevel, deliverables, storyboardBase64, storyboardMimeType } = body;
 
     if (messages && Array.isArray(messages) && messages.length > 0) {
-      const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
-      if (!GEMINI_API_KEY) throw new Error("GEMINI_API_KEY is not configured");
+      const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+      if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${GEMINI_API_KEY}`,
-          },
-          body: JSON.stringify({
-            model: "gemini-2.5-flash",
-            messages: [
-              { role: "system", content: SYSTEM_PROMPT },
-              ...messages,
-            ],
-            stream: true,
-          }),
-        }
-      );
+      const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Lovable-API-Key": LOVABLE_API_KEY,
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash",
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            ...messages,
+          ],
+          stream: true,
+        }),
+      });
 
       if (!response.ok) {
         const text = await response.text();
-        console.error("Gemini API error:", response.status, text);
+        console.error("Lovable AI error:", response.status, text);
         return new Response(
-          JSON.stringify({ error: `AI provider error (${response.status}). Check your API key and billing.` }),
+          JSON.stringify({ error: `AI provider error (${response.status}).` }),
           { status: response.status, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
