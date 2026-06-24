@@ -234,6 +234,7 @@ const BidDeskApp = () => {
   const chatScrollRef = useRef<HTMLDivElement>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const scrollFrameRef = useRef<number | null>(null);
+  const scrollSettleTimerRef = useRef<number | null>(null);
 
   const [history, setHistory] = useState<Report[]>([]);
   const [showHistory, setShowHistory] = useState(false);
@@ -249,24 +250,34 @@ const BidDeskApp = () => {
 
   const scrollToBottom = (behavior: ScrollBehavior = "auto") => {
     if (scrollFrameRef.current) window.cancelAnimationFrame(scrollFrameRef.current);
-    scrollFrameRef.current = window.requestAnimationFrame(() => {
+    if (scrollSettleTimerRef.current) window.clearTimeout(scrollSettleTimerRef.current);
+    const runScroll = () => {
       const container = chatScrollRef.current;
       if (container) {
-        container.scrollTo({ top: container.scrollHeight, behavior });
+        if (behavior === "auto") {
+          container.scrollTop = container.scrollHeight;
+        } else {
+          container.scrollTo({ top: container.scrollHeight, behavior });
+        }
       } else {
         chatEndRef.current?.scrollIntoView({ behavior, block: "end" });
       }
+    };
+    scrollFrameRef.current = window.requestAnimationFrame(() => {
+      runScroll();
+      scrollSettleTimerRef.current = window.setTimeout(runScroll, 120);
       scrollFrameRef.current = null;
     });
   };
 
   useEffect(() => {
-    scrollToBottom(streaming ? "auto" : "smooth");
+    scrollToBottom("auto");
   }, [messages, streaming]);
 
   useEffect(() => {
     return () => {
       if (scrollFrameRef.current) window.cancelAnimationFrame(scrollFrameRef.current);
+      if (scrollSettleTimerRef.current) window.clearTimeout(scrollSettleTimerRef.current);
     };
   }, []);
 
