@@ -225,6 +225,7 @@ const BidDeskApp = () => {
 
   const storyboardDataRef = useRef<{ base64: string; mime: string } | null>(null);
   const deckOutlineRequestedRef = useRef(false);
+  const [deckOutlineReady, setDeckOutlineReady] = useState(false);
   const [showDeckReady, setShowDeckReady] = useState(false);
   
 
@@ -309,6 +310,8 @@ const BidDeskApp = () => {
     setStarted(true);
     setStreaming(true);
     setMessages([]);
+    setDeckOutlineReady(false);
+    setShowDeckReady(false);
 
     const parts = [
       `Project: ${projectName || "Untitled"}`,
@@ -369,8 +372,12 @@ const BidDeskApp = () => {
     if (!followUp.trim() || streaming) return;
 
     const originalText = followUp;
-    const isDeckOutline = /deck outline|deck\s+outline/i.test(followUp);
+    const isDeckOutline = /\b(generate|create|build|make|deliver|export)\b[\s\S]*\b(bid\s+)?(deck\s+)?outline\b|\b(bid\s+package|deck\s+outline|bid\s+outline)\b/i.test(followUp);
     deckOutlineRequestedRef.current = isDeckOutline;
+    if (isDeckOutline) {
+      setDeckOutlineReady(false);
+      setShowDeckReady(false);
+    }
     const userMsg: ChatMessage = { role: "user", content: followUp };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
@@ -400,6 +407,7 @@ const BidDeskApp = () => {
           if (deckOutlineRequestedRef.current) {
             deckOutlineRequestedRef.current = false;
             window.scrollTo({ top: 0, behavior: "smooth" });
+            setDeckOutlineReady(true);
             setShowDeckReady(true);
           }
         }
@@ -425,6 +433,8 @@ const BidDeskApp = () => {
     setStoryboardFile(null);
     setTalentLevel("");
     setDeliverables("");
+    setDeckOutlineReady(false);
+    setShowDeckReady(false);
     storyboardDataRef.current = null;
   };
 
@@ -847,7 +857,7 @@ const BidDeskApp = () => {
               <div ref={chatEndRef} />
             </div>
 
-            {!streaming && messages.length >= 1 && messages[messages.length - 1]?.role === "assistant" && (
+            {!streaming && deckOutlineReady && messages.length >= 1 && messages[messages.length - 1]?.role === "assistant" && (
               <div className="sticky bottom-0 z-10 flex justify-center pb-2 pt-2">
                 <button
                   onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -875,6 +885,11 @@ const BidDeskApp = () => {
                       setFollowUp(qa.message);
                       setTimeout(() => {
                         setFollowUp("");
+                        const isDeckOutlineAction = qa.label.includes("Deck outline");
+                        if (isDeckOutlineAction) {
+                          setDeckOutlineReady(false);
+                          setShowDeckReady(false);
+                        }
                         const userMsg: ChatMessage = { role: "user", content: qa.message };
                         const newMsgs = [...messages, userMsg];
                         setMessages(newMsgs);
@@ -906,7 +921,14 @@ const BidDeskApp = () => {
                               return [...prev, { role: "assistant", content: assistantText }];
                             });
                           },
-                          () => setStreaming(false)
+                          () => {
+                            setStreaming(false);
+                            if (isDeckOutlineAction) {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                              setDeckOutlineReady(true);
+                              setShowDeckReady(true);
+                            }
+                          }
                         ).catch((e) => {
                           setStreaming(false);
                           toast({ title: "Error", description: e.message, variant: "destructive" });
