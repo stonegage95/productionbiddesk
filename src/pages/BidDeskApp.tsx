@@ -278,6 +278,27 @@ const BidDeskApp = () => {
 
   const MAX_FILE_SIZE = 4 * 1024 * 1024;
 
+  const handleScriptOrStoryboardUpload = async (file: File) => {
+    const name = file.name.toLowerCase();
+    const textExts = [".txt", ".md"];
+    const storyboardExts = [".pdf", ".png", ".jpg", ".jpeg", ".webp"];
+    if (textExts.some((ext) => name.endsWith(ext))) {
+      try {
+        const text = await file.text();
+        setScript((prev) => prev ? prev + "\n\n" + text : text);
+        toast({ title: "Script loaded", description: file.name });
+      } catch {
+        toast({ title: "Couldn't read file", description: "Try pasting the text instead.", variant: "destructive" });
+      }
+    } else if (storyboardExts.some((ext) => name.endsWith(ext))) {
+      setStoryboardFile(file);
+      toast({ title: "Storyboard attached", description: file.size > MAX_FILE_SIZE ? `${file.name} (will be auto-compressed)` : file.name });
+    } else {
+      toast({ title: "Unsupported file", description: "Use .txt or .md for scripts, or PDF/PNG/JPG/WebP for storyboards.", variant: "destructive" });
+    }
+  };
+
+
   const handleStart = async () => {
     if (!deliverables.trim()) {
       toast({ title: "Required", description: "Please enter deliverables to begin.", variant: "destructive" });
