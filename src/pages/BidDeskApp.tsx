@@ -231,8 +231,10 @@ const BidDeskApp = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [streaming, setStreaming] = useState(false);
   const [followUp, setFollowUp] = useState("");
+  const chatScrollRef = useRef<HTMLDivElement>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
-  const scrollTimerRef = useRef<number | null>(null);
+  const scrollFrameRef = useRef<number | null>(null);
+  const scrollSettleTimerRef = useRef<number | null>(null);
 
   const [history, setHistory] = useState<Report[]>([]);
   const [showHistory, setShowHistory] = useState(false);
@@ -247,19 +249,35 @@ const BidDeskApp = () => {
   
 
   const scrollToBottom = (behavior: ScrollBehavior = "auto") => {
-    if (scrollTimerRef.current) window.clearTimeout(scrollTimerRef.current);
-    scrollTimerRef.current = window.setTimeout(() => {
-      chatEndRef.current?.scrollIntoView({ behavior, block: "end" });
-    }, 100);
+    if (scrollFrameRef.current) window.cancelAnimationFrame(scrollFrameRef.current);
+    if (scrollSettleTimerRef.current) window.clearTimeout(scrollSettleTimerRef.current);
+    const runScroll = () => {
+      const container = chatScrollRef.current;
+      if (container) {
+        if (behavior === "auto") {
+          container.scrollTop = container.scrollHeight;
+        } else {
+          container.scrollTo({ top: container.scrollHeight, behavior });
+        }
+      } else {
+        chatEndRef.current?.scrollIntoView({ behavior, block: "end" });
+      }
+    };
+    scrollFrameRef.current = window.requestAnimationFrame(() => {
+      runScroll();
+      scrollSettleTimerRef.current = window.setTimeout(runScroll, 120);
+      scrollFrameRef.current = null;
+    });
   };
 
   useEffect(() => {
-    scrollToBottom(streaming ? "auto" : "smooth");
-  }, [messages.length, streaming]);
+    scrollToBottom("auto");
+  }, [messages, streaming]);
 
   useEffect(() => {
     return () => {
-      if (scrollTimerRef.current) window.clearTimeout(scrollTimerRef.current);
+      if (scrollFrameRef.current) window.cancelAnimationFrame(scrollFrameRef.current);
+      if (scrollSettleTimerRef.current) window.clearTimeout(scrollSettleTimerRef.current);
     };
   }, []);
 
@@ -571,7 +589,7 @@ const BidDeskApp = () => {
   return (
     <>
     <Paywall />
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className={`${started ? "h-dvh overflow-hidden" : "min-h-screen"} bg-background flex flex-col`}>
       <div
         className="w-full text-center text-[10px] font-semibold py-1 px-3 truncate"
         style={{
@@ -661,7 +679,7 @@ const BidDeskApp = () => {
         </div>
       )}
 
-      <div className="flex-1 max-w-[960px] w-full mx-auto px-6 py-4 flex flex-col">
+      <div className="flex-1 min-h-0 max-w-[960px] w-full mx-auto px-6 py-4 flex flex-col">
         {!started ? (
           <div className="rounded-xl border border-border bg-card p-6 space-y-5 max-w-2xl mx-auto w-full">
             <div className="space-y-1.5">
@@ -751,7 +769,7 @@ const BidDeskApp = () => {
           </div>
         ) : (
           <div className="flex flex-col flex-1 min-h-0">
-            <div className="flex-1 overflow-y-auto space-y-4 pb-4">
+            <div ref={chatScrollRef} className="flex-1 overflow-y-auto space-y-4 pb-4 pr-1">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                   {msg.role === "assistant" && (
