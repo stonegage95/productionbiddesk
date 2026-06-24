@@ -554,14 +554,9 @@ const BidDeskApp = () => {
             <ArrowLeft className="h-3.5 w-3.5" /> Homepage
           </a>
           {started && messages.some((m) => m.role === "assistant") && (
-            <>
-              <Button variant="outline" size="sm" onClick={handleExportDeckOutline} className="gap-1.5 text-xs">
-                <FileText className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Deck Outline</span><span className="sm:hidden">Deck</span>
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleExportPDF} className="gap-1.5 text-xs">
-                <Download className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Export </span>PDF
-              </Button>
-            </>
+            <Button variant="outline" size="sm" onClick={handleExportPDF} className="gap-1.5 text-xs">
+              <Download className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Export Production Outline </span>PDF
+            </Button>
           )}
           <Button
             variant="outline"
@@ -869,11 +864,11 @@ const BidDeskApp = () => {
           <Button
             onClick={() => {
               setShowDeckReady(false);
-              handleExportDeckOutline();
+              handleExportPDF();
             }}
             className="gap-1.5"
           >
-            <Download className="h-4 w-4" /> Export Deck Outline PDF
+            <Download className="h-4 w-4" /> Export Production Outline PDF
           </Button>
         </DialogFooter>
       </DialogContent>
