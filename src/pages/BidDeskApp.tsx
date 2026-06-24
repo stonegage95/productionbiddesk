@@ -242,6 +242,7 @@ const BidDeskApp = () => {
   const deckOutlineRequestedRef = useRef(false);
   const [deckOutlineReady, setDeckOutlineReady] = useState(false);
   const [showDeckReady, setShowDeckReady] = useState(false);
+  const [showPostExport, setShowPostExport] = useState(false);
   const [deckOutlineGenerating, setDeckOutlineGenerating] = useState(false);
   
 
