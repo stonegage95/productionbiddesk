@@ -845,7 +845,7 @@ const BidDeskApp = () => {
                 disabled={streaming}
                 className="flex-1"
               />
-              <Button size="icon" onClick={handleFollowUp} disabled={streaming || !followUp.trim()}>
+              <Button size="icon" onClick={() => handleFollowUp()} disabled={streaming || !followUp.trim()}>
                 <Send className="h-4 w-4" />
               </Button>
             </div>
