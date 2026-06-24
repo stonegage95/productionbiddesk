@@ -687,57 +687,31 @@ const BidDeskApp = () => {
 
             <div className="space-y-2">
               <Label>Script or brief</Label>
-              <div className="flex items-center justify-between">
-                <p className="text-muted-foreground text-xs">Paste your script below, or upload a text file.</p>
-                <label className="inline-flex items-center gap-1.5 cursor-pointer text-xs font-medium px-3 py-1.5 rounded-md border border-border bg-secondary/40 text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors shrink-0">
-                  <Upload className="h-3 w-3" />
-                  Upload script
-                  <input type="file" accept=".txt,.md,.rtf,.doc,.docx,.pdf" className="sr-only" onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    try {
-                      const text = await file.text();
-                      setScript((prev) => prev ? prev + "\n\n" + text : text);
-                      toast({ title: "Script loaded", description: file.name });
-                    } catch {
-                      toast({ title: "Couldn't read file", description: "Try pasting the text instead.", variant: "destructive" });
-                    }
-                    e.target.value = "";
-                  }} />
-                </label>
-              </div>
+              <p className="text-muted-foreground text-xs">Paste your script below, or use the upload button to attach a script file (.txt, .md) or storyboard (PDF, PNG, JPG, WebP).</p>
               <Textarea
                 placeholder="Paste your script here…"
                 className="min-h-[120px]"
                 value={script}
                 onChange={(e) => setScript(e.target.value)}
               />
+
               <div className="flex flex-col sm:flex-row gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    const input = document.createElement("input");
-                    input.type = "file";
-                    input.accept = ".pdf,.png,.jpg,.jpeg,.webp";
-                    input.onchange = () => {
-                      const file = input.files?.[0];
-                      if (file) {
-                        const valid = [".pdf", ".png", ".jpg", ".jpeg", ".webp"];
-                        if (valid.some((ext) => file.name.toLowerCase().endsWith(ext))) {
-                          setStoryboardFile(file);
-                          toast({ title: "Storyboard attached", description: file.size > MAX_FILE_SIZE ? `${file.name} (will be auto-compressed)` : file.name });
-                        } else {
-                          toast({ title: "Unsupported file", description: "Please use PDF, PNG, JPG, or WebP.", variant: "destructive" });
-                        }
-                      }
-                    };
-                    input.click();
-                  }}
-                  className={`flex items-center justify-center gap-2 rounded-lg border px-4 py-3 text-sm font-medium transition-colors w-full ${
-                    storyboardFile
+                <label
+                  className={`flex-1 flex items-center justify-center gap-2 cursor-pointer rounded-lg border px-4 py-3 text-sm font-medium transition-colors ${
+                    dragging
+                      ? "border-primary bg-primary/10 text-foreground"
+                      : storyboardFile
                       ? "border-primary/40 bg-secondary/40 text-foreground"
                       : "border-border bg-secondary/40 text-muted-foreground hover:border-primary/40 hover:text-foreground"
                   }`}
+                  onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); setDragging(true); }}
+                  onDragEnter={(e) => { e.preventDefault(); e.stopPropagation(); setDragging(true); }}
+                  onDragLeave={(e) => { e.preventDefault(); e.stopPropagation(); setDragging(false); }}
+                  onDrop={async (e) => {
+                    e.preventDefault(); e.stopPropagation(); setDragging(false);
+                    const file = e.dataTransfer.files?.[0];
+                    if (file) await handleScriptOrStoryboardUpload(file);
+                  }}
                 >
                   <Upload className="h-4 w-4 shrink-0" />
                   {storyboardFile ? (
@@ -745,60 +719,23 @@ const BidDeskApp = () => {
                       <FileText className="h-3.5 w-3.5 shrink-0" />
                       {storyboardFile.name}
                     </span>
-                  ) : "Tap to upload storyboard"}
-                </button>
+                  ) : "Upload script and/or storyboard"}
+                  <input type="file" accept=".txt,.md,.pdf,.png,.jpg,.jpeg,.webp" className="sr-only" onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) await handleScriptOrStoryboardUpload(file);
+                    e.target.value = "";
+                  }} />
+                </label>
                 {storyboardFile && (
-                  <button type="button" onClick={() => setStoryboardFile(null)} className="text-muted-foreground hover:text-foreground p-2 self-center">
+                  <button type="button" onClick={() => setStoryboardFile(null)} className="text-muted-foreground hover:text-foreground p-2 self-center" aria-label="Remove storyboard">
                     <X className="h-4 w-4" />
                   </button>
                 )}
               </div>
-              <label
-                className={`hidden sm:flex items-center gap-2 cursor-pointer rounded-lg border border-dashed px-4 py-3 text-sm transition-colors ${
-                  dragging
-                    ? "border-primary bg-primary/10 text-foreground"
-                    : storyboardFile
-                    ? "border-primary/40 bg-secondary/40 text-foreground"
-                    : "border-border bg-secondary/40 text-muted-foreground hover:border-primary/40"
-                }`}
-                onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); setDragging(true); }}
-                onDragEnter={(e) => { e.preventDefault(); e.stopPropagation(); setDragging(true); }}
-                onDragLeave={(e) => { e.preventDefault(); e.stopPropagation(); setDragging(false); }}
-                onDrop={(e) => {
-                  e.preventDefault(); e.stopPropagation(); setDragging(false);
-                  const file = e.dataTransfer.files?.[0];
-                  if (file) {
-                    const valid = [".pdf", ".png", ".jpg", ".jpeg", ".webp"];
-                    if (valid.some((ext) => file.name.toLowerCase().endsWith(ext))) {
-                      setStoryboardFile(file);
-                      toast({ title: "Storyboard attached", description: file.size > MAX_FILE_SIZE ? `${file.name} (will be auto-compressed)` : file.name });
-                    } else {
-                      toast({ title: "Unsupported file", description: "Please use PDF, PNG, JPG, or WebP.", variant: "destructive" });
-                    }
-                  }
-                }}
-              >
-                <Upload className="h-4 w-4 shrink-0" />
-                {storyboardFile ? (
-                  <span className="flex items-center gap-2 truncate">
-                    <FileText className="h-3.5 w-3.5 shrink-0" />
-                    {storyboardFile.name}
-                    <button type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStoryboardFile(null); }} className="ml-auto text-muted-foreground hover:text-foreground">
-                      <X className="h-3.5 w-3.5" />
-                    </button>
-                  </span>
-                ) : dragging ? "Drop your file here" : "Or drag & drop a storyboard here"}
-                <input type="file" accept=".pdf,.png,.jpg,.jpeg,.webp" className="sr-only" onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    setStoryboardFile(file);
-                    toast({ title: "Storyboard attached", description: file.size > MAX_FILE_SIZE ? `${file.name} (will be auto-compressed)` : file.name });
-                  }
-                }} />
-              </label>
               <p className="text-muted-foreground text-xs opacity-75">Large images are auto-compressed. PDFs over 4 MB should be compressed externally or exported as JPG/PNG.</p>
               <p className="text-xs mt-1" style={{ color: "hsl(var(--gold))" }}>* Please upload a generic or non-branded script or storyboard for estimation purposes.</p>
             </div>
+
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
