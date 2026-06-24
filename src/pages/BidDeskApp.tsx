@@ -159,6 +159,18 @@ async function streamResponse(
   const reader = resp.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
+  let pendingDelta = "";
+  let deltaTimer: ReturnType<typeof setTimeout> | null = null;
+  const flushDelta = () => {
+    if (!pendingDelta) return;
+    onDelta(pendingDelta);
+    pendingDelta = "";
+    deltaTimer = null;
+  };
+  const queueDelta = (chunk: string) => {
+    pendingDelta += chunk;
+    if (!deltaTimer) deltaTimer = setTimeout(flushDelta, 90);
+  };
 
   while (true) {
     const { done, value } = await reader.read();
@@ -177,7 +189,7 @@ async function streamResponse(
       try {
         const parsed = JSON.parse(jsonStr);
         const content = parsed.choices?.[0]?.delta?.content as string | undefined;
-        if (content) onDelta(content);
+        if (content) queueDelta(content);
       } catch {
         buffer = line + "\n" + buffer;
         break;
@@ -195,13 +207,15 @@ async function streamResponse(
       try {
         const parsed = JSON.parse(jsonStr);
         const content = parsed.choices?.[0]?.delta?.content as string | undefined;
-        if (content) onDelta(content);
+        if (content) queueDelta(content);
       } catch {
         /* ignore */
       }
     }
   }
 
+  if (deltaTimer) clearTimeout(deltaTimer);
+  flushDelta();
   onDone();
 }
 
@@ -380,10 +394,11 @@ const BidDeskApp = () => {
     }
   };
 
-  const handleFollowUp = async () => {
-    if (!followUp.trim() || streaming) return;
+  const handleFollowUp = async (overrideText?: string) => {
+    const text = overrideText ?? followUp;
+    if (!text.trim() || streaming) return;
 
-    const originalText = followUp;
+    const originalText = text;
     const isExportRequest = /\b(export|download|print|pdf|save as pdf)\b/i.test(originalText) && !/\b(generate|create|build|make|deliver)\b/i.test(originalText);
     if (isExportRequest) {
       setFollowUp("");
@@ -392,14 +407,14 @@ const BidDeskApp = () => {
       return;
     }
 
-    const isDeckOutline = /\b(generate|create|build|make|deliver|export)\b[\s\S]*\b(bid\s+)?(deck\s+)?outline\b|\b(bid\s+package|deck\s+outline|bid\s+outline)\b/i.test(followUp);
+    const isDeckOutline = /\b(generate|create|build|make|deliver|export)\b[\s\S]*\b(bid\s+)?(deck\s+)?outline\b|\b(bid\s+package|deck\s+outline|bid\s+outline)\b/i.test(text);
     deckOutlineRequestedRef.current = isDeckOutline;
     if (isDeckOutline) {
       setDeckOutlineReady(false);
       setShowDeckReady(false);
       setDeckOutlineGenerating(true);
     }
-    const userMsg: ChatMessage = { role: "user", content: followUp };
+    const userMsg: ChatMessage = { role: "user", content: text };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
     setFollowUp("");
@@ -798,7 +813,7 @@ const BidDeskApp = () => {
                   }}
                 >
                   <ArrowUp className="h-4 w-4" />
-                  Production outline is ready — scroll up to export
+                  Your outline is ready — scroll up to export
                 </button>
               </div>
             )}
@@ -812,8 +827,7 @@ const BidDeskApp = () => {
                     size="sm"
                     className="text-xs"
                     onClick={() => {
-                      setFollowUp(qa.message);
-                      setTimeout(() => handleFollowUp(), 0);
+                      handleFollowUp(qa.message);
                     }}
                   >
                     {qa.label}
