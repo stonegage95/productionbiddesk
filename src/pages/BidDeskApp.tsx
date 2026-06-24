@@ -365,6 +365,10 @@ const BidDeskApp = () => {
         storyboardBase64 = await fileToBase64(storyboardFile);
         storyboardMimeType = storyboardFile.type || "image/png";
       }
+      storyboardDataRef.current = storyboardBase64
+        ? { base64: storyboardBase64, mime: storyboardMimeType || "image/png" }
+        : null;
+    } else {
       storyboardDataRef.current = null;
     }
 
