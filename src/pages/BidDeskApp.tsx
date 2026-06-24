@@ -900,6 +900,24 @@ const BidDeskApp = () => {
         </DialogFooter>
       </DialogContent>
     </Dialog>
+
+    <Dialog open={showPostExport} onOpenChange={setShowPostExport}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>✅ Export sent to a new tab</DialogTitle>
+          <DialogDescription>
+            Your report opened in a new tab with a Print / Save as PDF button. What next?
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="flex-col sm:flex-row gap-2">
+          <Button variant="outline" onClick={() => setShowPostExport(false)}>Stay in this project</Button>
+          <Button variant="outline" onClick={() => { setShowPostExport(false); window.location.href = "/"; }}>🏠 Homepage</Button>
+          <Button onClick={() => { setShowPostExport(false); window.location.reload(); }} className="gap-1.5">
+            ＋ Start new project
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
     </>
   );
 };
